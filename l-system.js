@@ -10,9 +10,11 @@ var rewrite = function (grammar, start, max_iter) {
 
     for (var i = 0; i < max_iter; i++) {
 
-        // loop through grammar and replace
         for (var j = 0; j < grammarLength; j++) {
-          result = result.replace(grammar.pred, grammar.succ);
+
+            var rule = grammar[j];
+
+            result = result.replace(rule.pred, rule.succ);
         }
     }
 
@@ -24,6 +26,6 @@ var grammar = [
     mk_rule('B', 'A')
 ];
 
-var result = rewrite(grammar, 'A', 10);
+var result = rewrite(grammar, 'A', 1);
 
 console.log(result);
