@@ -35,10 +35,10 @@ var draw = function(guides) {
 }
 
 var grammar = {
-  'F': 'F+FF-F-F+F'
+  'F': 'F+F-F-F+F'
 };
 
-var result = rewrite(grammar, 'F', 2);
+var result = rewrite(grammar, 'F', 5);
 
 draw(result);
 
