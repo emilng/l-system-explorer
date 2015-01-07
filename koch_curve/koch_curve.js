@@ -7,7 +7,6 @@ var draw = function(guides) {
   var y = 0;
   context.moveTo(x, y);
 
-  // for(var row = 0; row < guides.length; row++) {
   var guide = guides[guides.length - 1];
   var angle = 0;
   var forward = 10;
@@ -34,13 +33,12 @@ var draw = function(guides) {
   }
   context.stroke();
 }
-// }
 
 var grammar = {
   'F': 'F+F-F-F+F'
 };
 
-var result = rewrite(grammar, 'F', 2);
+var result = rewrite(grammar, 'F', 4);
 
 draw(result);
 
