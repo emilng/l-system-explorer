@@ -3,9 +3,10 @@ var draw = function(guides) {
   var canvas = document.getElementById('canvas');
   var context = canvas.getContext('2d');
   context.strokeStyle = 'green';
+  context.lineWidth = 2;
 
   var guide = guides[guides.length - 1];
-  var angle = -90;
+  var angle = -80;
   var forward = 2;
   var radians = Math.PI/180;
   var stack = [];
@@ -34,6 +35,7 @@ var draw = function(guides) {
         angle = settings.angle;
         x = settings.x;
         y = settings.y;
+        context.moveTo(x, y);
       break;
       default:
         break;
