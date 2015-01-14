@@ -3,7 +3,7 @@ var LS = {
   /*
     decode / encode  data to URL hash
 
-    hash is spit into 3 sections delimited by '/'
+    hash is spit into 4 sections delimited by '/'
     1. axiom
       example: F[A]
       chars: [A-Z]\[\]
@@ -13,6 +13,9 @@ var LS = {
     3. instructions - delimited by ';' then broken out into parameters: distance, angle, push(u)/pop(o)
       example: F,d10,a25,u;A,d5,a10
       chars: [0-9],\.up
+    4. iterations
+      example: 3
+      chars: [0-9]
   */
   decodeHash: function () {
     var dataStrings = window.location.hash.substr(1).split('/');
@@ -23,7 +26,8 @@ var LS = {
     return {
       axiom: axiomString.split(''),
       rules: this.decodeRules(rulesString),
-      instructions: this.decodeInstructions(instructionsString)
+      instructions: this.decodeInstructions(instructionsString),
+      iterations: iterations
     };
   },
   decodeRules: function (rulesString) {
