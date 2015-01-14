@@ -47,13 +47,13 @@ var LS = {
       // decode instruction params
       instructions[instructionName] = instructionParams.reduce(function (params, paramString) {
         var keyChar = paramString[0];
-        var key_lookup = {
+        var keyLookup = {
           'd':'direction',
           'a':'angle',
           'o':'pop',
           'u':'push'
         };
-        var key = key_lookup[keyChar];
+        var key = keyLookup[keyChar];
         var value = paramString.substr(1);
         params[key] = value;
         return params;
