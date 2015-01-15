@@ -46,19 +46,18 @@ var LS = {
     return instructionsList.reduce(function (instructions, instructionParamString) {
       var instructionParams = instructionParamString.split(',');
       var instructionName = instructionParams.shift();
-      console.log('instructionName',instructionName);
 
       // decode instruction params
       instructions[instructionName] = instructionParams.reduce(function (params, paramString) {
         var keyChar = paramString[0];
         var keyLookup = {
-          'd':'direction',
+          'd':'distance',
           'a':'angle',
           'o':'pop',
           'u':'push'
         };
         var key = keyLookup[keyChar];
-        var value = paramString.substr(1);
+        var value = parseFloat(paramString.substr(1));
         params[key] = value;
         return params;
       }, {});
