@@ -19,6 +19,7 @@ var LS = {
     5. starting drawing values - delimited by ',' : x, y, angle
       x and y can have 'm' and 'w' or 'h' as values which mean 'middle', 'width' and 'height'
       example: xm,yh,a10
+
       chars: [0-9]xyamwh
   */
   decodeHash: function () {
@@ -79,7 +80,8 @@ var LS = {
       var keyLookup = {
         'x':'x',
         'y':'y',
-        'a':'angle'
+        'a':'angle',
+        'i':'iterations'
       };
       var key = keyLookup[keyChar];
       var valueLookup = {
@@ -118,13 +120,47 @@ var LS = {
   },
 
   // *** UI ***
-
+  ui: function(context, updateFunction, data) {
+    var inputCollection = document.getElementsByTagName('input');
+    var update = updateFunction.bind(context);
+    var inputs = [];
+    var i = inputCollection.length;
+    while(i--) {
+      inputs.push(inputCollection[i]);
+    }
+    var LS = this;
+    inputs.map(function(input) {
+      var splitInput = input.id.split('-');
+      var type = splitInput[0];
+      var param = splitInput[1];
+      switch (type) {
+        case 'initial':
+          input.value = data.start[param];
+          break;
+      }
+      input.addEventListener("input", function(event) {
+        switch(type) {
+          case 'initial':
+            data.start[param] = parseInt(event.currentTarget.value);
+            LS.needsRedraw = true;
+            break;
+        }
+        update();
+      });
+    });
+  },
 
   // *** DRAWING ***
+  needsRedraw: false,
+  needsReparse: false,
+
   draw: function (canvas, start, rules, instructions) {
     var ctx = canvas.getContext('2d');
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 1;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    console.log('start x', start.x);
 
     var x;
     switch (start.x) {
@@ -152,10 +188,11 @@ var LS = {
         break;
     }
     var angle = start.angle;
-    console.log(start, x, y, angle);
     var stack = [];
     var forward = 5;
     var radians = Math.PI/180;
+    ctx.moveTo(x,y);
+    ctx.beginPath();
     for (var i = 0, len = rules.length; i < len; i++) {
       var rule = rules[i];
       if (instructions.hasOwnProperty(rule)) {
@@ -182,16 +219,33 @@ var LS = {
       }
     }
     ctx.stroke();
+    ctx.closePath();
   }
 };
 
 var data = LS.decodeHash();
-console.log(data);
+// console.log(data);
 var rules = LS.parseRules(data.rules, data.axiom, data.iterations);
 var canvas = document.getElementById('canvas');
-LS.draw(canvas, data.start, rules[rules.length - 1], data.instructions);
 
-var stringRules = rules.map(function(item) {
-  return item.join('');
-});
-console.table(stringRules);
+// var stringRules = rules.map(function(item) {
+//   return item.join('');
+// });
+// console.table(stringRules);
+
+LS.needsRedraw = true;
+
+var update = function() {
+  if (LS.needsRedraw) {
+    console.log('update');
+    var iterations = Math.min(rules.length - 1, data.start.iterations);
+    console.log(iterations);
+    LS.draw(canvas, data.start, rules[iterations], data.instructions);
+    requestAnimationFrame(update);
+    LS.needsRedraw = false;
+  }
+}
+
+LS.ui(this, update, data);
+
+requestAnimationFrame(update);

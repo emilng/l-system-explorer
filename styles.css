@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+h2 {
+  margin: 10px 0 10px 7px;
+}
+
+h4 {
+  margin: 10px 0 2px 0;
+}
+
+label {
+  float: left;
+  margin-right: 2px;
+  text-align: right;
+  width: 80px;
+}
+
+input {
+  float: left;
+  width: 100px;
+  margin: 2px 2px 2px 2px;
+}
+
+#side-bar {
+  float: left;
+  width: 260px;
+  height: 100vh;
+  background-color: #333;
+  color: white;
+}
+
+#canvas {
+  float: left;
+}
+
+.input-container {
+  float: left;
+  margin-left: 7px;
+  width: 250px;
+}
