@@ -85,4 +85,7 @@ var LS = {
 
   // *** DRAWING ***
 
-};
+};var stringRules = rules.map(function(item) {
+  return item.join('');
+});
+console.table(stringRules);
