@@ -13,13 +13,11 @@ var LS = {
     3. instructions - delimited by ';' then split into parameters: distance(d), angle(d), push(u)/pop(o)
       example: F,d10,a25,u;A,d5,a10
       chars: [0-9],\.up
-    4. iterations
+    4. iterations - max number of iterations
       example: 3
       chars: [0-9]
-    5. starting drawing values - delimited by ',' : x, y, angle
-      x and y can have 'm' and 'w' or 'h' as values which mean 'middle', 'width' and 'height'
-      example: xm,yh,a10
-
+    5. starting drawing values - delimited by ',' : x, y, angle, iteration to display
+      example: x500,y300,a10
       chars: [0-9]xyamwh
   */
   decodeHash: function () {
