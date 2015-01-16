@@ -88,9 +88,60 @@ var LS = {
       return params;
     }, {});
   },
-  encodeHash: function () {
+  encodeHash: function (data) {
+    var axiom = data.axiom.join(',');
+    var rules = this.encodeRules(data.rules);
+    var instructions = this.encodeInstructions(data.instructions);
+    var iterations = data.iterations;
+    var start = this.encodeStart(data.start);
+    return '#' +
+        [axiom,
+         rules,
+         instructions,
+         iterations,
+         start].join('/');
   },
-
+  encodeRules: function (rules) {
+    var keys = Object.keys(rules);
+    return keys.reduce(function(ruleString, rule) {
+      return ruleString + rule + ':' + rules[rule].join('');
+    }, '');
+  },
+  encodeInstructions: function(instructions) {
+    var instructionKeys = Object.keys(instructions);
+    var instructionList = instructionKeys.reduce(function(instructionList, instructionKey) {
+      var instructionObj = instructions[instructionKey];
+      var paramKeys = Object.keys(instructionObj);
+      var paramLookup = {
+          'distance':'d',
+          'angle':'a',
+          'pop':'o',
+          'push':'u'
+      }
+      var paramString = paramKeys.reduce(function(paramString, paramKey) {
+        return paramString + ',' + paramLookup[paramKey] + instructionObj[paramKey];
+      }, '');
+      instructionList.push(instructionKey + paramString);
+      return instructionList;
+    }, []);
+    return instructionList.join(';');
+  },
+  // F/F:F+F-F-F+F/F,d4;+,a75;-,a-80/6/x500,y100,a20,i6
+  encodeStart: function(start) {
+    var startKeys = Object.keys(start);
+    var keyLookup = {
+      'angle':'a',
+      'x':'x',
+      'y':'y',
+      'iterations':'i'
+    }
+    var startList = startKeys.reduce(function(startList, paramKey) {
+      var startString = keyLookup[paramKey] + start[paramKey];
+      startList.push(startString);
+      return startList;
+    }, []);
+    return startList.join(',');
+  },
   // *** PARSING ***
   parseRules: function (rules, axiom, max_iter) {
     var generatedOutput = [axiom];
@@ -107,9 +158,8 @@ var LS = {
   },
 
   // *** UI ***
-  ui: function(context, updateFunction, data) {
+  ui: function (data) {
     var inputCollection = document.getElementsByTagName('input');
-    var update = updateFunction.bind(context);
     var inputs = [];
     var i = inputCollection.length;
     while(i--) {
@@ -131,7 +181,6 @@ var LS = {
             data.needsRedraw = true;
             break;
         }
-        update();
       });
     });
   },
@@ -193,15 +242,14 @@ var canvas = document.getElementById('canvas');
 
 var update = function() {
   if (data.needsRedraw) {
-    console.log('update');
     var iterations = Math.min(rules.length - 1, data.start.iterations);
-    console.log(iterations);
     LS.draw(canvas, data.start, rules[iterations], data.instructions);
-    requestAnimationFrame(update);
     data.needsRedraw = false;
+    window.location.hash = LS.encodeHash(data);
   }
+  requestAnimationFrame(update);
 }
 
-LS.ui(this, update, data);
+LS.ui(data);
 
 requestAnimationFrame(update);
