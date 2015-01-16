@@ -24,7 +24,6 @@ var LS = {
   */
   decodeHash: function () {
     var dataStrings = window.location.hash.substr(1).split('/');
-    var data = {};
     var axiomString = dataStrings[0];
     var rulesString = dataStrings[1];
     var instructionsString = dataStrings[2];
@@ -35,7 +34,9 @@ var LS = {
       rules: this.decodeRules(rulesString),
       instructions: this.decodeInstructions(instructionsString),
       iterations: iterations,
-      start: this.decodeStart(startString)
+      start: this.decodeStart(startString),
+      needsReparse: true,
+      needsRedraw: true
     };
   },
   decodeRules: function (rulesString) {
@@ -128,7 +129,6 @@ var LS = {
     while(i--) {
       inputs.push(inputCollection[i]);
     }
-    var LS = this;
     inputs.map(function(input) {
       var splitInput = input.id.split('-');
       var type = splitInput[0];
@@ -142,7 +142,7 @@ var LS = {
         switch(type) {
           case 'initial':
             data.start[param] = parseInt(event.currentTarget.value);
-            LS.needsRedraw = true;
+            data.needsRedraw = true;
             break;
         }
         update();
@@ -151,9 +151,6 @@ var LS = {
   },
 
   // *** DRAWING ***
-  needsRedraw: false,
-  needsReparse: false,
-
   draw: function (canvas, start, rules, instructions) {
     var ctx = canvas.getContext('2d');
     ctx.strokeStyle = 'black';
@@ -233,16 +230,14 @@ var canvas = document.getElementById('canvas');
 // });
 // console.table(stringRules);
 
-LS.needsRedraw = true;
-
 var update = function() {
-  if (LS.needsRedraw) {
+  if (data.needsRedraw) {
     console.log('update');
     var iterations = Math.min(rules.length - 1, data.start.iterations);
     console.log(iterations);
     LS.draw(canvas, data.start, rules[iterations], data.instructions);
     requestAnimationFrame(update);
-    LS.needsRedraw = false;
+    data.needsRedraw = false;
   }
 }
 
