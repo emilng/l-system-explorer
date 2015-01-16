@@ -83,19 +83,7 @@ var LS = {
         'i':'iterations'
       };
       var key = keyLookup[keyChar];
-      var valueLookup = {
-        'm':'middle',
-        'w':'width',
-        'h':'height'
-      };
-      var valueString = paramString.substr(1);
-      var value;
-      if ((String(valueString) === valueString) &&
-          (valueLookup.hasOwnProperty(valueString))) {
-        value = valueLookup[valueString];
-      } else {
-        value = parseFloat(valueString);
-      }
+      var value = parseFloat(paramString.substr(1));
       params[key] = value;
       return params;
     }, {});
@@ -155,33 +143,8 @@ var LS = {
     ctx.lineWidth = 1;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    console.log('start x', start.x);
-
-    var x;
-    switch (start.x) {
-      case 'middle':
-        x = canvas.width/2;
-        break;
-      case 'width':
-        x = canvas.width;
-        break;
-      default:
-        x = start.x;
-        break;
-    }
-
-    var y;
-    switch (start.y) {
-      case 'middle':
-        y = canvas.height/2;
-        break;
-      case 'height':
-        y = canvas.height;
-        break;
-      default:
-        y = start.y;
-        break;
-    }
+    var x = start.x;
+    var y = start.y;
     var angle = start.angle;
     var stack = [];
     var forward = 5;
