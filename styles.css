@@ -29,7 +29,7 @@ input {
   width: 260px;
   height: 100vh;
   background-color: #333;
-  color: white;
+  color: #eee;
 }
 
 #canvas {
