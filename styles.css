@@ -1,3 +1,11 @@
+a:link {
+  color: #66F;
+}
+
+a:visited {
+  color: #66D;
+}
+
 body {
   margin: 0;
   font-family: sans-serif;
@@ -11,6 +19,12 @@ h4 {
   margin: 10px 0 2px 0;
 }
 
+input {
+  float: left;
+  width: 100px;
+  margin: 2px 2px 2px 2px;
+}
+
 label {
   float: left;
   margin-right: 2px;
@@ -18,10 +32,10 @@ label {
   width: 80px;
 }
 
-input {
-  float: left;
-  width: 100px;
-  margin: 2px 2px 2px 2px;
+ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
 }
 
 #side-bar {
@@ -36,6 +50,9 @@ input {
   float: left;
 }
 
+#examples {
+
+}
 .input-container {
   float: left;
   margin-left: 7px;
