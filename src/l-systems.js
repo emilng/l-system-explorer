@@ -16,7 +16,7 @@
     example: 3
     chars: [0-9]
   5. starting drawing values - delimited by ',' : x, y, angle, iteration to display
-    example: x500,y300,a10
+    example: x500,y300,a10,i5
     chars: [0-9]xyamwh
 */
 var encoder = {
