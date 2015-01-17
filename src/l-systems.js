@@ -270,6 +270,7 @@ ui.examples(data, exampleCallback);
 var update = function() {
   if (data.needsReparse) {
     data.parsedRules = parseRules(data.rules, data.axiom, data.iterations);
+    data.needsReparse = false;
   }
   if (data.needsRedraw) {
     var iterations = Math.min(data.parsedRules.length - 1, data.start.iterations);
