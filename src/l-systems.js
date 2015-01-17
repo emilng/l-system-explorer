@@ -38,8 +38,6 @@ var encoder = {
     data.instructions = this.decodeInstructions(instructionsString);
     data.iterations = iterations;
     data.start = this.decodeStart(startString);
-    data.needsReparse = true;
-    data.needsRedraw = true;
   },
   decodeRules: function (rulesString) {
     var rulesList = rulesString.split(',');
@@ -184,20 +182,20 @@ var ui = {
         switch(type) {
           case 'initial':
             data.start[param] = parseInt(event.currentTarget.value);
-            data.needsRedraw = true;
+            data.needsRender = true;
             break;
         }
       });
     });
   },
-  examples: function(data, callback) {
+  examples: function(data) {
     var exampleCollection = document.getElementsByClassName('example');
     var i = exampleCollection.length;
     var examples = [];
     while(i--) {
       exampleCollection[i].addEventListener("click", function(event) {
         window.location.hash = event.target.hash;
-        callback();
+        data.needsDecode = true;
       });
     }
   }
@@ -248,33 +246,34 @@ var render = function (canvas, start, rules, instructions) {
   ctx.closePath();
 };
 
-var data = {};
+// *** MAIN ***
 
-encoder.decodeHash(data);
-// console.log(data);
-var canvas = document.getElementById('canvas');
-
-// var stringRules = rules.map(function(item) {
-//   return item.join('');
-// });
-// console.table(stringRules);
-
-var exampleCallback = function() {
-  encoder.decodeHash(data);
+var data = {
+  needsDecode: true,
+  needsParse: true,
+  needsRender: true
 };
 
-ui.inputs(data);
-ui.examples(data, exampleCallback);
+var canvas = document.getElementById('canvas');
+
+ui.examples(data);
 
 var update = function() {
-  if (data.needsReparse) {
-    data.parsedRules = parseRules(data.rules, data.axiom, data.iterations);
-    data.needsReparse = false;
+  if (data.needsDecode) {
+    encoder.decodeHash(data);
+    ui.inputs(data);
+    data.needsDecode = false;
+    data.needsParse = true;
   }
-  if (data.needsRedraw) {
+  if (data.needsParse) {
+    data.parsedRules = parseRules(data.rules, data.axiom, data.iterations);
+    data.needsParse = false;
+    data.needsRender = true;
+  }
+  if (data.needsRender) {
     var iterations = Math.min(data.parsedRules.length - 1, data.start.iterations);
     render(canvas, data.start, data.parsedRules[iterations], data.instructions);
-    data.needsRedraw = false;
+    data.needsRender = false;
     window.location.hash = encoder.encodeHash(data);
   }
   requestAnimationFrame(update);
