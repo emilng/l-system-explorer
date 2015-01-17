@@ -9,9 +9,9 @@
   2. rules
     example: F:F+[F-FF]F+
     chars: [A-Z]\[\]\:\+\-
-  3. instructions - delimited by ';' then split into parameters: distance(d), angle(d), push(u)/pop(o)
-    example: F,d10,a25,u;A,d5,a10
-    chars: [0-9],\.up
+  3. instructions - delimited by ';' then split into parameters: distance(d), angle(a), branch(b):0,1 (push,pop)
+    example: F,d10,a25,p0;A,d5,a10,p1
+    chars: [0-9],\.dap
   4. iterations - max number of iterations
     example: 3
     chars: [0-9]
@@ -64,8 +64,7 @@ var encoder = {
         var keyLookup = {
           'd':'distance',
           'a':'angle',
-          'o':'pop',
-          'u':'push'
+          'b':'branch'
         };
         var key = keyLookup[keyChar];
         var value = parseFloat(paramString.substr(1));
@@ -121,8 +120,7 @@ var encoder = {
       var paramLookup = {
           'distance':'d',
           'angle':'a',
-          'pop':'o',
-          'push':'u'
+          'branch':'b'
       }
       var paramString = paramKeys.reduce(function(paramString, paramKey) {
         return paramString + ',' + paramLookup[paramKey] + instructionObj[paramKey];
@@ -233,15 +231,16 @@ var render = function (canvas, start, rules, instructions) {
         y += Math.sin(angle * radians) * forward;
         ctx.lineTo(x, y);
       }
-      if (instruction.hasOwnProperty('push')) {
-        stack.push({angle: angle, x: x, y: y});
-      }
-      if (instruction.hasOwnProperty('pop')) {
-        var settings = stack.pop();
-        angle = settings.angle;
-        x = settings.x;
-        y = settings.x;
-        ctx.moveTo(x, y);
+      if (instruction.hasOwnProperty('branch')) {
+        if (instruction.branch === 0) {
+          stack.push({angle: angle, x: x, y: y});
+        } else if (instruction.branch === 1) {
+          var settings = stack.pop();
+          angle = settings.angle;
+          x = settings.x;
+          y = settings.y;
+          ctx.moveTo(x, y);
+        }
       }
     }
   }
