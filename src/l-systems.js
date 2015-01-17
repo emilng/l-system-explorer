@@ -1,41 +1,45 @@
-var LS = {
-  // *** DATA ***
-  /*
-    decode / encode  data to URL hash
+// *** DATA ***
+/*
+  decode / encode  data to URL hash
 
-    hash is split into the following sections delimited by '/'
-    1. axiom
-      example: F[A]
-      chars: [A-Z]\[\]
-    2. rules
-      example: F:F+[F-FF]F+
-      chars: [A-Z]\[\]\:\+\-
-    3. instructions - delimited by ';' then split into parameters: distance(d), angle(d), push(u)/pop(o)
-      example: F,d10,a25,u;A,d5,a10
-      chars: [0-9],\.up
-    4. iterations - max number of iterations
-      example: 3
-      chars: [0-9]
-    5. starting drawing values - delimited by ',' : x, y, angle, iteration to display
-      example: x500,y300,a10
-      chars: [0-9]xyamwh
-  */
-  decodeHash: function () {
-    var dataStrings = window.location.hash.substr(1).split('/');
+  hash is split into the following sections delimited by '/'
+  1. axiom
+    example: F[A]
+    chars: [A-Z]\[\]
+  2. rules
+    example: F:F+[F-FF]F+
+    chars: [A-Z]\[\]\:\+\-
+  3. instructions - delimited by ';' then split into parameters: distance(d), angle(d), push(u)/pop(o)
+    example: F,d10,a25,u;A,d5,a10
+    chars: [0-9],\.up
+  4. iterations - max number of iterations
+    example: 3
+    chars: [0-9]
+  5. starting drawing values - delimited by ',' : x, y, angle, iteration to display
+    example: x500,y300,a10
+    chars: [0-9]xyamwh
+*/
+var encoder = {
+  decodeHash: function (data) {
+    var hash = window.location.hash.substr(1);
+    //hardcoded default for now if nothing is set
+    if (hash === '') {
+      hash = 'F/F:F+F-F-F+F/F,d3.5;+,a75;-,a-80/6/x347,y358,a70,i6';
+    }
+    var dataStrings = hash.split('/');
     var axiomString = dataStrings[0];
     var rulesString = dataStrings[1];
     var instructionsString = dataStrings[2];
     var iterations = dataStrings[3];
     var startString = dataStrings[4];
-    return {
-      axiom: axiomString.split(''),
-      rules: this.decodeRules(rulesString),
-      instructions: this.decodeInstructions(instructionsString),
-      iterations: iterations,
-      start: this.decodeStart(startString),
-      needsReparse: true,
-      needsRedraw: true
-    };
+
+    data.axiom = axiomString.split('');
+    data.rules = this.decodeRules(rulesString);
+    data.instructions = this.decodeInstructions(instructionsString);
+    data.iterations = iterations;
+    data.start = this.decodeStart(startString);
+    data.needsReparse = true;
+    data.needsRedraw = true;
   },
   decodeRules: function (rulesString) {
     var rulesList = rulesString.split(',');
@@ -89,7 +93,7 @@ var LS = {
     }, {});
   },
   encodeHash: function (data) {
-    var axiom = data.axiom.join(',');
+    var axiom = data.axiom.join('');
     var rules = this.encodeRules(data.rules);
     var instructions = this.encodeInstructions(data.instructions);
     var iterations = data.iterations;
@@ -103,9 +107,11 @@ var LS = {
   },
   encodeRules: function (rules) {
     var keys = Object.keys(rules);
-    return keys.reduce(function(ruleString, rule) {
-      return ruleString + rule + ':' + rules[rule].join('');
-    }, '');
+    var ruleList = keys.reduce(function(ruleList, rule) {
+      ruleList.push(rule + ':' + rules[rule].join(''));
+      return ruleList;
+    }, []);
+    return ruleList.join(',');
   },
   encodeInstructions: function(instructions) {
     var instructionKeys = Object.keys(instructions);
@@ -126,7 +132,6 @@ var LS = {
     }, []);
     return instructionList.join(';');
   },
-  // F/F:F+F-F-F+F/F,d4;+,a75;-,a-80/6/x500,y100,a20,i6
   encodeStart: function(start) {
     var startKeys = Object.keys(start);
     var keyLookup = {
@@ -141,24 +146,27 @@ var LS = {
       return startList;
     }, []);
     return startList.join(',');
-  },
-  // *** PARSING ***
-  parseRules: function (rules, axiom, max_iter) {
-    var generatedOutput = [axiom];
-    var input = axiom;
-    for (var i = 0; i < max_iter; i++) {
-      var generated = input.reduce(function(output, char) {
-        result = (rules[char] !== undefined) ? rules[char] : char;
-        return output.concat(result);
-      }, []);
-      generatedOutput.push(generated);
-      input = generated.concat();
-    }
-    return generatedOutput;
-  },
+  }
+};
 
-  // *** UI ***
-  ui: function (data) {
+// *** PARSING ***
+var parseRules = function (rules, axiom, max_iter) {
+  var generatedOutput = [axiom];
+  var input = axiom;
+  for (var i = 0; i < max_iter; i++) {
+    var generated = input.reduce(function(output, char) {
+      result = (rules[char] !== undefined) ? rules[char] : char;
+      return output.concat(result);
+    }, []);
+    generatedOutput.push(generated);
+    input = generated.concat();
+  }
+  return generatedOutput;
+};
+
+// *** UI ***
+var ui = {
+  inputs: function (data) {
     var inputCollection = document.getElementsByTagName('input');
     var inputs = [];
     var i = inputCollection.length;
@@ -184,55 +192,67 @@ var LS = {
       });
     });
   },
-
-  // *** DRAWING ***
-  draw: function (canvas, start, rules, instructions) {
-    var ctx = canvas.getContext('2d');
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 1;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    var x = start.x;
-    var y = start.y;
-    var angle = start.angle;
-    var stack = [];
-    var forward = 5;
-    var radians = Math.PI/180;
-    ctx.moveTo(x,y);
-    ctx.beginPath();
-    for (var i = 0, len = rules.length; i < len; i++) {
-      var rule = rules[i];
-      if (instructions.hasOwnProperty(rule)) {
-        var instruction = instructions[rule];
-        if (instruction.hasOwnProperty('angle')) {
-          angle += instruction.angle;
-        }
-        if (instruction.hasOwnProperty('distance')) {
-          forward = instruction.distance;
-          x += Math.cos(angle * radians) * forward;
-          y += Math.sin(angle * radians) * forward;
-          ctx.lineTo(x, y);
-        }
-        if (instruction.hasOwnProperty('push')) {
-          stack.push({angle: angle, x: x, y: y});
-        }
-        if (instruction.hasOwnProperty('pop')) {
-          var settings = stack.pop();
-          angle = settings.angle;
-          x = settings.x;
-          y = settings.x;
-          ctx.moveTo(x, y);
-        }
-      }
+  examples: function(data, callback) {
+    var exampleCollection = document.getElementsByClassName('example');
+    var i = exampleCollection.length;
+    var examples = [];
+    while(i--) {
+      exampleCollection[i].addEventListener("click", function(event) {
+        window.location.hash = event.target.hash;
+        callback();
+      });
     }
-    ctx.stroke();
-    ctx.closePath();
   }
 };
 
-var data = LS.decodeHash();
+// *** RENDERING ***
+var render = function (canvas, start, rules, instructions) {
+  var ctx = canvas.getContext('2d');
+  ctx.strokeStyle = 'black';
+  ctx.lineWidth = 1;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  var x = start.x;
+  var y = start.y;
+  var angle = start.angle;
+  var stack = [];
+  var forward = 5;
+  var radians = Math.PI/180;
+  ctx.moveTo(x,y);
+  ctx.beginPath();
+  for (var i = 0, len = rules.length; i < len; i++) {
+    var rule = rules[i];
+    if (instructions.hasOwnProperty(rule)) {
+      var instruction = instructions[rule];
+      if (instruction.hasOwnProperty('angle')) {
+        angle += instruction.angle;
+      }
+      if (instruction.hasOwnProperty('distance')) {
+        forward = instruction.distance;
+        x += Math.cos(angle * radians) * forward;
+        y += Math.sin(angle * radians) * forward;
+        ctx.lineTo(x, y);
+      }
+      if (instruction.hasOwnProperty('push')) {
+        stack.push({angle: angle, x: x, y: y});
+      }
+      if (instruction.hasOwnProperty('pop')) {
+        var settings = stack.pop();
+        angle = settings.angle;
+        x = settings.x;
+        y = settings.x;
+        ctx.moveTo(x, y);
+      }
+    }
+  }
+  ctx.stroke();
+  ctx.closePath();
+};
+
+var data = {};
+
+encoder.decodeHash(data);
 // console.log(data);
-var rules = LS.parseRules(data.rules, data.axiom, data.iterations);
 var canvas = document.getElementById('canvas');
 
 // var stringRules = rules.map(function(item) {
@@ -240,16 +260,24 @@ var canvas = document.getElementById('canvas');
 // });
 // console.table(stringRules);
 
+var exampleCallback = function() {
+  encoder.decodeHash(data);
+};
+
+ui.inputs(data);
+ui.examples(data, exampleCallback);
+
 var update = function() {
+  if (data.needsReparse) {
+    data.parsedRules = parseRules(data.rules, data.axiom, data.iterations);
+  }
   if (data.needsRedraw) {
-    var iterations = Math.min(rules.length - 1, data.start.iterations);
-    LS.draw(canvas, data.start, rules[iterations], data.instructions);
+    var iterations = Math.min(data.parsedRules.length - 1, data.start.iterations);
+    render(canvas, data.start, data.parsedRules[iterations], data.instructions);
     data.needsRedraw = false;
-    window.location.hash = LS.encodeHash(data);
+    window.location.hash = encoder.encodeHash(data);
   }
   requestAnimationFrame(update);
 }
-
-LS.ui(data);
 
 requestAnimationFrame(update);
