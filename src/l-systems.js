@@ -119,7 +119,7 @@ var encoder = {
           'distance':'d',
           'angle':'a',
           'branch':'b'
-      }
+      };
       var paramString = paramKeys.reduce(function(paramString, paramKey) {
         return paramString + ',' + paramLookup[paramKey] + instructionObj[paramKey];
       }, '');
@@ -135,7 +135,7 @@ var encoder = {
       'x':'x',
       'y':'y',
       'iterations':'i'
-    }
+    };
     var startList = startKeys.reduce(function(startList, paramKey) {
       var startString = keyLookup[paramKey] + start[paramKey];
       startList.push(startString);
@@ -151,7 +151,7 @@ var parseRules = function (rules, axiom, max_iter) {
   var input = axiom;
   for (var i = 0; i < max_iter; i++) {
     var generated = input.reduce(function(output, char) {
-      result = (rules[char] !== undefined) ? rules[char] : char;
+      var result = (rules[char] !== undefined) ? rules[char] : char;
       return output.concat(result);
     }, []);
     generatedOutput.push(generated);
@@ -277,6 +277,6 @@ var update = function() {
     window.location.hash = encoder.encodeHash(data);
   }
   requestAnimationFrame(update);
-}
+};
 
 requestAnimationFrame(update);
