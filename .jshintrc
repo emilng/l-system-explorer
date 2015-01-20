@@ -11,5 +11,6 @@
   "eqnull": true,
   "browser": true,
   "boss": true,
-  "loopfunc": true
+  "loopfunc": true,
+  "devel": true
 }
