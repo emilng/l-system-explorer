@@ -188,6 +188,27 @@ var ui = {
       });
     });
   },
+  addRule: function(data) {
+    // var ruleFragment = document.createDocumentFragment();
+    var ruleContainer = document.createElement('div');
+    ruleContainer.setAttribute('class', 'rule-container');
+    var ruleNameLabel = document.createElement('label');
+    ruleNameLabel.setAttribute('class','rule-label');
+    ruleNameLabel.innerHTML = 'rule:';
+    var ruleName = document.createElement('input');
+    ruleName.setAttribute('class','rule-name');
+    var transformLabel = document.createElement('label');
+    transformLabel.setAttribute('class','transform-label');
+    transformLabel.innerHTML = '->';
+    var transform = document.createElement('input');
+    transform.setAttribute('class','transform');
+    ruleContainer.appendChild(ruleNameLabel);
+    ruleContainer.appendChild(ruleName);
+    ruleContainer.appendChild(transformLabel);
+    ruleContainer.appendChild(transform);
+    var ruleSection = document.getElementById('rules');
+    ruleSection.appendChild(ruleContainer);
+  },
   examples: function(data) {
     var exampleCollection = document.getElementsByClassName('example');
     var i = exampleCollection.length;
