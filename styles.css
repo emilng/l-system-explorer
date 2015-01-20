@@ -19,6 +19,10 @@ h4 {
   margin: 10px 0 2px 0;
 }
 
+button {
+  float:left;
+}
+
 input {
   float: left;
   width: 100px;
@@ -55,4 +59,20 @@ ul {
   margin-top: 12px;
   margin-left: 12px;
   width: 250px;
+}
+
+.rule-container {
+  float: left;
+}
+
+.rule-label {
+  width: 2em;
+}
+
+.rule-name {
+  width: 2em;
+}
+
+.transform-label {
+  width: 1em;
 }
