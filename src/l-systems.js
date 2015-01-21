@@ -163,21 +163,27 @@ var parseRules = function (rules, axiom, max_iter) {
 // *** UI ***
 var ui = {
   getRuleTemplate: function() {
-    var getInput = function(className, text) {
-      var fragment = document.createDocumentFragment();
+    var getLabel = function(className, labelText) {
       var label = document.createElement('label');
-      label.setAttribute('class', className + '-label');
-      label.innerHTML = text;
+      label.setAttribute('class', className);
+      label.innerHTML = labelText;
+      return label;
+    };
+    var getLabeledInput = function(className, labelText) {
+      var fragment = document.createDocumentFragment();
+      var label = getLabel(className + '-label', labelText);
       var input = document.createElement('input');
       input.setAttribute('class', className + '-input');
       fragment.appendChild(label);
       fragment.appendChild(input);
       return fragment;
     };
-    var rule = getInput('rule','rule:');
-    var transform = getInput('transform','->');
+    var indicator = getLabel('inactive-indicator', '&bullet;');
+    var rule = getLabeledInput('rule','rule:');
+    var transform = getLabeledInput('transform','->');
     var ruleContainer = document.createElement('div');
     ruleContainer.setAttribute('class', 'rule-container');
+    ruleContainer.appendChild(indicator);
     ruleContainer.appendChild(rule);
     ruleContainer.appendChild(transform);
     return ruleContainer;
@@ -189,6 +195,47 @@ var ui = {
       var ruleContainer = templates.rule.cloneNode(true);
       ruleSection.appendChild(ruleContainer);
     });
+  },
+  updateRulesUI: function(ruleTemplate, data) {
+    var container = document.getElementById('rules-container');
+    var keys = Object.keys(data.rules);
+    var ruleElementsToAdd = (keys.length + data.emptyRules) - container.children.length;
+    var ruleElement;
+    if (ruleElementsToAdd > 0) {
+      while(ruleElementsToAdd--) {
+        ruleElement = ruleTemplate.cloneNode(true);
+        container.appendChild(ruleElement);
+      }
+    } else {
+      var elementsToRemove = -ruleElementsToAdd;
+      while(elementsToRemove--) {
+        container.removeChild(container.lastElementChild);
+      }
+    }
+    Array.prototype.map.call(container.children, function(ruleElement, index) {
+      var indicator = ruleElement.children[0];
+      if (index < keys.length) {
+        var key = keys[index];
+        indicator.setAttribute('class', 'active-indicator');
+        var ruleInput = ruleElement.querySelector('.rule-input');
+        ruleInput.value = key;
+        var ruleTransform = ruleElement.querySelector('.transform-input');
+        ruleTransform.value = data.rules[key].join('');
+      } else {
+        indicator.setAttribute('class', 'inactive-indicator');
+      }
+      if (index === data.selectedRule) {
+        ruleElement.setAttribute('class', 'selected-rule-container');
+      } else {
+        ruleElement.setAttribute('class', 'rule-container');
+      }
+      ruleElement.addEventListener('click', function() {
+        data.selectedRule = index;
+        data.needsRulesUIUpdate = true;
+      });
+    });
+
+
   },
   initExamples: function(data) {
     var exampleCollection = document.getElementsByClassName('example');
@@ -267,16 +314,17 @@ var render = function (canvas, start, rules, instructions) {
 
 var data = {
   needsDecode: true,
+  needsRulesUIUpdate: true,
   needsParse: true,
-  needsRender: true
+  needsRender: true,
+  selectedRule: -1,
+  emptyRules: 0
 };
 
 var canvas = document.getElementById('canvas');
-var templates = {
-  rule: ui.getRuleTemplate()
-};
+var ruleTemplate = ui.getRuleTemplate();
 ui.initExamples(data);
-ui.initButtons(templates, data);
+ui.initButtons(ruleTemplate, data);
 
 var update = function() {
   if (data.needsDecode) {
@@ -284,6 +332,10 @@ var update = function() {
     ui.initStart(data);
     data.needsDecode = false;
     data.needsParse = true;
+  }
+  if (data.needsRulesUIUpdate) {
+    ui.updateRulesUI(ruleTemplate, data);
+    data.needsRulesUIUpdate = false;
   }
   if (data.needsParse) {
     data.parsedRules = parseRules(data.rules, data.axiom, data.iterations);

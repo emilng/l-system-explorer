@@ -65,8 +65,29 @@ ul {
   width: 250px;
 }
 
+.active-indicator {
+  float:left;
+  width: 0.4em;
+  color: #0F0;
+  font-size: 24px;
+}
+
+.inactive-indicator {
+  float:left;
+  width: 0.4em;
+  color: #A00;
+  font-size: 24px;
+}
+
 .rule-container {
   float: left;
+}
+
+.selected-rule-container {
+  float: left;
+  border-width: 0 0 0 2px;
+  border-color: gray;
+  border-style: solid;
 }
 
 .rule-label {
