@@ -162,6 +162,45 @@ var parseRules = function (rules, axiom, max_iter) {
 
 // *** UI ***
 var ui = {
+  getRuleTemplate: function() {
+    var getInput = function(className, text) {
+      var fragment = document.createDocumentFragment();
+      var label = document.createElement('label');
+      label.setAttribute('class', className + '-label');
+      label.innerHTML = text;
+      var input = document.createElement('input');
+      input.setAttribute('class', className + '-input');
+      fragment.appendChild(label);
+      fragment.appendChild(input);
+      return fragment;
+    };
+    var rule = getInput('rule','rule:');
+    var transform = getInput('transform','->');
+    var ruleContainer = document.createElement('div');
+    ruleContainer.setAttribute('class', 'rule-container');
+    ruleContainer.appendChild(rule);
+    ruleContainer.appendChild(transform);
+    return ruleContainer;
+  },
+  initButtons: function(templates, data) {
+    var addRule = document.getElementById('add-rule');
+    addRule.addEventListener('click', function() {
+      var ruleSection = document.getElementById('rules');
+      var ruleContainer = templates.rule.cloneNode(true);
+      ruleSection.appendChild(ruleContainer);
+    });
+  },
+  initExamples: function(data) {
+    var exampleCollection = document.getElementsByClassName('example');
+    var i = exampleCollection.length;
+    var examples = [];
+    while(i--) {
+      exampleCollection[i].addEventListener("click", function(event) {
+        window.location.hash = event.target.hash;
+        data.needsDecode = true;
+      });
+    }
+  },
   inputs: function (data) {
     var inputCollection = document.getElementsByTagName('input');
     var inputs = [];
@@ -187,38 +226,6 @@ var ui = {
         }
       });
     });
-  },
-  addRule: function(data) {
-    // var ruleFragment = document.createDocumentFragment();
-    var ruleContainer = document.createElement('div');
-    ruleContainer.setAttribute('class', 'rule-container');
-    var ruleNameLabel = document.createElement('label');
-    ruleNameLabel.setAttribute('class','rule-label');
-    ruleNameLabel.innerHTML = 'rule:';
-    var ruleName = document.createElement('input');
-    ruleName.setAttribute('class','rule-name');
-    var transformLabel = document.createElement('label');
-    transformLabel.setAttribute('class','transform-label');
-    transformLabel.innerHTML = '->';
-    var transform = document.createElement('input');
-    transform.setAttribute('class','transform');
-    ruleContainer.appendChild(ruleNameLabel);
-    ruleContainer.appendChild(ruleName);
-    ruleContainer.appendChild(transformLabel);
-    ruleContainer.appendChild(transform);
-    var ruleSection = document.getElementById('rules');
-    ruleSection.appendChild(ruleContainer);
-  },
-  examples: function(data) {
-    var exampleCollection = document.getElementsByClassName('example');
-    var i = exampleCollection.length;
-    var examples = [];
-    while(i--) {
-      exampleCollection[i].addEventListener("click", function(event) {
-        window.location.hash = event.target.hash;
-        data.needsDecode = true;
-      });
-    }
   }
 };
 
@@ -276,8 +283,11 @@ var data = {
 };
 
 var canvas = document.getElementById('canvas');
-
-ui.examples(data);
+var templates = {
+  rule: ui.getRuleTemplate()
+};
+ui.initExamples(data);
+ui.initButtons(templates, data);
 
 var update = function() {
   if (data.needsDecode) {
