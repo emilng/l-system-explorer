@@ -5,41 +5,45 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-  <div id="side-bar">
-    <h2>L-Systems</h2>
-    <div id="id" class="side-section">
-      <h4>Initial State</h4>
-      <label>x:</label>
-      <input id="initial-x" type="range" min="0" max="1000"></input>
-      <label>y:</label>
-      <input id="initial-y" type="range" min="0" max="700"></input>
-      <label>angle:</label>
-      <input id="initial-angle" type="range" step=".1" min="-360" max="360"></input>
-      <label>iterations:</label>
-      <input id="initial-iterations" type="number" min="1"></input>
-    </div>
-    <div id="rules" class="side-section">
-      <h4>Rules</h4>
-      <button id="add-rule">Add Rule</button>
-      <button id="remove-rule">Remove Rule</button>
-    </div>
+  <div id="main">
+    <div id="side-bar">
+      <h2>L-Systems</h2>
+      <div id="start" class="side-section">
+        <h4>Initial State</h4>
+        <label>x:</label>
+        <input id="initial-x" type="range" min="0" max="1000"></input>
+        <label>y:</label>
+        <input id="initial-y" type="range" min="0" max="700"></input>
+        <label>angle:</label>
+        <input id="initial-angle" type="range" step=".1" min="-360" max="360"></input>
+        <label>iterations:</label>
+        <input id="initial-iterations" type="number" min="1"></input>
+      </div>
+      <div id="rules" class="side-section">
+        <h4>Rules</h4>
+        <button id="add-rule">Add Rule</button>
+        <button id="remove-rule">Remove Rule</button>
+        <div id="rules-container"></div>
+      </div>
 <!--     <div id="instructions" class="side-section">
       <h4>Instructions</h4>
       <button id="add-instruction">Add Instruction</button>
       <button id="remove-instruction">Remove Instruction</button>
     </div> -->
-    <div id="examples" class="side-section">
-      <h4>Examples</h4>
-      <ul>
-        <li><a class="example" href="#F/F:F+F-F-F+F/F,d3.3;+,a60;-,a-60/6/x853,y276,a180,i4">Koch Curve</a></li>
-        <li><a class="example" href="#F-G-F/F:F-G+F+G-F,G:GG/F,d8;G,d8;+,a120;-,a-120/6/x41,y465,a0,i6">Sierpinksi Triangle</a></li>
-        <li><a class="example" href="#FX/X:X+YF+,Y:-FX-Y/F,d8;+,a90;-,a-90/11/x253,y391,a-194,i11">Dragon Curve</a></li>
-        <li><a class="example" href="#X/X:F-[[X]+X]+F[+FX]-X,F:FF/F,d4;+,a25;-,a-25;[,b0;],b1/6/x135,y638,a-76,i6">Fractal Plant</a></li>
-        <li><a class="example" href="#F/F:F+F-F-F+F/F,d3.5;+,a75;-,a-80/6/x347,y358,a70,i6">Default</a></li>
-      </ul>
+      <div id="examples" class="side-section">
+        <h4>Examples</h4>
+        <ul>
+          <li><a class="example" href="#F/F:F+F-F-F+F/F,d3.3;+,a60;-,a-60/6/x853,y276,a180,i4">Koch Curve</a></li>
+          <li><a class="example" href="#F-G-F/F:F-G+F+G-F,G:GG/F,d8;G,d8;+,a120;-,a-120/6/x41,y465,a0,i6">Sierpinksi Triangle</a></li>
+          <li><a class="example" href="#FX/X:X+YF+,Y:-FX-Y/F,d8;+,a90;-,a-90/11/x253,y391,a-194,i11">Dragon Curve</a></li>
+          <li><a class="example" href="#X/X:F-[[X]+X]+F[+FX]-X,F:FF/F,d4;+,a25;-,a-25;[,b0;],b1/6/x135,y638,a-76,i6">Fractal Plant</a></li>
+          <li><a class="example" href="#F/F:F+F-F-F+F/F,d3.5;+,a75;-,a-80/6/x347,y358,a70,i6">Default</a></li>
+        </ul>
+      </div>
+
     </div>
+    <canvas id="canvas" width="1000" height="700"></canvas>
   </div>
-  <canvas id="canvas" width="1000" height="700"></canvas>
   <script type="text/javascript" src="src/l-systems.js"></script>
 </body>
 </html>
