@@ -191,9 +191,27 @@ var ui = {
   initButtons: function(templates, data) {
     var addRule = document.getElementById('add-rule');
     addRule.addEventListener('click', function() {
-      var ruleSection = document.getElementById('rules');
-      var ruleContainer = templates.rule.cloneNode(true);
-      ruleSection.appendChild(ruleContainer);
+      data.emptyRules += 1;
+      var keys = Object.keys(data.rules);
+      data.selectedRule = (keys.length - 1) + data.emptyRules;
+      data.needsRulesUIUpdate = true;
+    });
+    var removeRule = document.getElementById('remove-rule');
+    removeRule.addEventListener('click', function() {
+      if (data.emptyRules > 0) {
+        data.emptyRules -= 1;
+      } else {
+        var keys = Object.keys(data.rules);
+        var ruleCount = Math.max(keys.length - 1, 0);
+        var newRules = {};
+        while(ruleCount--) {
+          var key = keys[ruleCount];
+          newRules[key] = data.rules[key];
+        }
+        data.rules = newRules;
+      }
+      data.selectedRule = (Object.keys(data.rules).length - 1) + data.emptyRules;
+      data.needsRulesUIUpdate = true;
     });
   },
   updateRulesUI: function(ruleTemplate, data) {
