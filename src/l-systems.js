@@ -203,12 +203,7 @@ var ui = {
   },
   initStart: function (data) {
     var startContainer = document.getElementById('start');
-    var inputs = [];
-    var i = startContainer.children.length;
-    while(i--) {
-      inputs.push(startContainer.children[i]);
-    }
-    inputs.map(function(input) {
+    Array.prototype.map.call(startContainer.children, function(input) {
       var splitInput = input.id.split('-');
       var inputType = splitInput[0];
       if (inputType === 'initial') {
