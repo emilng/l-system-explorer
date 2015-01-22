@@ -188,6 +188,14 @@ var ui = {
     ruleContainer.appendChild(transform);
     return ruleContainer;
   },
+  initAxiom: function(data) {
+    var axiomInput = document.getElementById('axiom');
+    axiomInput.value = data.axiom.join('');
+    axiomInput.addEventListener('input', function(event) {
+      data.axiom = event.currentTarget.value.split('');
+      data.needsParse = true;
+    });
+  },
   initButtons: function(templates, data) {
     var addRule = document.getElementById('add-rule');
     addRule.addEventListener('click', function() {
@@ -371,6 +379,7 @@ var update = function() {
   if (data.needsDecode) {
     encoder.decodeHash(data);
     ui.initStart(data);
+    ui.initAxiom(data);
     data.needsDecode = false;
     data.needsRulesUIUpdate = true;
     data.needsParse = true;
