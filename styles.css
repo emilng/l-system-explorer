@@ -29,6 +29,10 @@ input {
   margin: 2px 2px 2px 2px;
 }
 
+input[type="radio"] {
+  width: 1em;
+}
+
 label {
   float: left;
   margin-right: 2px;
@@ -53,7 +57,7 @@ ul {
 #side-bar {
   float: left;
   width: 260px;
-  height: 100vh;
+  height: 1000vh;
   background-color: #333;
   color: #eee;
 }
@@ -77,6 +81,26 @@ ul {
   width: 0.4em;
   color: #A00;
   font-size: 24px;
+}
+
+.branch-container {
+  float: left;
+  width: 7em;
+}
+
+.instruction-container {
+  float: left;
+  width: 190px;
+  margin-top: 14px;
+}
+
+.selected-instruction-container {
+  float: left;
+  width: 190px;
+  margin-top: 14px;
+  border-width: 0 0 0 2px;
+  border-color: gray;
+  border-style: solid;
 }
 
 .rule-container {

@@ -162,6 +162,70 @@ var parseRules = function (rules, axiom, max_iter) {
 
 // *** UI ***
 var ui = {
+  getInstructionTemplate: function() {
+    //rule, distance, angle, branch
+    var ruleLabel = document.createElement('label');
+    ruleLabel.innerHTML = 'Rule:';
+    var rule = document.createElement('input');
+    rule.setAttribute('class', 'rule-input');
+    var distanceLabel = document.createElement('label');
+    distanceLabel.innerHTML = 'Distance:';
+    var distance = document.createElement('input');
+    distance.setAttribute('class', 'distance-input');
+    distance.setAttribute('type', 'range');
+    distance.setAttribute('min', '0.1');
+    distance.setAttribute('max', '20');
+    distance.setAttribute('step', '0.1');
+    distance.setAttribute('value', '4');
+    var angleLabel = document.createElement('label');
+    angleLabel.innerHTML = 'Angle:';
+    var angle = document.createElement('input');
+    angle.setAttribute('class', 'angle-input');
+    angle.setAttribute('type', 'range');
+    angle.setAttribute('min', '-360');
+    angle.setAttribute('max', '360');
+    angle.setAttribute('step', '1');
+    angle.setAttribute('value', '0');
+    var branchLabel = document.createElement('label');
+    branchLabel.innerHTML = 'Branch:';
+    var branchNoneLabel = document.createElement('label');
+    branchNoneLabel.innerHTML = 'none';
+    var branchNone = document.createElement('input');
+    branchNone.setAttribute('class', 'branchNone-input');
+    branchNone.setAttribute('type', 'radio');
+    branchNone.setAttribute('value', '');
+    var branchPushLabel = document.createElement('label');
+    branchPushLabel.innerHTML = 'push';
+    var branchPush = document.createElement('input');
+    branchPush.setAttribute('class', 'branchPush-input');
+    branchPush.setAttribute('type', 'radio');
+    branchPush.setAttribute('value', 'push');
+    var branchPopLabel = document.createElement('label');
+    branchPopLabel.innerHTML = 'pop';
+    var branchPop = document.createElement('input');
+    branchPop.setAttribute('class', 'branchPop-input');
+    branchPop.setAttribute('type', 'radio');
+    branchPop.setAttribute('value', 'pop');
+    var branchContainer = document.createElement('div');
+    branchContainer.setAttribute('class', 'branch-container');
+    branchContainer.appendChild(branchNoneLabel);
+    branchContainer.appendChild(branchNone);
+    branchContainer.appendChild(branchPushLabel);
+    branchContainer.appendChild(branchPush);
+    branchContainer.appendChild(branchPopLabel);
+    branchContainer.appendChild(branchPop);
+    var instructionContainer = document.createElement('div');
+    instructionContainer.setAttribute('class', 'instruction-container');
+    instructionContainer.appendChild(ruleLabel);
+    instructionContainer.appendChild(rule);
+    instructionContainer.appendChild(distanceLabel);
+    instructionContainer.appendChild(distance);
+    instructionContainer.appendChild(angleLabel);
+    instructionContainer.appendChild(angle);
+    instructionContainer.appendChild(branchLabel);
+    instructionContainer.appendChild(branchContainer);
+    return instructionContainer;
+  },
   getRuleTemplate: function() {
     var getLabel = function(className, labelText) {
       var label = document.createElement('label');
@@ -222,6 +286,16 @@ var ui = {
       data.needsRulesUIUpdate = true;
     });
   },
+  initInstructionButtons: function(data) {
+    var addInstruction = document.getElementById('add-instruction');
+    addInstruction.addEventListener('click', function() {
+      data.emptyInstructions += 1;
+      var keys = Object.keys(data.instructions);
+      data.selectedInstructions = (keys.length - 1) + data.emptyInstructions;
+      data.needsInstructionsUIUpdate = true;
+    });
+    var removeInstruction = document.getElementById('remove-instruction');
+  },
   updateRulesUI: function(ruleTemplate, data) {
     var container = document.getElementById('rules-container');
     var keys = Object.keys(data.rules);
@@ -279,8 +353,24 @@ var ui = {
         data.needsRulesUIUpdate = true;
       });
     });
-
-
+  },
+  updateInstructionsUI: function(instructionTemplate, data) {
+    console.log('updateInstructionsUI');
+    var container = document.getElementById('instructions-container');
+    var keys = Object.keys(data.rules);
+    var instructionElementsToAdd = (keys.length + data.emptyInstructions) - container.children.length;
+    var instructionElement;
+    if (instructionElementsToAdd > 0) {
+      while(instructionElementsToAdd--) {
+        instructionElement = instructionTemplate.cloneNode(true);
+        container.appendChild(instructionElement);
+      }
+    } else {
+      var elementsToRemove = -instructionElementsToAdd;
+      while(elementsToRemove--) {
+        container.removeChild(container.lastElementChild);
+      }
+    }
   },
   initExamples: function(data) {
     var exampleCollection = document.getElementsByClassName('example');
@@ -362,10 +452,13 @@ var render = function (canvas, start, rules, instructions) {
 var data = {
   needsDecode: true,
   needsRulesUIUpdate: true,
+  needsInstructionsUIUpdate: true,
   needsParse: true,
   needsRender: true,
   selectedRule: -1,
   emptyRules: 0,
+  selectedInstructions: -1,
+  emptyInstructions: 0,
   replaceKey: function(obj, oldKey, newKey) {
     return Object.keys(obj).reduce(function(currentObj, key) {
       if (key === oldKey) {
@@ -378,8 +471,10 @@ var data = {
 
 var canvas = document.getElementById('canvas');
 var ruleTemplate = ui.getRuleTemplate();
+var instructionTemplate = ui.getInstructionTemplate();
 ui.initExamples(data);
 ui.initRuleButtons(data);
+ui.initInstructionButtons(data);
 
 var update = function() {
   if (data.needsDecode) {
@@ -393,6 +488,10 @@ var update = function() {
   if (data.needsRulesUIUpdate) {
     ui.updateRulesUI(ruleTemplate, data);
     data.needsRulesUIUpdate = false;
+  }
+  if (data.needsInstructionsUIUpdate) {
+    ui.updateInstructionsUI(instructionTemplate, data);
+    data.needsInstructionsUIUpdate = false;
   }
   if (data.needsParse) {
     data.parsedRules = parseRules(data.rules, data.axiom, data.iterations);
