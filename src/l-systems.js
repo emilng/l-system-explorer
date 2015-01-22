@@ -228,6 +228,7 @@ var ui = {
       var elementsToRemove = -ruleElementsToAdd;
       while(elementsToRemove--) {
         container.removeChild(container.lastElementChild);
+        data.needsParse = true;
       }
     }
     Array.prototype.map.call(container.children, function(ruleElement, index) {
@@ -237,8 +238,22 @@ var ui = {
         indicator.setAttribute('class', 'active-indicator');
         var ruleInput = ruleElement.querySelector('.rule-input');
         ruleInput.value = key;
+        ruleInput.addEventListener('input', function(event) {
+          var newKey = event.currentTarget.value;
+          if (newKey.length > 0) {
+            newKey = newKey[0];
+            if (!keys.hasOwnProperty(newKey)) {
+              data.rules = data.replaceKey(data.rules, key, newKey);
+              data.needsParse = true;
+            }
+          }
+        });
         var ruleTransform = ruleElement.querySelector('.transform-input');
         ruleTransform.value = data.rules[key].join('');
+        ruleTransform.addEventListener('input', function(event) {
+          data.rules[key] = event.currentTarget.value.split('');
+          data.needsParse = true;
+        });
       } else {
         indicator.setAttribute('class', 'inactive-indicator');
       }
@@ -336,7 +351,7 @@ var data = {
   needsParse: true,
   needsRender: true,
   selectedRule: -1,
-  emptyRules: 0
+  emptyRules: 0,
   replaceKey: function(obj, oldKey, newKey) {
     return Object.keys(obj).reduce(function(currentObj, key) {
       if (key === oldKey) {
@@ -357,6 +372,7 @@ var update = function() {
     encoder.decodeHash(data);
     ui.initStart(data);
     data.needsDecode = false;
+    data.needsRulesUIUpdate = true;
     data.needsParse = true;
   }
   if (data.needsRulesUIUpdate) {
