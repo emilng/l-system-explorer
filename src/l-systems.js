@@ -227,6 +227,7 @@ var ui = {
     var keys = Object.keys(data.rules);
     var ruleElementsToAdd = (keys.length + data.emptyRules) - container.children.length;
     var ruleElement;
+    var ruleCount = container.children.length;
     if (ruleElementsToAdd > 0) {
       while(ruleElementsToAdd--) {
         ruleElement = ruleTemplate.cloneNode(true);
@@ -236,14 +237,17 @@ var ui = {
       var elementsToRemove = -ruleElementsToAdd;
       while(elementsToRemove--) {
         container.removeChild(container.lastElementChild);
-        data.needsParse = true;
       }
+    }
+    if (container.children.length !== ruleCount) {
+      data.needsParse = true;
     }
     Array.prototype.map.call(container.children, function(ruleElement, index) {
       var indicator = ruleElement.children[0];
       if (index < keys.length) {
         var key = keys[index];
         indicator.setAttribute('class', 'active-indicator');
+
         var ruleInput = ruleElement.querySelector('.rule-input');
         ruleInput.value = key;
         ruleInput.addEventListener('input', function(event) {
