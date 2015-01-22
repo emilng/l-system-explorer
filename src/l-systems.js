@@ -196,7 +196,7 @@ var ui = {
       data.needsParse = true;
     });
   },
-  initButtons: function(templates, data) {
+  initRuleButtons: function(data) {
     var addRule = document.getElementById('add-rule');
     addRule.addEventListener('click', function() {
       data.emptyRules += 1;
@@ -375,7 +375,7 @@ var data = {
 var canvas = document.getElementById('canvas');
 var ruleTemplate = ui.getRuleTemplate();
 ui.initExamples(data);
-ui.initButtons(ruleTemplate, data);
+ui.initRuleButtons(data);
 
 var update = function() {
   if (data.needsDecode) {
