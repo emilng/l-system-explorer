@@ -337,6 +337,14 @@ var data = {
   needsRender: true,
   selectedRule: -1,
   emptyRules: 0
+  replaceKey: function(obj, oldKey, newKey) {
+    return Object.keys(obj).reduce(function(currentObj, key) {
+      if (key === oldKey) {
+        currentObj[newKey] = obj[key];
+      }
+      return currentObj;
+    }, {});
+  }
 };
 
 var canvas = document.getElementById('canvas');
