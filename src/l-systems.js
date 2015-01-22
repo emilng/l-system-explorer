@@ -338,11 +338,13 @@ var render = function (canvas, start, rules, instructions) {
         if (instruction.branch === 0) {
           stack.push({angle: angle, x: x, y: y});
         } else if (instruction.branch === 1) {
-          var settings = stack.pop();
-          angle = settings.angle;
-          x = settings.x;
-          y = settings.y;
-          ctx.moveTo(x, y);
+          if (stack.length > 0) {
+            var settings = stack.pop();
+            angle = settings.angle;
+            x = settings.x;
+            y = settings.y;
+            ctx.moveTo(x, y);
+          }
         }
       }
     }
