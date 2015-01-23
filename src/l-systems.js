@@ -175,43 +175,41 @@ var ui = {
       });
       return element;
     };
+    var createLabel = function(text) {
+      var label = document.createElement('label');
+      label.innerHTML = text;
+      return label;
+    };
     //rule, distance, angle, branch
-    var ruleLabel = document.createElement('label');
-    ruleLabel.innerHTML = 'Rule:';
+    var ruleLabel = createLabel('Rule:');
     var rule = document.createElement('input');
     rule.setAttribute('class', 'rule-input');
-    var distanceLabel = document.createElement('label');
-    distanceLabel.innerHTML = 'Distance:';
+    var distanceLabel = createLabel('Distance:');
     var distance = createElement('input',
       ['class',         'type', 'min','max','step','value'],
       ['distance-input','range','0.1','20', '0.1', '4']
     );
-    var angleLabel = document.createElement('label');
-    angleLabel.innerHTML = 'Angle:';
+    var angleLabel = createLabel('Angle:');
     var angle = createElement('input',
       ['class',      'type', 'min', 'max','step','value'],
       ['angle-input','range','-360','360','1',   '0']
     );
-    var branchLabel = document.createElement('label');
-    branchLabel.innerHTML = 'Branch:';
-    var branchNoneLabel = document.createElement('label');
-    branchNoneLabel.innerHTML = 'none';
+    var branchNoneLabel = createLabel('none');
     var branchNone = createElement('input',
       ['class',            'type',  'value'],
       ['branchNone-input', 'radio', '']
     );
-    var branchPushLabel = document.createElement('label');
-    branchPushLabel.innerHTML = 'push';
+    var branchPushLabel = createLabel('push');
     var branchPush = createElement('input',
       ['class',            'type',  'value'],
       ['branchPush-input', 'radio', 'push']
     );
-    var branchPopLabel = document.createElement('label');
-    branchPopLabel.innerHTML = 'pop';
+    var branchPopLabel = createLabel('pop');
     var branchPop = createElement('input',
       ['class',            'type',  'value'],
       ['branchPop-input',  'radio', 'pop']
     );
+    var branchLabel = createLabel('Branch:');
     var branchContainer = document.createElement('div');
     branchContainer.setAttribute('class', 'branch-container');
     this.appendChildren(branchContainer,
