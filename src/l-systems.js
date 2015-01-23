@@ -291,6 +291,23 @@ var ui = {
       data.needsInstructionsUIUpdate = true;
     });
     var removeInstruction = document.getElementById('remove-instruction');
+    removeInstruction.addEventListener('click', function() {
+      if (data.emptyInstructions > 0) {
+        data.emptyInstructions -= 1;
+      } else {
+        var keys = Object.keys(data.instructions);
+        var instructionCount = Math.max(keys.length - 1, 0);
+        var newInstructions = {};
+        while(instructionCount--) {
+          var key = keys[instructionCount];
+          newInstructions[key] = data.instructions[key];
+        }
+        data.instructions = newInstructions;
+      }
+      var lastInstructionIndex = Object.keys(data.instructions).length - 1;
+      data.selectedInstructions = lastInstructionIndex + data.emptyInstructions;
+      data.needsInstructionsUIUpdate = true;
+    });
   },
   updateRulesUI: function(ruleTemplate, data) {
     var container = document.getElementById('rules-container');
