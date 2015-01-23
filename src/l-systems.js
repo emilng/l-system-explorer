@@ -162,7 +162,19 @@ var parseRules = function (rules, axiom, max_iter) {
 
 // *** UI ***
 var ui = {
+  appendChildren: function(element, children) {
+    children.map(function(child) {
+      element.appendChild(child);
+    });
+  },
   getInstructionTemplate: function() {
+    var createElement = function(elementType, attributeNames, attributeValues) {
+      var element = document.createElement(elementType);
+      attributeNames.map(function(name, index) {
+        element.setAttribute(name, attributeValues[index]);
+      });
+      return element;
+    };
     //rule, distance, angle, branch
     var ruleLabel = document.createElement('label');
     ruleLabel.innerHTML = 'Rule:';
@@ -170,60 +182,48 @@ var ui = {
     rule.setAttribute('class', 'rule-input');
     var distanceLabel = document.createElement('label');
     distanceLabel.innerHTML = 'Distance:';
-    var distance = document.createElement('input');
-    distance.setAttribute('class', 'distance-input');
-    distance.setAttribute('type', 'range');
-    distance.setAttribute('min', '0.1');
-    distance.setAttribute('max', '20');
-    distance.setAttribute('step', '0.1');
-    distance.setAttribute('value', '4');
+    var distance = createElement('input',
+      ['class',         'type', 'min','max','step','value'],
+      ['distance-input','range','0.1','20', '0.1', '4']
+    );
     var angleLabel = document.createElement('label');
     angleLabel.innerHTML = 'Angle:';
-    var angle = document.createElement('input');
-    angle.setAttribute('class', 'angle-input');
-    angle.setAttribute('type', 'range');
-    angle.setAttribute('min', '-360');
-    angle.setAttribute('max', '360');
-    angle.setAttribute('step', '1');
-    angle.setAttribute('value', '0');
+    var angle = createElement('input',
+      ['class',      'type', 'min', 'max','step','value'],
+      ['angle-input','range','-360','360','1',   '0']
+    );
     var branchLabel = document.createElement('label');
     branchLabel.innerHTML = 'Branch:';
     var branchNoneLabel = document.createElement('label');
     branchNoneLabel.innerHTML = 'none';
-    var branchNone = document.createElement('input');
-    branchNone.setAttribute('class', 'branchNone-input');
-    branchNone.setAttribute('type', 'radio');
-    branchNone.setAttribute('value', '');
+    var branchNone = createElement('input',
+      ['class',            'type',  'value'],
+      ['branchNone-input', 'radio', '']
+    );
     var branchPushLabel = document.createElement('label');
     branchPushLabel.innerHTML = 'push';
-    var branchPush = document.createElement('input');
-    branchPush.setAttribute('class', 'branchPush-input');
-    branchPush.setAttribute('type', 'radio');
-    branchPush.setAttribute('value', 'push');
+    var branchPush = createElement('input',
+      ['class',            'type',  'value'],
+      ['branchPush-input', 'radio', 'push']
+    );
     var branchPopLabel = document.createElement('label');
     branchPopLabel.innerHTML = 'pop';
-    var branchPop = document.createElement('input');
-    branchPop.setAttribute('class', 'branchPop-input');
-    branchPop.setAttribute('type', 'radio');
-    branchPop.setAttribute('value', 'pop');
+    var branchPop = createElement('input',
+      ['class',            'type',  'value'],
+      ['branchPop-input',  'radio', 'pop']
+    );
     var branchContainer = document.createElement('div');
     branchContainer.setAttribute('class', 'branch-container');
-    branchContainer.appendChild(branchNoneLabel);
-    branchContainer.appendChild(branchNone);
-    branchContainer.appendChild(branchPushLabel);
-    branchContainer.appendChild(branchPush);
-    branchContainer.appendChild(branchPopLabel);
-    branchContainer.appendChild(branchPop);
+    this.appendChildren(branchContainer,
+      [branchNoneLabel, branchNone, branchPushLabel,
+      branchPush, branchPopLabel, branchPop]
+    );
     var instructionContainer = document.createElement('div');
     instructionContainer.setAttribute('class', 'instruction-container');
-    instructionContainer.appendChild(ruleLabel);
-    instructionContainer.appendChild(rule);
-    instructionContainer.appendChild(distanceLabel);
-    instructionContainer.appendChild(distance);
-    instructionContainer.appendChild(angleLabel);
-    instructionContainer.appendChild(angle);
-    instructionContainer.appendChild(branchLabel);
-    instructionContainer.appendChild(branchContainer);
+    this.appendChildren(instructionContainer,
+      [ruleLabel, rule, distanceLabel, distance,
+      angleLabel, angle, branchLabel, branchContainer]
+    );
     return instructionContainer;
   },
   getRuleTemplate: function() {
@@ -247,9 +247,7 @@ var ui = {
     var transform = getLabeledInput('transform','->');
     var ruleContainer = document.createElement('div');
     ruleContainer.setAttribute('class', 'rule-container');
-    ruleContainer.appendChild(indicator);
-    ruleContainer.appendChild(rule);
-    ruleContainer.appendChild(transform);
+    this.appendChildren(ruleContainer, [indicator, rule, transform]);
     return ruleContainer;
   },
   initAxiom: function(data) {
