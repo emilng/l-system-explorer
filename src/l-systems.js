@@ -180,6 +180,12 @@ var ui = {
       label.innerHTML = text;
       return label;
     };
+    var createRadio = function(className, value) {
+      return createElement('input',
+        ['class',   'type', 'value'],
+        [className, 'radio', value]
+      );
+    };
     //rule, distance, angle, branch
     var ruleLabel = createLabel('Rule:');
     var rule = document.createElement('input');
@@ -195,20 +201,11 @@ var ui = {
       ['angle-input','range','-360','360','1',   '0']
     );
     var branchNoneLabel = createLabel('none');
-    var branchNone = createElement('input',
-      ['class',            'type',  'value'],
-      ['branchNone-input', 'radio', '']
-    );
+    var branchNone = createRadio('branchNone-input', '');
     var branchPushLabel = createLabel('push');
-    var branchPush = createElement('input',
-      ['class',            'type',  'value'],
-      ['branchPush-input', 'radio', 'push']
-    );
+    var branchPush = createRadio('branchPush-input', 'push');
     var branchPopLabel = createLabel('pop');
-    var branchPop = createElement('input',
-      ['class',            'type',  'value'],
-      ['branchPop-input',  'radio', 'pop']
-    );
+    var branchPop = createRadio('branchPop-input', 'pop');
     var branchLabel = createLabel('Branch:');
     var branchContainer = document.createElement('div');
     branchContainer.setAttribute('class', 'branch-container');
