@@ -370,7 +370,7 @@ var ui = {
   updateInstructionsUI: function(instructionTemplate, data) {
     console.log('updateInstructionsUI');
     var container = document.getElementById('instructions-container');
-    var keys = Object.keys(data.rules);
+    var keys = Object.keys(data.instructions);
     var instructionElementsToAdd = (keys.length + data.emptyInstructions) - container.children.length;
     var instructionElement;
     if (instructionElementsToAdd > 0) {
