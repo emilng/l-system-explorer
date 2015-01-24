@@ -209,12 +209,12 @@ var ui = {
     this.appendChildren(checkContainer,
       [distanceCheckLabel, distanceCheck,
       angleCheckLabel, angleCheck, branchCheckLabel, branchCheck]);
-    var distanceLabel = createLabel('distance:');
+    var distanceLabel = createLabel('distance:','distance-label');
     var distance = createElement('input',
       ['class',         'type', 'min','max','step','value'],
       ['distance-input','range','0.1','20', '0.1', '4']
     );
-    var angleLabel = createLabel('angle:');
+    var angleLabel = createLabel('angle:','angle-label');
     var angle = createElement('input',
       ['class',      'type', 'min', 'max','step','value'],
       ['angle-input','range','-360','360','1',   '0']
@@ -223,7 +223,7 @@ var ui = {
     var branchPush = createRadio('branchPush-input', 'push');
     var branchPopLabel = createLabel('pop');
     var branchPop = createRadio('branchPop-input', 'pop');
-    var branchLabel = createLabel('branch:');
+    var branchLabel = createLabel('branch:','branch-label');
     var branchContainer = document.createElement('div');
     branchContainer.setAttribute('class', 'branch-container');
     this.appendChildren(branchContainer,
@@ -381,7 +381,6 @@ var ui = {
     });
   },
   updateInstructionsUI: function(instructionTemplate, data) {
-    console.log('updateInstructionsUI');
     var container = document.getElementById('instructions-container');
     var keys = Object.keys(data.instructions);
     var instructionElementsToAdd = (keys.length + data.emptyInstructions) - container.children.length;
@@ -397,6 +396,60 @@ var ui = {
         container.removeChild(container.lastElementChild);
       }
     }
+    Array.prototype.map.call(container.children, function(instructionElement, index) {
+      var ruleInput = instructionElement.querySelector('.rule-input');
+      var checkboxes = instructionElement.querySelectorAll('input[type="checkbox"]');
+      Array.prototype.map.call(checkboxes, function(checkbox) {
+        checkbox.setAttribute('name', 'instruction-checkbox-' + index);
+      });
+      var radios = instructionElement.querySelectorAll('input[type="radio"]');
+      Array.prototype.map.call(radios, function(radio) {
+        radio.setAttribute('name', 'instruction-radio-' + index);
+      });
+      var distanceCheck = checkboxes[0];
+      var angleCheck = checkboxes[1];
+      var branchCheck = checkboxes[2];
+      var distanceLabel = instructionElement.querySelector('.distance-label');
+      var distanceInput = instructionElement.querySelector('.distance-input');
+      var angleLabel = instructionElement.querySelector('.angle-label');
+      var angleInput = instructionElement.querySelector('.angle-input');
+      var branchLabel = instructionElement.querySelector('.branch-label');
+      var branchContainer = instructionElement.querySelector('.branch-container');
+      var showDistance = function(state) {
+        distanceLabel.style.display = (state) ? 'inline': 'none';
+        distanceInput.style.display = (state) ? 'inline': 'none';
+        distanceCheck.checked = state;
+      };
+      var showAngle = function(state) {
+        angleLabel.style.display = (state) ? 'inline': 'none';
+        angleInput.style.display = (state) ? 'inline': 'none';
+        angleCheck.checked = state;
+      };
+      var showBranch = function(state) {
+        branchLabel.style.display = (state) ? 'inline': 'none';
+        branchContainer.style.display = (state) ? 'inline': 'none';
+        branchCheck.checked = state;
+      };
+      distanceCheck.addEventListener('change', function(event) {
+        showDistance(event.currentTarget.checked);
+      });
+      angleCheck.addEventListener('change', function(event) {
+        showAngle(event.currentTarget.checked);
+      });
+      branchCheck.addEventListener('<change></change>', function(event) {
+        showBranch(event.currentTarget.checked);
+      });
+      if (index < keys.length) {
+        var ruleValue = keys[index];
+        ruleInput.value = ruleValue;
+        var instruction = data.instructions[ruleValue];
+        showDistance(instruction.hasOwnProperty('distance'));
+        showAngle(instruction.hasOwnProperty('angle'));
+        showBranch(instruction.hasOwnProperty('branch'));
+      } else {
+
+      }
+    });
   },
   initExamples: function(data) {
     var exampleCollection = document.getElementsByClassName('example');
