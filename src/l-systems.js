@@ -204,7 +204,7 @@ var ui = {
     var angleCheckLabel = createLabel('angle','check-label');
     var angleCheck = createCheckbox('angle');
     var branchCheckLabel = createLabel('branch','check-label');
-    var branchCheck = createCheckbox('dranch');
+    var branchCheck = createCheckbox('branch');
     var checkContainer = createElement('div',['class'],['check-container']);
     this.appendChildren(checkContainer,
       [distanceCheckLabel, distanceCheck,
