@@ -175,8 +175,17 @@ var ui = {
       });
       return element;
     };
-    var createLabel = function(text) {
+    var createCheckbox = function(value) {
+      var checkbox = createElement('input',
+        ['type', 'value'], ['checkbox', value]
+      );
+      return checkbox;
+    };
+    var createLabel = function(text, className) {
       var label = document.createElement('label');
+      if (className !== undefined) {
+        label.setAttribute('class', className);
+      }
       label.innerHTML = text;
       return label;
     };
@@ -190,33 +199,40 @@ var ui = {
     var ruleLabel = createLabel('Rule:');
     var rule = document.createElement('input');
     rule.setAttribute('class', 'rule-input');
-    var distanceLabel = createLabel('Distance:');
+    var distanceCheckLabel = createLabel('distance','check-label');
+    var distanceCheck = createCheckbox('distance');
+    var angleCheckLabel = createLabel('angle','check-label');
+    var angleCheck = createCheckbox('angle');
+    var branchCheckLabel = createLabel('branch','check-label');
+    var branchCheck = createCheckbox('dranch');
+    var checkContainer = createElement('div',['class'],['check-container']);
+    this.appendChildren(checkContainer,
+      [distanceCheckLabel, distanceCheck,
+      angleCheckLabel, angleCheck, branchCheckLabel, branchCheck]);
+    var distanceLabel = createLabel('distance:');
     var distance = createElement('input',
       ['class',         'type', 'min','max','step','value'],
       ['distance-input','range','0.1','20', '0.1', '4']
     );
-    var angleLabel = createLabel('Angle:');
+    var angleLabel = createLabel('angle:');
     var angle = createElement('input',
       ['class',      'type', 'min', 'max','step','value'],
       ['angle-input','range','-360','360','1',   '0']
     );
-    var branchNoneLabel = createLabel('none');
-    var branchNone = createRadio('branchNone-input', '');
     var branchPushLabel = createLabel('push');
     var branchPush = createRadio('branchPush-input', 'push');
     var branchPopLabel = createLabel('pop');
     var branchPop = createRadio('branchPop-input', 'pop');
-    var branchLabel = createLabel('Branch:');
+    var branchLabel = createLabel('branch:');
     var branchContainer = document.createElement('div');
     branchContainer.setAttribute('class', 'branch-container');
     this.appendChildren(branchContainer,
-      [branchNoneLabel, branchNone, branchPushLabel,
-      branchPush, branchPopLabel, branchPop]
+      [branchPushLabel, branchPush, branchPopLabel, branchPop]
     );
     var instructionContainer = document.createElement('div');
     instructionContainer.setAttribute('class', 'instruction-container');
     this.appendChildren(instructionContainer,
-      [ruleLabel, rule, distanceLabel, distance,
+      [ruleLabel, rule, checkContainer, distanceLabel, distance,
       angleLabel, angle, branchLabel, branchContainer]
     );
     return instructionContainer;
