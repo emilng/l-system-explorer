@@ -436,7 +436,7 @@ var ui = {
       angleCheck.addEventListener('change', function(event) {
         showAngle(event.currentTarget.checked);
       });
-      branchCheck.addEventListener('<change></change>', function(event) {
+      branchCheck.addEventListener('change', function(event) {
         showBranch(event.currentTarget.checked);
       });
       if (index < keys.length) {
