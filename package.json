@@ -1,0 +1,12 @@
+{
+  "name": "l-systems",
+  "version": "0.0.0",
+  "homepage": "",
+  "author": {
+    "name": "Emil Ng"
+  },
+  "license": "",
+  "dependencies": {},
+  "devDependencies": {
+  }
+}

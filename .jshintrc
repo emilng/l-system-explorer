@@ -10,6 +10,7 @@
   "unused": false ,
   "eqnull": true,
   "browser": true,
+  "browserify": true,
   "boss": true,
   "loopfunc": true,
   "devel": true
