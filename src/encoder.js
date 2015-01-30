@@ -1,0 +1,148 @@
+// *** DATA ***
+/*
+  decode / encode  data to URL hash
+
+  hash is split into the following sections delimited by '/'
+  1. axiom
+    example: F[A]
+    chars: [A-Z]\[\]
+  2. rules
+    example: F:F+[F-FF]F+
+    chars: [A-Z]\[\]\:\+\-
+  3. instructions - delimited by ';' then split into parameters: distance(d), angle(a), branch(b):0,1 (push,pop)
+    example: F,d10,a25,p0;A,d5,a10,p1
+    chars: [0-9],\.dap
+  4. iterations - max number of iterations
+    example: 3
+    chars: [0-9]
+  5. starting drawing values - delimited by ',' : x, y, angle, iteration to display
+    example: x500,y300,a10,i5
+    chars: [0-9]xyamwh
+*/
+var encoder = {
+  decodeHash: function (data) {
+    var hash = window.location.hash.substr(1);
+    //hardcoded default for now if nothing is set
+    if (hash === '') {
+      hash = 'F/F:F+F-F-F+F/F,d3.5;+,a75;-,a-80/6/x347,y358,a70,i6';
+    }
+    var dataStrings = hash.split('/');
+    var axiomString = dataStrings[0];
+    var rulesString = dataStrings[1];
+    var instructionsString = dataStrings[2];
+    var iterations = dataStrings[3];
+    var startString = dataStrings[4];
+
+    data.axiom = axiomString.split('');
+    data.rules = this.decodeRules(rulesString);
+    data.instructions = this.decodeInstructions(instructionsString);
+    data.iterations = iterations;
+    data.start = this.decodeStart(startString);
+  },
+  decodeRules: function (rulesString) {
+    var rulesList = rulesString.split(',');
+    return rulesList.reduce(function (rules, ruleString) {
+      var splitRule = ruleString.split(':');
+      var predecessor = splitRule[0];
+      var successor = splitRule[1].split('');
+      rules[predecessor] = successor;
+
+      return rules;
+    }, {});
+  },
+  decodeInstructions: function (instructionsString) {
+    var instructionsList = instructionsString.split(';');
+    return instructionsList.reduce(function (instructions, instructionParamString) {
+      var instructionParams = instructionParamString.split(',');
+      var instructionName = instructionParams.shift();
+
+      // decode instruction params
+      instructions[instructionName] = instructionParams.reduce(function (params, paramString) {
+        var keyChar = paramString[0];
+        var keyLookup = {
+          'd':'distance',
+          'a':'angle',
+          'b':'branch'
+        };
+        var key = keyLookup[keyChar];
+        var value = parseFloat(paramString.substr(1));
+        params[key] = value;
+        return params;
+      }, {});
+
+      return instructions;
+    }, {});
+  },
+  decodeStart: function (startString) {
+    var startList = startString.split(',');
+    return startList.reduce(function (params, paramString) {
+      var keyChar = paramString[0];
+      var keyLookup = {
+        'x':'x',
+        'y':'y',
+        'a':'angle',
+        'i':'iterations'
+      };
+      var key = keyLookup[keyChar];
+      var value = parseFloat(paramString.substr(1));
+      params[key] = value;
+      return params;
+    }, {});
+  },
+  encodeHash: function (data) {
+    var axiom = data.axiom.join('');
+    var rules = this.encodeRules(data.rules);
+    var instructions = this.encodeInstructions(data.instructions);
+    var iterations = data.iterations;
+    var start = this.encodeStart(data.start);
+    return '#' +
+        [axiom,
+         rules,
+         instructions,
+         iterations,
+         start].join('/');
+  },
+  encodeRules: function (rules) {
+    var keys = Object.keys(rules);
+    var ruleList = keys.reduce(function(ruleList, rule) {
+      ruleList.push(rule + ':' + rules[rule].join(''));
+      return ruleList;
+    }, []);
+    return ruleList.join(',');
+  },
+  encodeInstructions: function(instructions) {
+    var instructionKeys = Object.keys(instructions);
+    var instructionList = instructionKeys.reduce(function(instructionList, instructionKey) {
+      var instructionObj = instructions[instructionKey];
+      var paramKeys = Object.keys(instructionObj);
+      var paramLookup = {
+          'distance':'d',
+          'angle':'a',
+          'branch':'b'
+      };
+      var paramString = paramKeys.reduce(function(paramString, paramKey) {
+        return paramString + ',' + paramLookup[paramKey] + instructionObj[paramKey];
+      }, '');
+      instructionList.push(instructionKey + paramString);
+      return instructionList;
+    }, []);
+    return instructionList.join(';');
+  },
+  encodeStart: function(start) {
+    var startKeys = Object.keys(start);
+    var keyLookup = {
+      'angle':'a',
+      'x':'x',
+      'y':'y',
+      'iterations':'i'
+    };
+    var startList = startKeys.reduce(function(startList, paramKey) {
+      var startString = keyLookup[paramKey] + start[paramKey];
+      startList.push(startString);
+      return startList;
+    }, []);
+    return startList.join(',');
+  }
+};
+
+module.exports = encoder;
