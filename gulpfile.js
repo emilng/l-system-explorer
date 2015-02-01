@@ -1,6 +1,8 @@
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
+var es6ify = require('es6ify');
 var gulp = require('gulp');
+var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
@@ -21,13 +23,14 @@ gulp.task('js', function() {
   });
 
   var bundle = function() {
-    return bundler
+    bundler.transform(reactify);
+    bundler.transform(es6ify.configure(/.jsx/));
+    bundler
       .bundle()
       .pipe(source(getBundleName() + '.js'))
       .pipe(buffer())
       .pipe(sourcemaps.init({loadMaps: true}))
-        // Add transformation tasks to the pipeline here.
-        .pipe(uglify())
+      .pipe(uglify())
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('./dist/'));
   };
