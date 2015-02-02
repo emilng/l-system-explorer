@@ -302,21 +302,6 @@ var ui = {
         data.needsDecode = true;
       });
     }
-  },
-  initStart: function (data) {
-    var startContainer = document.getElementById('start');
-    Array.prototype.map.call(startContainer.children, function(input) {
-      var splitInput = input.id.split('-');
-      var inputType = splitInput[0];
-      if (inputType === 'initial') {
-        var param = splitInput[1];
-        input.value = data.start[param];
-        input.addEventListener('input', function(event) {
-          data.start[param] = parseInt(event.currentTarget.value);
-          data.needsRender = true;
-        });
-      }
-    });
   }
 };
 
