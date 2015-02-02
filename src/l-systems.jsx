@@ -32,6 +32,12 @@ ui.initExamples(data);
 ui.initRuleButtons(data);
 ui.initInstructionButtons(data);
 
+var updateRender = function() {
+    var iterations = Math.min(data.parsedRules.length - 1, data.start.iterations);
+    render(canvas, data.start, data.parsedRules[iterations], data.instructions);
+    data.needsRender = false;
+    window.location.hash = encoder.encodeHash(data);
+};
 var update = function() {
   if (data.needsDecode) {
     encoder.decodeHash(data);
@@ -55,10 +61,7 @@ var update = function() {
     data.needsRender = true;
   }
   if (data.needsRender) {
-    var iterations = Math.min(data.parsedRules.length - 1, data.start.iterations);
-    render(canvas, data.start, data.parsedRules[iterations], data.instructions);
-    data.needsRender = false;
-    window.location.hash = encoder.encodeHash(data);
+    updateRender();
   }
   requestAnimationFrame(update);
 };
