@@ -2,17 +2,16 @@ var React = require('react');
 
 var AxiomUI = React.createClass({
   handleChange: function(event) {
-    this.props.data.axiom = event.currentTarget.value.split('');
+    this.props.data.axiom = event.currentTarget.value;
     this.props.update();
     this.props.data.needsParse = true;
   },
   render: function() {
-    var axiomData = this.props.data.axiom;
     return (
       <div>
         <h4>Axiom</h4>
         <input
-          value={axiomData.join('')}
+          value={this.props.data.axiom}
           onChange={this.handleChange}
         />
       </div>
