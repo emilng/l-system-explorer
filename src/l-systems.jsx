@@ -1,7 +1,9 @@
+var React = require('react');
 var encoder = require('./encoder.js');
 var parser = require('./parser.js');
 var ui = require('./ui.js');
 var render = require('./render.js');
+var StartUI = require('./ui/start.jsx');
 
 // *** MAIN ***
 
@@ -38,10 +40,22 @@ var updateRender = function() {
     data.needsRender = false;
     window.location.hash = encoder.encodeHash(data);
 };
+
+var renderStartUI = function() {
+  React.render(
+    <StartUI
+      data={data}
+      update={renderStartUI}
+    />,
+    document.getElementById('start')
+  );
+};
+
+
 var update = function() {
   if (data.needsDecode) {
     encoder.decodeHash(data);
-    ui.initStart(data);
+    renderStartUI();
     ui.initAxiom(data);
     data.needsDecode = false;
     data.needsRulesUIUpdate = true;
