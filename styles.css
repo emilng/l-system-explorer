@@ -39,6 +39,39 @@ input[type="checkbox"] {
   margin: 0.4em 1em 0 0;
 }
 
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100px;
+  height:20px;
+  margin-left: 5px;
+  margin-top: 0px;
+  background: #333;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100px;
+  height: 4px;
+  top: 20px;
+  background: #EEE;
+  border: none;
+  border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 20px;
+  width: 10px;
+  background: #AAA;
+  border-radius: 2px;
+  margin-top: -8px;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
 label {
   float: left;
   margin: 3px 2px 0 0;
@@ -74,6 +107,10 @@ ul {
   width: 250px;
 }
 
+.fl {
+  float:left;
+}
+
 .active-indicator {
   float:left;
   width: 0.4em;
@@ -105,6 +142,12 @@ ul {
   margin: 0.2em 0 0.4em 0;
 }
 
+.number-input {
+  width: 40px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .selected-instruction-container {
   float: left;
   width: 190px;
@@ -131,6 +174,13 @@ ul {
 
 .rule-input {
   width: 2em;
+}
+
+.slider-label {
+  margin-top: 2px;
+  margin-left: 2px;
+  text-align: right;
+  width: 40px;
 }
 
 .transform-label {
