@@ -99,14 +99,6 @@ var ui = {
     this.appendChildren(ruleContainer, [indicator, rule, transform]);
     return ruleContainer;
   },
-  initAxiom: function(data) {
-    var axiomInput = document.getElementById('axiom');
-    axiomInput.value = data.axiom.join('');
-    axiomInput.addEventListener('input', function(event) {
-      data.axiom = event.currentTarget.value.split('');
-      data.needsParse = true;
-    });
-  },
   initRuleButtons: function(data) {
     var addRule = document.getElementById('add-rule');
     addRule.addEventListener('click', function() {

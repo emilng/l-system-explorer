@@ -4,7 +4,7 @@ var parser = require('./parser.js');
 var ui = require('./ui.js');
 var render = require('./render.js');
 var StartUI = require('./ui/start.jsx');
-
+var AxiomUI = require('./ui/axiom.jsx');
 // *** MAIN ***
 
 var data = {
@@ -43,20 +43,23 @@ var updateRender = function() {
 
 var renderStartUI = function() {
   React.render(
-    <StartUI
-      data={data}
-      update={renderStartUI}
-    />,
+    <StartUI data={data} update={renderStartUI} />,
     document.getElementById('start')
   );
 };
 
+var renderAxiomUI = function() {
+  React.render(
+    <AxiomUI data={data} update={renderAxiomUI} />,
+    document.getElementById('axiom')
+  );
+};
 
 var update = function() {
   if (data.needsDecode) {
     encoder.decodeHash(data);
     renderStartUI();
-    ui.initAxiom(data);
+    renderAxiomUI();
     data.needsDecode = false;
     data.needsRulesUIUpdate = true;
     data.needsParse = true;
