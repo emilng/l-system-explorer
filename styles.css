@@ -157,15 +157,14 @@ ul {
   border-style: solid;
 }
 
-.rule-container {
+.unselected-rule-container {
   float: left;
+  background-color: #333
 }
 
 .selected-rule-container {
   float: left;
-  border-width: 0 0 0 2px;
-  border-color: gray;
-  border-style: solid;
+  background-color: #666
 }
 
 .rule-label {

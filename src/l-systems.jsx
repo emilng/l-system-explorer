@@ -5,7 +5,7 @@ var ui = require('./ui.js');
 var render = require('./render.js');
 var StartUI = require('./ui/start.jsx');
 var AxiomUI = require('./ui/axiom.jsx');
-// *** MAIN ***
+var RuleContainerUI = require('./ui/ruleContainer.jsx');
 
 var data = {
   needsDecode: true,
@@ -13,7 +13,7 @@ var data = {
   needsParse: true,
   needsRender: true,
   selectedInstructions: -1,
-  emptyInstructions: 0,
+  emptyInstructions: 0
 };
 
 var canvas = document.getElementById('canvas');
@@ -42,11 +42,19 @@ var renderAxiomUI = function() {
   );
 };
 
+var renderRulesUI = function() {
+  React.render(
+    <RuleContainerUI data={data} update={renderRulesUI} />,
+    document.getElementById('rules')
+  );
+};
+
 var update = function() {
   if (data.needsDecode) {
     encoder.decodeHash(data);
     renderStartUI();
     renderAxiomUI();
+    renderRulesUI();
     data.needsDecode = false;
     data.needsParse = true;
   }

@@ -7,7 +7,7 @@ var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 
-var paths = ['./src/**/*.js', './src/**/*.jsx'];
+var paths = ['./src/**/*.jsx', './src/**/*.js'];
 
 var getBundleName = function () {
   // var version = require('./package.json').version;
