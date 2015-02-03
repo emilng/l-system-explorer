@@ -9,29 +9,16 @@ var AxiomUI = require('./ui/axiom.jsx');
 
 var data = {
   needsDecode: true,
-  needsRulesUIUpdate: true,
   needsInstructionsUIUpdate: true,
   needsParse: true,
   needsRender: true,
-  selectedRule: -1,
-  emptyRules: 0,
   selectedInstructions: -1,
   emptyInstructions: 0,
-  replaceKey: function(obj, oldKey, newKey) {
-    return Object.keys(obj).reduce(function(currentObj, key) {
-      if (key === oldKey) {
-        currentObj[newKey] = obj[key];
-      }
-      return currentObj;
-    }, {});
-  }
 };
 
 var canvas = document.getElementById('canvas');
-var ruleTemplate = ui.getRuleTemplate();
 var instructionTemplate = ui.getInstructionTemplate();
 ui.initExamples(data);
-ui.initRuleButtons(data);
 ui.initInstructionButtons(data);
 
 var updateRender = function() {
@@ -61,12 +48,7 @@ var update = function() {
     renderStartUI();
     renderAxiomUI();
     data.needsDecode = false;
-    data.needsRulesUIUpdate = true;
     data.needsParse = true;
-  }
-  if (data.needsRulesUIUpdate) {
-    ui.updateRulesUI(ruleTemplate, data);
-    data.needsRulesUIUpdate = false;
   }
   if (data.needsInstructionsUIUpdate) {
     ui.updateInstructionsUI(instructionTemplate, data);
