@@ -56,11 +56,11 @@ var RuleContainerUI = React.createClass({
         <button
           id="add-rule"
           onClick={this.addRule}
-        >Add Rule</button>
+        >Add</button>
         <button
           id="remove-rule"
           onClick={this.removeRule}
-        >Remove Rule</button>
+        >Remove</button>
         <div id="rules-container">{rules}</div>
       </div>
     );
