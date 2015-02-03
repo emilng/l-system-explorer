@@ -9,17 +9,12 @@ var RuleContainerUI = require('./ui/ruleContainer.jsx');
 
 var data = {
   needsDecode: true,
-  needsInstructionsUIUpdate: true,
   needsParse: true,
-  needsRender: true,
-  selectedInstructions: -1,
-  emptyInstructions: 0
+  needsRender: true
 };
 
 var canvas = document.getElementById('canvas');
-var instructionTemplate = ui.getInstructionTemplate();
 ui.initExamples(data);
-ui.initInstructionButtons(data);
 
 var updateRender = function() {
     var iterations = Math.min(data.parsedRules.length - 1, data.start.iterations);
@@ -57,10 +52,6 @@ var update = function() {
     renderRulesUI();
     data.needsDecode = false;
     data.needsParse = true;
-  }
-  if (data.needsInstructionsUIUpdate) {
-    ui.updateInstructionsUI(instructionTemplate, data);
-    data.needsInstructionsUIUpdate = false;
   }
   if (data.needsParse) {
     data.parsedRules = parser.parse(data.rules, data.axiom, data.iterations);
