@@ -13,10 +13,14 @@ var render = function (canvas, start, rules, instructions) {
   var radians = Math.PI/180;
   ctx.moveTo(x,y);
   ctx.beginPath();
+  var instructionLookup = instructions.reduce(function (lookupObj, instruction) {
+    lookupObj[instruction.rule] = instruction;
+    return lookupObj;
+  }, {});
   for (var i = 0, len = rules.length; i < len; i++) {
     var rule = rules[i];
-    if (instructions.hasOwnProperty(rule)) {
-      var instruction = instructions[rule];
+    if (instructionLookup.hasOwnProperty(rule)) {
+      var instruction = instructionLookup[rule];
       if (instruction.hasOwnProperty('angle')) {
         angle += instruction.angle;
       }
