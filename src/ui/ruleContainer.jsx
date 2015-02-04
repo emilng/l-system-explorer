@@ -3,14 +3,10 @@ var RuleUI = require('./rule.jsx');
 
 var RuleContainerUI = React.createClass({
   getInitialState: function() {
-    return ({
-      selected: -1
-    });
+    return ({selected: -1});
   },
   selectRule: function(ruleId) {
-    this.setState({
-      selected: ruleId
-    });
+    this.setState({selected: ruleId});
   },
   handleChange: function(event) {
     this.props.update();
