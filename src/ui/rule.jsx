@@ -14,7 +14,6 @@ var RuleUI = React.createClass({
     this.handleChange();
   },
   selectRule: function() {
-    console.log('selectRule', this.props);
     this.props.selectRule(this.props.id);
   },
   render: function() {

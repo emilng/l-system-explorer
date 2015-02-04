@@ -48,7 +48,7 @@ input[type=range] {
   height:20px;
   margin-left: 5px;
   margin-top: 0px;
-  background: #333;
+  background: none;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
@@ -91,12 +91,13 @@ ul {
 }
 
 #canvas {
+  position: fixed;
   float: left;
 }
 
 #side-bar {
   float: left;
-  width: 260px;
+  width: 280px;
   height: 1000vh;
   background-color: #333;
   color: #eee;
@@ -134,7 +135,7 @@ ul {
 
 .instruction-container {
   float: left;
-  width: 190px;
+  width: 280px;
   margin-top: 14px;
 }
 
@@ -150,13 +151,18 @@ ul {
   margin-right: 5px;
 }
 
+.unselected-instruction-container {
+  float: left;
+  width: 260px;
+  margin-top: 14px;
+  background-color: #333
+}
+
 .selected-instruction-container {
   float: left;
-  width: 190px;
+  width: 260px;
   margin-top: 14px;
-  border-width: 0 0 0 2px;
-  border-color: gray;
-  border-style: solid;
+  background-color: #666
 }
 
 .unselected-rule-container {

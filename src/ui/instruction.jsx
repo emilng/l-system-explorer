@@ -53,26 +53,22 @@ var InstructionUI = React.createClass({
   },
   updateDistance: function(event) {
     var instruction = this.props.data.instructions[this.props.id];
-    this.setState({
-      distance: instruction.distance
-    });
+    this.setState({distance: instruction.distance});
     this.handleChange();
   },
   updateAngle: function(event) {
     var instruction = this.props.data.instructions[this.props.id];
-    this.setState({
-      angle: instruction.angle
-    });
+    this.setState({angle: instruction.angle});
     this.handleChange();
   },
   updateBranchType: function(event) {
     var instruction = this.props.data.instructions[this.props.id];
     instruction.branch = Number(event.currentTarget.id);
-    console.log('updateBranchType', instruction.branch);
-    this.setState({
-      branch: instruction.branch
-    });
+    this.setState({branch: instruction.branch});
     this.handleChange();
+  },
+  selectInstruction: function() {
+    this.props.selectInstruction(this.props.id);
   },
   render: function() {
     var distanceSlider;
@@ -82,6 +78,7 @@ var InstructionUI = React.createClass({
     var distanceEnabled = instruction.hasOwnProperty('distance');
     var angleEnabled = instruction.hasOwnProperty('angle');
     var branchEnabled = instruction.hasOwnProperty('branch');
+    var selected = (this.props.selected) ? 'selected' : 'unselected';
     if (distanceEnabled) {
       distanceSlider = (
         <Slider
@@ -133,7 +130,10 @@ var InstructionUI = React.createClass({
       );
     }
     return (
-      <div>
+      <div
+        className={selected + '-instruction-container'}
+        onClick={this.selectInstruction}
+      >
         <div className="check-container">
           <input
             className="rule-input"
