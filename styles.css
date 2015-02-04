@@ -91,6 +91,7 @@ ul {
 }
 
 #canvas {
+  position: fixed;
   float: left;
 }
 
