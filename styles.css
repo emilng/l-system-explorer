@@ -27,6 +27,8 @@ input {
   float: left;
   width: 100px;
   margin: 2px 2px 2px 2px;
+  background-color: lightgray;
+  border-color: lightgray;
 }
 
 input[type="radio"] {
@@ -36,7 +38,7 @@ input[type="radio"] {
 
 input[type="checkbox"] {
   width: 1em;
-  margin: 0.4em 1em 0 0;
+  margin: 0.4em 0.5em 0 0;
 }
 
 
@@ -74,7 +76,7 @@ input[type=range]:focus {
 
 label {
   float: left;
-  margin: 3px 2px 0 0;
+  margin: 3px 0.2em 0 0.2em;
   text-align: right;
 }
 
@@ -138,7 +140,7 @@ ul {
 
 .check-container {
   float: left;
-  width: 14em;
+  width: 17em;
   margin: 0.2em 0 0.4em 0;
 }
 
@@ -168,14 +170,15 @@ ul {
 }
 
 .rule-input {
-  width: 2em;
+  width: 1.5em;
+  text-align: center;
 }
 
 .slider-label {
   margin-top: 2px;
   margin-left: 2px;
   text-align: right;
-  width: 40px;
+  width: 75px;
 }
 
 .transform-label {
