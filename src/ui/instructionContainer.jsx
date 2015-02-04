@@ -3,24 +3,33 @@ var InstructionUI = require('./instruction.jsx');
 
 var InstructionContainerUI = React.createClass({
   getInitialState: function() {
-    return ({
-      selected: -1
-    });
+    return ({selected: -1});
   },
   selectInstruction: function(instructionId) {
-    this.setState({
-      selected: instructionId
-    });
+    this.setState({selected: instructionId});
   },
   handleChange: function() {
     this.props.update();
     this.props.data.needsRender = true;
   },
   addInstruction: function() {
-
+    var instruction = this.props.data.instructions;
+    instruction.push({rule:''});
+    var selected = instruction.length - 1;
+    this.setState({selected:selected});
+    this.handleChange();
   },
   removeInstruction: function() {
-
+    var instruction = this.props.data.instructions;
+    var selected = this.state.selected;
+    if ((selected === -1) || (selected >= instruction.length - 1)) {
+      instruction.pop();
+      this.setState({selected:instruction.length - 1});
+    } else {
+      instruction.splice(selected, 1);
+      this.setState({selected:selected});
+    }
+    this.handleChange();
   },
   render: function() {
     var instructionsData = this.props.data.instructions;
