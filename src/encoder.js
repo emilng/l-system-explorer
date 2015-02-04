@@ -27,13 +27,12 @@ var encoder = {
       hash = 'F/F:F+F-F-F+F/F,d3.5;+,a75;-,a-80/6/x347,y358,a70,i6';
     }
     var dataStrings = hash.split('/');
-    var axiomString = dataStrings[0];
     var rulesString = dataStrings[1];
     var instructionsString = dataStrings[2];
     var iterations = dataStrings[3];
     var startString = dataStrings[4];
 
-    data.axiom = axiomString.split('');
+    data.axiom = dataStrings[0];
     data.rules = this.decodeRules(rulesString);
     data.instructions = this.decodeInstructions(instructionsString);
     data.iterations = iterations;
@@ -41,23 +40,17 @@ var encoder = {
   },
   decodeRules: function (rulesString) {
     var rulesList = rulesString.split(',');
-    return rulesList.reduce(function (rules, ruleString) {
+    return rulesList.map(function(ruleString) {
       var splitRule = ruleString.split(':');
-      var predecessor = splitRule[0];
-      var successor = splitRule[1].split('');
-      rules[predecessor] = successor;
-
-      return rules;
-    }, {});
+      return {rule: splitRule[0], transform: splitRule[1]};
+    });
   },
   decodeInstructions: function (instructionsString) {
     var instructionsList = instructionsString.split(';');
-    return instructionsList.reduce(function (instructions, instructionParamString) {
+    return instructionsList.map(function (instructionParamString) {
       var instructionParams = instructionParamString.split(',');
-      var instructionName = instructionParams.shift();
-
-      // decode instruction params
-      instructions[instructionName] = instructionParams.reduce(function (params, paramString) {
+      var instructions = {rule: instructionParams.shift()};
+      return instructionParams.reduce(function (params, paramString) {
         var keyChar = paramString[0];
         var keyLookup = {
           'd':'distance',
@@ -68,10 +61,8 @@ var encoder = {
         var value = parseFloat(paramString.substr(1));
         params[key] = value;
         return params;
-      }, {});
-
-      return instructions;
-    }, {});
+      }, instructions);
+    });
   },
   decodeStart: function (startString) {
     var startList = startString.split(',');
@@ -90,7 +81,7 @@ var encoder = {
     }, {});
   },
   encodeHash: function (data) {
-    var axiom = data.axiom.join('');
+    var axiom = data.axiom;
     var rules = this.encodeRules(data.rules);
     var instructions = this.encodeInstructions(data.instructions);
     var iterations = data.iterations;
@@ -103,30 +94,29 @@ var encoder = {
          start].join('/');
   },
   encodeRules: function (rules) {
-    var keys = Object.keys(rules);
-    var ruleList = keys.reduce(function(ruleList, rule) {
-      ruleList.push(rule + ':' + rules[rule].join(''));
-      return ruleList;
-    }, []);
-    return ruleList.join(',');
+    var ruleStrings = rules.map(function(rule) {
+      if ((rule.rule !== undefined) && (rule.rule.length > 0)) {
+        return rule.rule[0] + ':' + rule.transform;
+      }
+    });
+    return ruleStrings.join(',');
   },
   encodeInstructions: function(instructions) {
-    var instructionKeys = Object.keys(instructions);
-    var instructionList = instructionKeys.reduce(function(instructionList, instructionKey) {
-      var instructionObj = instructions[instructionKey];
-      var paramKeys = Object.keys(instructionObj);
+    var encodedInstructions = instructions.map(function(instruction) {
+      var paramKeys = Object.keys(instruction);
+      paramKeys.splice(paramKeys.indexOf('rule'), 1);
       var paramLookup = {
           'distance':'d',
           'angle':'a',
           'branch':'b'
       };
-      var paramString = paramKeys.reduce(function(paramString, paramKey) {
-        return paramString + ',' + paramLookup[paramKey] + instructionObj[paramKey];
-      }, '');
-      instructionList.push(instructionKey + paramString);
-      return instructionList;
-    }, []);
-    return instructionList.join(';');
+      var params = paramKeys.map(function(paramKey) {
+        return paramLookup[paramKey] + instruction[paramKey];
+      });
+      params.unshift(instruction.rule);
+      return params.join(',');
+    });
+    return encodedInstructions.join(';');
   },
   encodeStart: function(start) {
     var startKeys = Object.keys(start);

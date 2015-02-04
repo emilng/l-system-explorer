@@ -27,6 +27,8 @@ input {
   float: left;
   width: 100px;
   margin: 2px 2px 2px 2px;
+  background-color: lightgray;
+  border-color: lightgray;
 }
 
 input[type="radio"] {
@@ -36,12 +38,45 @@ input[type="radio"] {
 
 input[type="checkbox"] {
   width: 1em;
-  margin: 0.4em 1em 0 0;
+  margin: 0.4em 0.5em 0 0;
+}
+
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100px;
+  height:20px;
+  margin-left: 5px;
+  margin-top: 0px;
+  background: #333;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100px;
+  height: 4px;
+  top: 20px;
+  background: #EEE;
+  border: none;
+  border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 20px;
+  width: 10px;
+  background: #AAA;
+  border-radius: 2px;
+  margin-top: -8px;
+}
+
+input[type=range]:focus {
+  outline: none;
 }
 
 label {
   float: left;
-  margin: 3px 2px 0 0;
+  margin: 3px 0.2em 0 0.2em;
   text-align: right;
 }
 
@@ -74,6 +109,10 @@ ul {
   width: 250px;
 }
 
+.fl {
+  float:left;
+}
+
 .active-indicator {
   float:left;
   width: 0.4em;
@@ -101,8 +140,14 @@ ul {
 
 .check-container {
   float: left;
-  width: 14em;
+  width: 17em;
   margin: 0.2em 0 0.4em 0;
+}
+
+.number-input {
+  width: 40px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .selected-instruction-container {
@@ -114,23 +159,26 @@ ul {
   border-style: solid;
 }
 
-.rule-container {
+.unselected-rule-container {
   float: left;
+  background-color: #333
 }
 
 .selected-rule-container {
   float: left;
-  border-width: 0 0 0 2px;
-  border-color: gray;
-  border-style: solid;
-}
-
-.rule-label {
-  width: 2em;
+  background-color: #666
 }
 
 .rule-input {
-  width: 2em;
+  width: 1.5em;
+  text-align: center;
+}
+
+.slider-label {
+  margin-top: 2px;
+  margin-left: 2px;
+  text-align: right;
+  width: 75px;
 }
 
 .transform-label {

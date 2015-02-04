@@ -75,64 +75,6 @@ var ui = {
     );
     return instructionContainer;
   },
-  getRuleTemplate: function() {
-    var getLabel = function(className, labelText) {
-      var label = document.createElement('label');
-      label.setAttribute('class', className);
-      label.innerHTML = labelText;
-      return label;
-    };
-    var getLabeledInput = function(className, labelText) {
-      var fragment = document.createDocumentFragment();
-      var label = getLabel(className + '-label', labelText);
-      var input = document.createElement('input');
-      input.setAttribute('class', className + '-input');
-      fragment.appendChild(label);
-      fragment.appendChild(input);
-      return fragment;
-    };
-    var indicator = getLabel('inactive-indicator', '&bullet;');
-    var rule = getLabeledInput('rule','rule:');
-    var transform = getLabeledInput('transform','->');
-    var ruleContainer = document.createElement('div');
-    ruleContainer.setAttribute('class', 'rule-container');
-    this.appendChildren(ruleContainer, [indicator, rule, transform]);
-    return ruleContainer;
-  },
-  initAxiom: function(data) {
-    var axiomInput = document.getElementById('axiom');
-    axiomInput.value = data.axiom.join('');
-    axiomInput.addEventListener('input', function(event) {
-      data.axiom = event.currentTarget.value.split('');
-      data.needsParse = true;
-    });
-  },
-  initRuleButtons: function(data) {
-    var addRule = document.getElementById('add-rule');
-    addRule.addEventListener('click', function() {
-      data.emptyRules += 1;
-      var keys = Object.keys(data.rules);
-      data.selectedRule = (keys.length - 1) + data.emptyRules;
-      data.needsRulesUIUpdate = true;
-    });
-    var removeRule = document.getElementById('remove-rule');
-    removeRule.addEventListener('click', function() {
-      if (data.emptyRules > 0) {
-        data.emptyRules -= 1;
-      } else {
-        var keys = Object.keys(data.rules);
-        var ruleCount = Math.max(keys.length - 1, 0);
-        var newRules = {};
-        while(ruleCount--) {
-          var key = keys[ruleCount];
-          newRules[key] = data.rules[key];
-        }
-        data.rules = newRules;
-      }
-      data.selectedRule = (Object.keys(data.rules).length - 1) + data.emptyRules;
-      data.needsRulesUIUpdate = true;
-    });
-  },
   initInstructionButtons: function(data) {
     var addInstruction = document.getElementById('add-instruction');
     addInstruction.addEventListener('click', function() {
@@ -158,64 +100,6 @@ var ui = {
       var lastInstructionIndex = Object.keys(data.instructions).length - 1;
       data.selectedInstructions = lastInstructionIndex + data.emptyInstructions;
       data.needsInstructionsUIUpdate = true;
-    });
-  },
-  updateRulesUI: function(ruleTemplate, data) {
-    var container = document.getElementById('rules-container');
-    var keys = Object.keys(data.rules);
-    var ruleElementsToAdd = (keys.length + data.emptyRules) - container.children.length;
-    var ruleElement;
-    var ruleCount = container.children.length;
-    if (ruleElementsToAdd > 0) {
-      while(ruleElementsToAdd--) {
-        ruleElement = ruleTemplate.cloneNode(true);
-        container.appendChild(ruleElement);
-      }
-    } else {
-      var elementsToRemove = -ruleElementsToAdd;
-      while(elementsToRemove--) {
-        container.removeChild(container.lastElementChild);
-      }
-    }
-    if (container.children.length !== ruleCount) {
-      data.needsParse = true;
-    }
-    Array.prototype.map.call(container.children, function(ruleElement, index) {
-      var indicator = ruleElement.children[0];
-      if (index < keys.length) {
-        var key = keys[index];
-        indicator.setAttribute('class', 'active-indicator');
-
-        var ruleInput = ruleElement.querySelector('.rule-input');
-        ruleInput.value = key;
-        ruleInput.addEventListener('input', function(event) {
-          var newKey = event.currentTarget.value;
-          if (newKey.length > 0) {
-            newKey = newKey[0];
-            if (!keys.hasOwnProperty(newKey)) {
-              data.rules = data.replaceKey(data.rules, key, newKey);
-              data.needsParse = true;
-            }
-          }
-        });
-        var ruleTransform = ruleElement.querySelector('.transform-input');
-        ruleTransform.value = data.rules[key].join('');
-        ruleTransform.addEventListener('input', function(event) {
-          data.rules[key] = event.currentTarget.value.split('');
-          data.needsParse = true;
-        });
-      } else {
-        indicator.setAttribute('class', 'inactive-indicator');
-      }
-      if (index === data.selectedRule) {
-        ruleElement.setAttribute('class', 'selected-rule-container');
-      } else {
-        ruleElement.setAttribute('class', 'rule-container');
-      }
-      ruleElement.addEventListener('click', function() {
-        data.selectedRule = index;
-        data.needsRulesUIUpdate = true;
-      });
     });
   },
   updateInstructionsUI: function(instructionTemplate, data) {
@@ -302,21 +186,6 @@ var ui = {
         data.needsDecode = true;
       });
     }
-  },
-  initStart: function (data) {
-    var startContainer = document.getElementById('start');
-    Array.prototype.map.call(startContainer.children, function(input) {
-      var splitInput = input.id.split('-');
-      var inputType = splitInput[0];
-      if (inputType === 'initial') {
-        var param = splitInput[1];
-        input.value = data.start[param];
-        input.addEventListener('input', function(event) {
-          data.start[param] = parseInt(event.currentTarget.value);
-          data.needsRender = true;
-        });
-      }
-    });
   }
 };
 
