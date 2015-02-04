@@ -53,25 +53,19 @@ var InstructionUI = React.createClass({
   },
   updateDistance: function(event) {
     var instruction = this.props.data.instructions[this.props.id];
-    this.setState({
-      distance: instruction.distance
-    });
+    this.setState({distance: instruction.distance});
     this.handleChange();
   },
   updateAngle: function(event) {
     var instruction = this.props.data.instructions[this.props.id];
-    this.setState({
-      angle: instruction.angle
-    });
+    this.setState({angle: instruction.angle});
     this.handleChange();
   },
   updateBranchType: function(event) {
     var instruction = this.props.data.instructions[this.props.id];
     instruction.branch = Number(event.currentTarget.id);
     console.log('updateBranchType', instruction.branch);
-    this.setState({
-      branch: instruction.branch
-    });
+    this.setState({branch: instruction.branch});
     this.handleChange();
   },
   render: function() {
