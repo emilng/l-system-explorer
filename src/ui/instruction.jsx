@@ -110,7 +110,7 @@ var InstructionUI = React.createClass({
           value={this.state.angle}
           min="-360"
           max="360"
-          step="0.01"
+          step="0.1"
           update={this.updateAngle}
           model={instruction}
         />
