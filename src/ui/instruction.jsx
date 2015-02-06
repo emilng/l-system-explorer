@@ -3,7 +3,10 @@ var Slider = require('./Slider.jsx');
 
 var InstructionUI = React.createClass({
   getInitialState: function() {
-    var instruction = this.props.data.instructions[this.props.id];
+    return this.getInitialStateFromProps(this.props);
+  },
+  getInitialStateFromProps: function(props) {
+    var instruction = props.data.instructions[props.id];
     var distance = (instruction.hasOwnProperty('distance')) ? instruction.distance : 0;
     var angle = (instruction.hasOwnProperty('angle')) ? instruction.angle : 0;
     var branch = (instruction.hasOwnProperty('branch')) ? instruction.branch : 0;
@@ -69,6 +72,12 @@ var InstructionUI = React.createClass({
   },
   selectInstruction: function() {
     this.props.selectInstruction(this.props.id);
+  },
+  componentWillReceiveProps: function(newProps) {
+    if (newProps.data.needsDecode) {
+      var resetStates = this.getInitialStateFromProps(newProps);
+      this.replaceState(resetStates);
+    }
   },
   render: function() {
     var distanceSlider;
