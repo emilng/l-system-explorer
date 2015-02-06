@@ -64,7 +64,9 @@ var update = function() {
     var iterations = Math.min(data.parsedRules.length - 1, data.start.iterations);
     render(canvas, data.start, data.parsedRules[iterations], data.instructions);
     data.needsRender = false;
-    window.location.hash = encoder.encodeHash(data);
+    var urlHash = encoder.encodeHash(data);
+    var stateObj = { data: urlHash };
+    history.replaceState(stateObj, "L-Systems", "index.html" + urlHash);
   }
   requestAnimationFrame(update);
 };
