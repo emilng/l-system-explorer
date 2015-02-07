@@ -93,6 +93,7 @@ ul {
 #canvas {
   position: fixed;
   float: left;
+  cursor: move;
 }
 
 #side-bar {

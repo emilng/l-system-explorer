@@ -14,9 +14,6 @@ var data = {
   needsRender: true
 };
 
-var canvas = document.getElementById('canvas');
-ui.initExamples(data);
-
 var renderStartUI = function() {
   React.render(
     <StartUI data={data} update={renderStartUI} />,
@@ -45,6 +42,9 @@ var renderInstructionsUI = function() {
   );
 };
 
+var canvas = document.getElementById('canvas');
+ui.initExamples(data);
+
 var update = function() {
   if (data.needsDecode) {
     encoder.decodeHash(data);
@@ -52,6 +52,7 @@ var update = function() {
     renderAxiomUI();
     renderRulesUI();
     renderInstructionsUI();
+    ui.initCanvas(canvas, data, renderStartUI);
     data.needsDecode = false;
     data.needsParse = true;
   }
