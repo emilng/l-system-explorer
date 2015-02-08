@@ -6,8 +6,8 @@ var ui = {
     var start = data.start;
     canvas.addEventListener("mousedown", function(event) {
       mousedown = true;
-      startx = event.x;
-      starty = event.y;
+      startx = event.clientX;
+      starty = event.clientY;
       datax = start.x;
       datay = start.y;
     });
@@ -16,8 +16,8 @@ var ui = {
     });
     canvas.addEventListener("mousemove", function(event) {
       if (mousedown) {
-        start.x = datax - (startx - event.x);
-        start.y = datay - (starty - event.y);
+        start.x = datax - (startx - event.clientX);
+        start.y = datay - (starty - event.clientY);
         callback();
         data.needsRender = true;
       }
