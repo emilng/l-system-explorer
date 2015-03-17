@@ -25,7 +25,7 @@ input {
   background-color: #333;
   color: #CCC;
   border-radius: 2px;
-  border-color: #AAA;
+  border-color: #999;
 }
 
 input:not([type]), input[type="number"], input[type="text"] {
@@ -60,18 +60,18 @@ input[type=range] {
 
 input[type=range]::-webkit-slider-runnable-track {
   width: 90px;
-  height: 4px;
+  height: 3px;
   top: 20px;
-  background: #999;
+  background: #555;
   border: none;
   border-radius: 1px;
 }
 
 input[type=range]::-moz-range-track {
   width: 90px;
-  height: 4px;
+  height: 3px;
   top: 20px;
-  background: #999;
+  background: #555;
   border: none;
   border-radius: 1px;
 }
