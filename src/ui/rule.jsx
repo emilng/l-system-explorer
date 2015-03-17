@@ -18,17 +18,12 @@ var RuleUI = React.createClass({
   },
   render: function() {
     var rule = this.props.rule;
-    var isActive = (rule.rule !== undefined) && (rule.rule.length > 0);
-    var active = (isActive) ? 'active' : 'inactive';
     var selected = (this.props.selected) ? 'selected' : 'unselected';
     return (
       <div
         className={selected + '-rule-container'}
         onClick={this.selectRule}
       >
-        <label
-          className={active + '-indicator'}
-        >&bull;</label>
         <input
           className="rule-input"
           value={this.props.rule.rule}
