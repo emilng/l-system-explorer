@@ -190,7 +190,7 @@ var InstructionUI = React.createClass({
             </div>
           </div>
           <button
-            className="remove-instruction"
+            className="round-button remove-button"
             onClick={this.removeInstruction}
           > X </button>
         </div>

@@ -28,7 +28,7 @@ var InstructionContainerUI = React.createClass({
         <div className="flex-row centered-items">
           <h4>Instructions</h4>
           <button
-            className="add-button"
+            className="round-button add-button"
             onClick={this.addInstruction}
           >+</button>
         </div>

@@ -45,7 +45,6 @@ input[type="checkbox"] {
   display: none;
 }
 
-
 input[type=range] {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -139,18 +138,6 @@ ul {
   width: 250px;
 }
 
-.active-indicator {
-  width: 0.4em;
-  color: #0F0;
-  font-size: 24px;
-}
-
-.inactive-indicator {
-  width: 0.4em;
-  color: #A00;
-  font-size: 24px;
-}
-
 .instruction-container {
   width: 280px;
   margin-top: 14px;
@@ -201,12 +188,9 @@ ul {
   margin: -12px -11px 0 -14px;
 }
 
-.unselected-rule-container {
-  background-color: #333
-}
-
-.selected-rule-container {
-  background-color: #666
+.rule-container {
+  background-color: #333;
+  margin: 4px 0 0 0;
 }
 
 .rule-input {
@@ -220,33 +204,30 @@ ul {
   align-items: baseline;
 }
 
-.add-button {
+.round-button {
   border-radius: 10px;
-  border-color: #999;
-  border-width: 1px;
   border-style: solid;
+  border-width: 1px;
   background-color: #333;
-  color: #CCC;
   font-weight: bold;
-  margin: 6px 0 0 5px;
-  padding: 0 0 3px 1px;
   width: 20px;
   height: 20px;
   cursor: pointer;
 }
 
-.remove-instruction {
-  background-color: #333;
-  border-radius: 10px;
-  border-style: solid;
+.add-button {
+  border-color: #999;
+  color: #CCC;
+  font-size: 12px;
+  margin: 6px 0 0 5px;
+  padding: 0 0 3px 1px;
+}
+
+.remove-button {
   border-color: #777;
-  border-width: 1px;
-  width: 21px;
-  height: 20px;
   color: #999;
-  position: relative;
+  font-size: 9px;
   margin: 0 0 0 6px;
-  cursor: pointer;
 }
 
 .slider-label {
@@ -258,6 +239,10 @@ ul {
 
 .transform-label {
   width: 1em;
+}
+
+.transform-input {
+  width: 150px;
 }
 
 .check-label {

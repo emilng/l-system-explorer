@@ -2,12 +2,6 @@ var React = require('react');
 var RuleUI = require('./rule.jsx');
 
 var RuleContainerUI = React.createClass({
-  getInitialState: function() {
-    return ({selected: -1});
-  },
-  selectRule: function(ruleId) {
-    this.setState({selected: ruleId});
-  },
   handleChange: function(event) {
     this.props.update();
     this.props.data.needsParse = true;
@@ -15,20 +9,6 @@ var RuleContainerUI = React.createClass({
   addRule: function() {
     var rulesData = this.props.data.rules;
     rulesData.push({rule:'', transform:''});
-    var selected = rulesData.length - 1;
-    this.setState({selected:selected});
-    this.handleChange();
-  },
-  removeRule: function() {
-    var rulesData = this.props.data.rules;
-    var selected = this.state.selected;
-    if ((selected === -1) || (selected >= rulesData.length - 1)) {
-      rulesData.pop();
-      this.setState({selected:rulesData.length - 1});
-    } else {
-      rulesData.splice(selected, 1);
-      this.setState({selected:selected});
-    }
     this.handleChange();
   },
   render: function() {
@@ -41,22 +21,18 @@ var RuleContainerUI = React.createClass({
           rule={rule}
           update={this.props.update}
           data={this.props.data}
-          selected={this.state.selected === id}
-          selectRule={this.selectRule}
         />
       );
     }, this);
     return (
       <div>
-        <h4>Rules</h4>
-        <button
-          id="add-rule"
-          onClick={this.addRule}
-        >Add</button>
-        <button
-          id="remove-rule"
-          onClick={this.removeRule}
-        >Remove</button>
+        <div className="flex-row">
+          <h4>Rules</h4>
+          <button
+            className="round-button add-button"
+            onClick={this.addRule}
+          >+</button>
+        </div>
         <div id="rules-container">{rules}</div>
       </div>
     );

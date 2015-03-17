@@ -5,6 +5,10 @@ var RuleUI = React.createClass({
     this.props.update();
     this.props.data.needsParse = true;
   },
+  removeRule: function(event) {
+    this.props.data.rules.splice(this.props.id, 1);
+    this.handleChange();
+  },
   handleChangeRule: function(event) {
     this.props.rule.rule = event.currentTarget.value[0];
     this.handleChange();
@@ -13,17 +17,9 @@ var RuleUI = React.createClass({
     this.props.rule.transform = event.currentTarget.value;
     this.handleChange();
   },
-  selectRule: function() {
-    this.props.selectRule(this.props.id);
-  },
   render: function() {
-    var rule = this.props.rule;
-    var selected = (this.props.selected) ? 'selected' : 'unselected';
     return (
-      <div
-        className={selected + '-rule-container'}
-        onClick={this.selectRule}
-      >
+      <div className="rule-container">
         <input
           className="rule-input"
           value={this.props.rule.rule}
@@ -37,6 +33,10 @@ var RuleUI = React.createClass({
           value={this.props.rule.transform}
           onChange={this.handleChangeTransform}
         />
+        <button
+          className="round-button remove-button"
+          onClick={this.removeRule}
+        > X </button>
       </div>
     );
   }
