@@ -31,11 +31,16 @@ var Slider = React.createClass({
     }
   },
   render: function() {
+    var label;
+    if (this.props.showLabel) {
+      label = (
+        <label className="slider-label">{this.props.name}</label>
+      );
+    }
     return (
-      <div className="cl">
-        <label className="fl slider-label">{this.props.name}</label>
+      <div className="slider-container">
+        {label}
         <input
-          className="fl"
           type="range"
           name={this.props.name}
           value={this.props.value}
@@ -46,7 +51,7 @@ var Slider = React.createClass({
           onKeyDown={this.keyDown}
         />
         <input
-          className="fl number-input"
+          className="number-input"
           type="text"
           value={this.props.value}
           onChange={this.handleChange}

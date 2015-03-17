@@ -20,6 +20,10 @@ var InstructionUI = React.createClass({
     this.props.update();
     this.props.data.needsRender = true;
   },
+  removeInstruction: function() {
+    this.props.data.instructions.splice(this.props.id, 1);
+    this.handleChange();
+  },
   removeProperty: function(propName) {
     var instruction = this.props.data.instructions[this.props.id];
     var keys = Object.keys(instruction);
@@ -70,9 +74,6 @@ var InstructionUI = React.createClass({
     this.setState({branch: instruction.branch});
     this.handleChange();
   },
-  selectInstruction: function() {
-    this.props.selectInstruction(this.props.id);
-  },
   componentWillReceiveProps: function(newProps) {
     if (newProps.data.needsDecode) {
       var resetStates = this.getInitialStateFromProps(newProps);
@@ -87,7 +88,6 @@ var InstructionUI = React.createClass({
     var distanceEnabled = instruction.hasOwnProperty('distance');
     var angleEnabled = instruction.hasOwnProperty('angle');
     var branchEnabled = instruction.hasOwnProperty('branch');
-    var selected = (this.props.selected) ? 'selected' : 'unselected';
     if (distanceEnabled) {
       distanceSlider = (
         <Slider
@@ -99,6 +99,7 @@ var InstructionUI = React.createClass({
           step="0.1"
           update={this.updateDistance}
           model={instruction}
+          showLabel={false}
         />
       );
     }
@@ -113,6 +114,7 @@ var InstructionUI = React.createClass({
           step="0.1"
           update={this.updateAngle}
           model={instruction}
+          showLabel={false}
         />
       );
     }
@@ -139,44 +141,59 @@ var InstructionUI = React.createClass({
       );
     }
     return (
-      <div
-        className={selected + '-instruction-container'}
-        onClick={this.selectInstruction}
-      >
-        <div className="check-container">
-          <input
-            className="rule-input"
-            value={instruction.rule}
-            onChange={this.updateRule}
-          />
-          <label className="check-label">distance</label>
-          <input
-            ref="distanceCheck"
-            type="checkbox"
-            value="distance"
-            checked={distanceEnabled}
-            onChange={this.toggleDistance}
-          />
-          <label className="check-label">angle</label>
-          <input
-            ref="angleCheck"
-            type="checkbox"
-            value="angle"
-            checked={angleEnabled}
-            onChange={this.toggleAngle}
-          />
-          <label className="check-label">branch</label>
-          <input
-            ref="branchCheck"
-            type="checkbox"
-            value="branch"
-            checked={branchEnabled}
-            onChange={this.toggleBranch}
-          />
+      <div className='instruction-container'>
+        <div className='instruction-box'>
+          <div className="check-container">
+            <input
+              className="rule-input"
+              value={instruction.rule}
+              onChange={this.updateRule}
+            />
+            <div className="instruction-parameter-container">
+              <input
+                id={"distance-check-" + this.props.id}
+                className="distance-checkbox"
+                ref="distanceCheck"
+                type="checkbox"
+                value="distance"
+                checked={distanceEnabled}
+                onChange={this.toggleDistance}
+              />
+              <label className="check-label distance-check-label" htmlFor={"distance-check-" + this.props.id}>distance</label>
+              {distanceSlider}
+            </div>
+            <div className="instruction-parameter-container">
+              <input
+                id={"angle-check-" + this.props.id}
+                className="angle-checkbox"
+                ref="angleCheck"
+                type="checkbox"
+                value="angle"
+                checked={angleEnabled}
+                onChange={this.toggleAngle}
+              />
+              <label className="check-label angle-check-label" htmlFor={"angle-check-" + this.props.id}>angle</label>
+              {angleSlider}
+            </div>
+            <div className="instruction-parameter-container">
+              <input
+                id={"branch-check-" + this.props.id}
+                className="branch-checkbox"
+                ref="branchCheck"
+                type="checkbox"
+                value="branch"
+                checked={branchEnabled}
+                onChange={this.toggleBranch}
+              />
+              <label className="check-label branch-check-label" htmlFor={"branch-check-" + this.props.id}>branch</label>
+              {branch}
+            </div>
+          </div>
+          <button
+            className="remove-instruction"
+            onClick={this.removeInstruction}
+          > X </button>
         </div>
-        {distanceSlider}
-        {angleSlider}
-        {branch}
       </div>
     );
   }

@@ -29,6 +29,7 @@ var StartUI = React.createClass({
           step={item[4]}
           update={handleChange}
           model={startData}
+          showLabel={true}
         />
       );
     });
