@@ -38,7 +38,7 @@ var Slider = React.createClass({
       );
     }
     return (
-      <div className="slider-container">
+      <div className="flex-row">
         {label}
         <input
           type="range"

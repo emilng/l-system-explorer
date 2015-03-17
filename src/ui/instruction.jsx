@@ -141,15 +141,15 @@ var InstructionUI = React.createClass({
       );
     }
     return (
-      <div className='instruction-container'>
-        <div className='instruction-box'>
-          <div className="check-container">
+      <div className='flex-column instruction-container'>
+        <div className='flex-row instruction-box'>
+          <div className="flex-column check-container">
             <input
               className="rule-input"
               value={instruction.rule}
               onChange={this.updateRule}
             />
-            <div className="instruction-parameter-container">
+            <div className="flex-row instruction-parameter-container">
               <input
                 id={"distance-check-" + this.props.id}
                 className="distance-checkbox"
@@ -162,7 +162,7 @@ var InstructionUI = React.createClass({
               <label className="check-label distance-check-label" htmlFor={"distance-check-" + this.props.id}>distance</label>
               {distanceSlider}
             </div>
-            <div className="instruction-parameter-container">
+            <div className="flex-row instruction-parameter-container">
               <input
                 id={"angle-check-" + this.props.id}
                 className="angle-checkbox"
@@ -175,7 +175,7 @@ var InstructionUI = React.createClass({
               <label className="check-label angle-check-label" htmlFor={"angle-check-" + this.props.id}>angle</label>
               {angleSlider}
             </div>
-            <div className="instruction-parameter-container">
+            <div className="flex-row instruction-parameter-container">
               <input
                 id={"branch-check-" + this.props.id}
                 className="branch-checkbox"
