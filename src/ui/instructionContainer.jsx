@@ -25,11 +25,13 @@ var InstructionContainerUI = React.createClass({
     }, this);
     return (
       <div>
-        <h4>Instructions</h4>
-        <button
-          id="add-instruction"
-          onClick={this.addInstruction}
-        >Add</button>
+        <div className="flex-row centered-items">
+          <h4>Instructions</h4>
+          <button
+            className="add-button"
+            onClick={this.addInstruction}
+          >+</button>
+        </div>
         <div id="instructions-container">{instructions}</div>
       </div>
     );
