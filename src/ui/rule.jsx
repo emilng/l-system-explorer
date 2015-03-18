@@ -18,21 +18,23 @@ var RuleUI = React.createClass({
     this.handleChange();
   },
   render: function() {
+        // <div className="justified-container">
+        // </div>
     return (
       <div className="rule-container">
-        <input
-          className="rule-input"
-          value={this.props.rule.rule}
-          onChange={this.handleChangeRule}
-        />
-        <label
-          className="transform-label"
-        >-&gt;</label>
-        <input
-          className="transform-input"
-          value={this.props.rule.transform}
-          onChange={this.handleChangeTransform}
-        />
+          <input
+            className="rule-input"
+            value={this.props.rule.rule}
+            onChange={this.handleChangeRule}
+          />
+          <label
+            className="transform-label"
+          >-&gt;</label>
+          <input
+            className="transform-input"
+            value={this.props.rule.transform}
+            onChange={this.handleChangeTransform}
+          />
         <button
           className="round-button remove-button"
           onClick={this.removeRule}

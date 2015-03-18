@@ -10,10 +10,13 @@ var AxiomUI = React.createClass({
     return (
       <div>
         <h4>Axiom</h4>
-        <input
-          value={this.props.data.axiom}
-          onChange={this.handleChange}
-        />
+        <div className="flex-row justified-container">
+          <input
+            className="grow-item"
+            value={this.props.data.axiom}
+            onChange={this.handleChange}
+          />
+        </div>
       </div>
     );
   }

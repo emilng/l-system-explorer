@@ -21,6 +21,7 @@ var StartUI = React.createClass({
     var sliders = sliderData.map(function(item, id) {
       return (
         <Slider
+          className="grow-item"
           key={id}
           name={item[0]}
           value={item[1]}
@@ -34,17 +35,19 @@ var StartUI = React.createClass({
       );
     });
     return (
-      <div>
+      <div className="flex-column justified-container">
         <h4>Initial State</h4>
         {sliders}
-        <label>iterations</label>
-        <input
-          id="initial-iterations"
-          type="number"
-          min="1"
-          value={startData.iterations}
-          onChange={this.handleIterationsChange}
-        />
+        <div className="flex-row">
+          <label>iterations</label>
+          <input
+            className="number-input grow-item"
+            type="number"
+            min="1"
+            value={startData.iterations}
+            onChange={this.handleIterationsChange}
+          />
+        </div>
       </div>
     );
   }

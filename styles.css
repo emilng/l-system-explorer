@@ -53,8 +53,8 @@ input[type=range] {
   margin-left: 5px;
   margin-top: 0;
   background: none;
-  -webkit-flex: 0 1 auto;
-  flex: 0 1 auto;
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
@@ -163,6 +163,17 @@ ul {
   flex-direction: column;
 }
 
+.justified-container {
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 200px;
+}
+
+.grow-item {
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
 .instruction-parameter-container {
   width: 230px;
   margin: 0;
@@ -234,7 +245,7 @@ ul {
   margin-top: 2px;
   margin-left: 2px;
   text-align: right;
-  width: 75px;
+  width: 35px;
 }
 
 .transform-label {
