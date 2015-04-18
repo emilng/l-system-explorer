@@ -13,5 +13,6 @@
   "browserify": true,
   "boss": true,
   "loopfunc": true,
-  "devel": true
+  "devel": true,
+  "esnext": true
 }
