@@ -24,7 +24,7 @@ var encoder = {
     var hash = window.location.hash.substr(1);
     //hardcoded default for now if nothing is set
     if (hash === '') {
-      hash = 'F/F:F+F-F-F+F/F,d3.5;+,a75;-,a-80/6/x347,y358,a70,i6';
+      hash = 'F/F:F+F-F-F+F/F,d3.5;+,a75;-,a-80/6/x347,y358,a70,i6,z100';
     }
     var dataStrings = hash.split('/');
     var rulesString = dataStrings[1];
@@ -72,6 +72,7 @@ var encoder = {
         'x':'x',
         'y':'y',
         'a':'angle',
+        'z':'zoom',
         'i':'iterations'
       };
       var key = keyLookup[keyChar];
@@ -124,6 +125,7 @@ var encoder = {
       'angle':'a',
       'x':'x',
       'y':'y',
+      'zoom':'z',
       'iterations':'i'
     };
     var startList = startKeys.reduce(function(startList, paramKey) {

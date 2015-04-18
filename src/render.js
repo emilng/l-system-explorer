@@ -10,6 +10,7 @@ var render = function (canvas, start, rules, instructions) {
   var angle = start.angle;
   var stack = [];
   var forward = 5;
+  var zoom = start.zoom/100;
   var radians = Math.PI/180;
   ctx.moveTo(x,y);
   ctx.beginPath();
@@ -25,7 +26,7 @@ var render = function (canvas, start, rules, instructions) {
         angle += instruction.angle;
       }
       if (instruction.hasOwnProperty('distance')) {
-        forward = instruction.distance;
+        forward = instruction.distance * zoom;
         x += Math.cos(angle * radians) * forward;
         y += Math.sin(angle * radians) * forward;
         ctx.lineTo(x, y);

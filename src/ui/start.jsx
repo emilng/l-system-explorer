@@ -16,7 +16,8 @@ var StartUI = React.createClass({
     var sliderData = [
       ['x', startData.x, 0, 1000, 1],
       ['y', startData.y, 0, 700, 1],
-      ['angle', startData.angle, -360, 360, 1]
+      ['angle', startData.angle, -360, 360, 1],
+      ['zoom', startData.zoom, -1000, 1000, 1]
     ];
     var sliders = sliderData.map(function(item, id) {
       return (
