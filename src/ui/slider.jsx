@@ -11,7 +11,7 @@ var Slider = React.createClass({
       smallStep = (step * 10) * 0.01;
     }
     return ({
-      step:step,
+      step: step,
       regularStep: step,
       bigStep: bigStep,
       smallStep: smallStep

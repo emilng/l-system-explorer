@@ -8,7 +8,7 @@ var InstructionContainerUI = React.createClass({
   },
   addInstruction: function() {
     var instruction = this.props.data.instructions;
-    instruction.push({rule:''});
+    instruction.push({rule: ''});
     this.handleChange();
   },
   render: function() {

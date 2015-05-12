@@ -10,9 +10,9 @@ var render = function (canvas, start, rules, instructions) {
   var angle = start.angle;
   var stack = [];
   var forward = 5;
-  var zoom = start.zoom/100;
-  var radians = Math.PI/180;
-  ctx.moveTo(x,y);
+  var zoom = start.zoom / 100;
+  var radians = Math.PI / 180;
+  ctx.moveTo(x, y);
   ctx.beginPath();
   var instructionLookup = instructions.reduce(function (lookupObj, instruction) {
     lookupObj[instruction.rule] = instruction;

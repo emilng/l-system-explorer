@@ -1,20 +1,20 @@
 var parser = {
-  parse: function (rules, axiom, max_iter) {
+  parse: function (rules, axiom, maxIter) {
     var generatedOutput = [axiom];
     var input = axiom;
-    var rule_lookup = rules.reduce(function(lookup, rule) {
+    var ruleLookup = rules.reduce(function(lookup, rule) {
       lookup[rule.rule] = rule.transform;
       return lookup;
     }, {});
     var result = '';
     var char = '';
-    for (var i = 0; i < max_iter; i++) {
+    for (var i = 0; i < maxIter; i++) {
       var len = input.length;
       var j = 0;
       var generated = '';
       while (j < len) {
         char = input[j];
-        result = (rule_lookup[char] !== undefined) ? rule_lookup[char] : char;
+        result = (ruleLookup[char] !== undefined) ? ruleLookup[char] : char;
         generated += result;
         j++;
       }

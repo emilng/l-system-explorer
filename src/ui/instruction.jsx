@@ -58,12 +58,12 @@ var InstructionUI = React.createClass({
     instruction.rule = event.currentTarget.value;
     this.handleChange();
   },
-  updateDistance: function(event) {
+  updateDistance: function() {
     var instruction = this.props.data.instructions[this.props.id];
     this.setState({distance: instruction.distance});
     this.handleChange();
   },
-  updateAngle: function(event) {
+  updateAngle: function() {
     var instruction = this.props.data.instructions[this.props.id];
     this.setState({angle: instruction.angle});
     this.handleChange();
@@ -141,8 +141,8 @@ var InstructionUI = React.createClass({
       );
     }
     return (
-      <div className='flex-column instruction-container'>
-        <div className='flex-row instruction-box'>
+      <div className="flex-column instruction-container">
+        <div className="flex-row instruction-box">
           <div className="flex-column check-container">
             <input
               className="rule-input"
@@ -151,7 +151,7 @@ var InstructionUI = React.createClass({
             />
             <div className="flex-row instruction-parameter-container">
               <input
-                id={"distance-check-" + this.props.id}
+                id={'distance-check-' + this.props.id}
                 className="distance-checkbox"
                 ref="distanceCheck"
                 type="checkbox"
@@ -159,12 +159,12 @@ var InstructionUI = React.createClass({
                 checked={distanceEnabled}
                 onChange={this.toggleDistance}
               />
-              <label className="check-label distance-check-label" htmlFor={"distance-check-" + this.props.id}>distance</label>
+              <label className="check-label distance-check-label" htmlFor={'distance-check-' + this.props.id}>distance</label>
               {distanceSlider}
             </div>
             <div className="flex-row instruction-parameter-container">
               <input
-                id={"angle-check-" + this.props.id}
+                id={'angle-check-' + this.props.id}
                 className="angle-checkbox"
                 ref="angleCheck"
                 type="checkbox"
@@ -172,12 +172,12 @@ var InstructionUI = React.createClass({
                 checked={angleEnabled}
                 onChange={this.toggleAngle}
               />
-              <label className="check-label angle-check-label" htmlFor={"angle-check-" + this.props.id}>angle</label>
+              <label className="check-label angle-check-label" htmlFor={'angle-check-' + this.props.id}>angle</label>
               {angleSlider}
             </div>
             <div className="flex-row instruction-parameter-container">
               <input
-                id={"branch-check-" + this.props.id}
+                id={'branch-check-' + this.props.id}
                 className="branch-checkbox"
                 ref="branchCheck"
                 type="checkbox"
@@ -185,7 +185,7 @@ var InstructionUI = React.createClass({
                 checked={branchEnabled}
                 onChange={this.toggleBranch}
               />
-              <label className="check-label branch-check-label" htmlFor={"branch-check-" + this.props.id}>branch</label>
+              <label className="check-label branch-check-label" htmlFor={'branch-check-' + this.props.id}>branch</label>
               {branch}
             </div>
           </div>

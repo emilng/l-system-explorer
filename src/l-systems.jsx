@@ -67,7 +67,7 @@ var update = function() {
     data.needsRender = false;
     var urlHash = encoder.encodeHash(data);
     var stateObj = { data: urlHash };
-    history.replaceState(stateObj, "L-Systems", "index.html" + urlHash);
+    history.replaceState(stateObj, 'L-Systems', 'index.html' + urlHash);
   }
   requestAnimationFrame(update);
 };

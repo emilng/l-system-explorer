@@ -1,11 +1,11 @@
 var React = require('react');
 
 var RuleUI = React.createClass({
-  handleChange: function(event) {
+  handleChange: function() {
     this.props.update();
     this.props.data.needsParse = true;
   },
-  removeRule: function(event) {
+  removeRule: function() {
     this.props.data.rules.splice(this.props.id, 1);
     this.handleChange();
   },

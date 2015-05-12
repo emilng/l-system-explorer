@@ -53,9 +53,9 @@ var encoder = {
       return instructionParams.reduce(function (params, paramString) {
         var keyChar = paramString[0];
         var keyLookup = {
-          'd':'distance',
-          'a':'angle',
-          'b':'branch'
+          'd': 'distance',
+          'a': 'angle',
+          'b': 'branch'
         };
         var key = keyLookup[keyChar];
         var value = parseFloat(paramString.substr(1));
@@ -69,11 +69,11 @@ var encoder = {
     return startList.reduce(function (params, paramString) {
       var keyChar = paramString[0];
       var keyLookup = {
-        'x':'x',
-        'y':'y',
-        'a':'angle',
-        'z':'zoom',
-        'i':'iterations'
+        'x': 'x',
+        'y': 'y',
+        'a': 'angle',
+        'z': 'zoom',
+        'i': 'iterations'
       };
       var key = keyLookup[keyChar];
       var value = parseFloat(paramString.substr(1));
@@ -107,9 +107,9 @@ var encoder = {
       var paramKeys = Object.keys(instruction);
       paramKeys.splice(paramKeys.indexOf('rule'), 1);
       var paramLookup = {
-          'distance':'d',
-          'angle':'a',
-          'branch':'b'
+          'distance': 'd',
+          'angle': 'a',
+          'branch': 'b'
       };
       var params = paramKeys.map(function(paramKey) {
         return paramLookup[paramKey] + instruction[paramKey];
@@ -122,11 +122,11 @@ var encoder = {
   encodeStart: function(start) {
     var startKeys = Object.keys(start);
     var keyLookup = {
-      'angle':'a',
-      'x':'x',
-      'y':'y',
-      'zoom':'z',
-      'iterations':'i'
+      'angle': 'a',
+      'x': 'x',
+      'y': 'y',
+      'zoom': 'z',
+      'iterations': 'i'
     };
     var startList = startKeys.reduce(function(startList, paramKey) {
       var startString = keyLookup[paramKey] + start[paramKey];

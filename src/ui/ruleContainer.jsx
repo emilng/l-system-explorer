@@ -2,13 +2,13 @@ var React = require('react');
 var RuleUI = require('./rule.jsx');
 
 var RuleContainerUI = React.createClass({
-  handleChange: function(event) {
+  handleChange: function() {
     this.props.update();
     this.props.data.needsParse = true;
   },
   addRule: function() {
     var rulesData = this.props.data.rules;
-    rulesData.push({rule:'', transform:''});
+    rulesData.push({rule: '', transform: ''});
     this.handleChange();
   },
   render: function() {
