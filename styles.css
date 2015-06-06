@@ -25,7 +25,7 @@ input {
   background-color: #333;
   color: #CCC;
   border-radius: 2px;
-  border-color: #999;
+  border-color: #555;
 }
 
 input:not([type]), input[type="number"], input[type="text"] {
@@ -191,7 +191,7 @@ ul {
   margin: 24px 0 0 14px;
   border-style: solid;
   border-width: 1px 0 0 1px;
-  border-color: #555;
+  border-color: #444;
   border-radius: 5px;
 }
 
