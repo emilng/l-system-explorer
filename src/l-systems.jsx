@@ -1,4 +1,5 @@
 var React = require('react');
+var data = require('./data/data.js');
 var encoder = require('./encoder.js');
 var parser = require('./parser.js');
 var ui = require('./ui.js');
@@ -8,11 +9,6 @@ var AxiomUI = require('./ui/axiom.jsx');
 var RuleContainerUI = require('./ui/ruleContainer.jsx');
 var InstructionContainerUI = require('./ui/instructionContainer.jsx');
 
-var data = {
-  needsDecode: true,
-  needsParse: true,
-  needsRender: true
-};
 
 var renderStartUI = function() {
   React.render(
