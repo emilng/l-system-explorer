@@ -1,6 +1,6 @@
 var React = require('react');
 var data = require('./data/data.js');
-var encoder = require('./encoder.js');
+var hash = require('./data/encodeHash.js');
 var parser = require('./parser.js');
 var ui = require('./ui.js');
 var render = require('./render.js');
@@ -8,7 +8,6 @@ var StartUI = require('./ui/start.jsx');
 var AxiomUI = require('./ui/axiom.jsx');
 var RuleContainerUI = require('./ui/ruleContainer.jsx');
 var InstructionContainerUI = require('./ui/instructionContainer.jsx');
-
 
 var renderStartUI = function() {
   React.render(
@@ -43,7 +42,7 @@ ui.initExamples(data);
 
 var update = function() {
   if (data.needsDecode) {
-    encoder.decodeHash(data);
+    hash.decode(data);
     renderStartUI();
     renderAxiomUI();
     renderRulesUI();
@@ -61,7 +60,7 @@ var update = function() {
     var iterations = Math.min(data.parsedRules.length - 1, data.start.iterations);
     render(canvas, data.start, data.parsedRules[iterations], data.instructions);
     data.needsRender = false;
-    var urlHash = encoder.encodeHash(data);
+    var urlHash = hash.encode(data);
     var stateObj = { data: urlHash };
     history.replaceState(stateObj, 'L-Systems', 'index.html' + urlHash);
   }
