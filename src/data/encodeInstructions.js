@@ -3,7 +3,7 @@ var instructions = {
     var instructionsList = instructionsString.split(';');
     return instructionsList.map(function (instructionParamString) {
       var instructionParams = instructionParamString.split(',');
-      var instructions = {rule: instructionParams.shift()};
+      var instructions = {rule: window.unescape(instructionParams.shift())};
       return instructionParams.reduce(function (params, paramString) {
         var keyChar = paramString[0];
         var keyLookup = {
@@ -30,7 +30,7 @@ var instructions = {
       var params = paramKeys.map(function(paramKey) {
         return paramLookup[paramKey] + instruction[paramKey];
       });
-      params.unshift(instruction.rule);
+      params.unshift(window.escape(instruction.rule));
       return params.join(',');
     });
     return encodedInstructions.join(';');

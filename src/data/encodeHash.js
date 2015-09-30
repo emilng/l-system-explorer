@@ -43,7 +43,7 @@ var hash = {
     var axiom = data.axiom;
     var iterations = data.iterations;
     return '#' +
-        [axiom,
+        [window.escape(axiom),
          rules.encode(data.rules),
          instructions.encode(data.instructions),
          iterations,
