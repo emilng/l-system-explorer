@@ -5,7 +5,7 @@
   "author": {
     "name": "Emil Ng"
   },
-  "license": "",
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "browserify": "^8.1.1",
