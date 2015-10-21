@@ -24,7 +24,7 @@ var setUpdateStep = function(stepNum) {
 
 var renderStartUI = function() {
   React.render(
-    <StartUI data={data} update={renderStartUI} />,
+    <StartUI data={data.start} update={renderStartUI} />,
     document.getElementById('start')
   );
   setUpdateStep(UpdateEnum.RENDER);
@@ -40,7 +40,7 @@ var renderAxiomUI = function() {
 
 var renderRulesUI = function() {
   React.render(
-    <RuleContainerUI data={data} update={renderRulesUI} />,
+    <RuleContainerUI data={data.rules} update={renderRulesUI} />,
     document.getElementById('rules')
   );
   setUpdateStep(UpdateEnum.PARSE);

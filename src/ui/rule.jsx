@@ -2,7 +2,7 @@ var React = require('react');
 
 var RuleUI = React.createClass({
   removeRule: function() {
-    this.props.data.rules.splice(this.props.id, 1);
+    this.props.data.splice(this.props.id, 1);
     this.props.update();
   },
   handleChangeRule: function(event) {

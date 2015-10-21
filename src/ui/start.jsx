@@ -6,11 +6,11 @@ var StartUI = React.createClass({
     this.props.update();
   },
   handleIterationsChange: function(event) {
-    this.props.data.start.iterations = Number(event.target.value);
+    this.props.data.iterations = Number(event.target.value);
     this.handleChange();
   },
   render: function() {
-    var startData = this.props.data.start;
+    var startData = this.props.data;
     var sliderData = [
       ['x', startData.x, 0, 1000, 1],
       ['y', startData.y, 0, 700, 1],

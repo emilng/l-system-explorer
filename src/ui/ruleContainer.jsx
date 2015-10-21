@@ -3,12 +3,12 @@ var RuleUI = require('./rule.jsx');
 
 var RuleContainerUI = React.createClass({
   addRule: function() {
-    var rulesData = this.props.data.rules;
+    var rulesData = this.props.data;
     rulesData.push({rule: '', transform: ''});
     this.props.update();
   },
   render: function() {
-    var rulesData = this.props.data.rules;
+    var rulesData = this.props.data;
     var rules = rulesData.map(function(rule, id) {
       return (
         <RuleUI
@@ -16,7 +16,7 @@ var RuleContainerUI = React.createClass({
           id={id}
           rule={rule}
           update={this.props.update}
-          data={this.props.data}
+          data={rulesData}
         />
       );
     }, this);
