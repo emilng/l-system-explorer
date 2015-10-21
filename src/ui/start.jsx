@@ -4,7 +4,6 @@ var Slider = require('./Slider.jsx');
 var StartUI = React.createClass({
   handleChange: function() {
     this.props.update();
-    this.props.data.needsRender = true;
   },
   handleIterationsChange: function(event) {
     this.props.data.start.iterations = Number(event.target.value);
@@ -12,7 +11,6 @@ var StartUI = React.createClass({
   },
   render: function() {
     var startData = this.props.data.start;
-    var handleChange = this.handleChange;
     var sliderData = [
       ['x', startData.x, 0, 1000, 1],
       ['y', startData.y, 0, 700, 1],
@@ -29,12 +27,12 @@ var StartUI = React.createClass({
           min={item[2]}
           max={item[3]}
           step={item[4]}
-          update={handleChange}
+          update={this.props.update}
           model={startData}
           showLabel={true}
         />
       );
-    });
+    }, this);
     return (
       <div className="flex-column justified-container">
         <h4>Initial State</h4>

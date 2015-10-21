@@ -1,21 +1,17 @@
 var React = require('react');
 
 var RuleUI = React.createClass({
-  handleChange: function() {
-    this.props.update();
-    this.props.data.needsParse = true;
-  },
   removeRule: function() {
     this.props.data.rules.splice(this.props.id, 1);
-    this.handleChange();
+    this.props.update();
   },
   handleChangeRule: function(event) {
     this.props.rule.rule = event.currentTarget.value[0];
-    this.handleChange();
+    this.props.update();
   },
   handleChangeTransform: function(event) {
     this.props.rule.transform = event.currentTarget.value;
-    this.handleChange();
+    this.props.update();
   },
   render: function() {
         // <div className="justified-container">

@@ -2,14 +2,10 @@ var React = require('react');
 var InstructionUI = require('./instruction.jsx');
 
 var InstructionContainerUI = React.createClass({
-  handleChange: function() {
-    this.props.update();
-    this.props.data.needsRender = true;
-  },
   addInstruction: function() {
     var instruction = this.props.data.instructions;
     instruction.push({rule: ''});
-    this.handleChange();
+    this.props.update();
   },
   render: function() {
     var instructionsData = this.props.data.instructions;

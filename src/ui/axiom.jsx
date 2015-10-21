@@ -4,7 +4,6 @@ var AxiomUI = React.createClass({
   handleChange: function(event) {
     this.props.data.axiom = event.currentTarget.value;
     this.props.update();
-    this.props.data.needsParse = true;
   },
   render: function() {
     return (

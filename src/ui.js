@@ -19,15 +19,14 @@ var ui = {
         start.x = datax - (startx - event.clientX);
         start.y = datay - (starty - event.clientY);
         callback();
-        data.needsRender = true;
       }
     });
   },
-  initExamples: function(data) {
+  initExamples: function(data, callback) {
     var addExampleClickHandler = function(example) {
       example.addEventListener('click', function(event) {
         window.location.hash = event.target.hash;
-        data.needsDecode = true;
+        callback();
       });
     };
 

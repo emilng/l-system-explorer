@@ -3,10 +3,7 @@ var Slider = require('./Slider.jsx');
 
 var InstructionUI = React.createClass({
   getInitialState: function() {
-    return this.getInitialStateFromProps(this.props);
-  },
-  getInitialStateFromProps: function(props) {
-    var instruction = props.data.instructions[props.id];
+    var instruction = this.props.data.instructions[this.props.id];
     var distance = (instruction.hasOwnProperty('distance')) ? instruction.distance : 0;
     var angle = (instruction.hasOwnProperty('angle')) ? instruction.angle : 0;
     var branch = (instruction.hasOwnProperty('branch')) ? instruction.branch : 0;
@@ -16,13 +13,9 @@ var InstructionUI = React.createClass({
       branch: branch
     });
   },
-  handleChange: function() {
-    this.props.update();
-    this.props.data.needsRender = true;
-  },
   removeInstruction: function() {
     this.props.data.instructions.splice(this.props.id, 1);
-    this.handleChange();
+    this.props.update();
   },
   removeProperty: function(propName) {
     var instruction = this.props.data.instructions[this.props.id];
@@ -42,7 +35,7 @@ var InstructionUI = React.createClass({
     } else {
       this.removeProperty(propName);
     }
-    this.handleChange();
+    this.props.update();
   },
   toggleDistance: function(event) {
     this.toggleProperty(event, 'distance');
@@ -56,29 +49,23 @@ var InstructionUI = React.createClass({
   updateRule: function(event) {
     var instruction = this.props.data.instructions[this.props.id];
     instruction.rule = event.currentTarget.value;
-    this.handleChange();
+    this.props.update();
   },
   updateDistance: function() {
     var instruction = this.props.data.instructions[this.props.id];
     this.setState({distance: instruction.distance});
-    this.handleChange();
+    this.props.update();
   },
   updateAngle: function() {
     var instruction = this.props.data.instructions[this.props.id];
     this.setState({angle: instruction.angle});
-    this.handleChange();
+    this.props.update();
   },
   updateBranchType: function(event) {
     var instruction = this.props.data.instructions[this.props.id];
     instruction.branch = Number(event.currentTarget.id);
     this.setState({branch: instruction.branch});
-    this.handleChange();
-  },
-  componentWillReceiveProps: function(newProps) {
-    if (newProps.data.needsDecode) {
-      var resetStates = this.getInitialStateFromProps(newProps);
-      this.replaceState(resetStates);
-    }
+    this.props.update();
   },
   render: function() {
     var distanceSlider;

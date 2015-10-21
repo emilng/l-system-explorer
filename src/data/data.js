@@ -1,7 +1,4 @@
 var data = {
-  needsDecode: true,
-  needsParse: true,
-  needsRender: true,
   axiom: '',
   rules: [],
   instructions: {},
