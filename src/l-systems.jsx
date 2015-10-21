@@ -46,9 +46,9 @@ var renderRulesUI = function() {
   setUpdateStep(UpdateEnum.PARSE);
 };
 
-var renderInstructionsUI = function() {
+var renderInstructionsUI = function(reset) {
   React.render(
-    <InstructionContainerUI data={data} update={renderInstructionsUI} />,
+    <InstructionContainerUI reset={reset} data={data.instructions} update={renderInstructionsUI} />,
     document.getElementById('instructions')
   );
   setUpdateStep(UpdateEnum.RENDER);
@@ -65,7 +65,7 @@ var decodeData = function() {
   renderStartUI();
   renderAxiomUI();
   renderRulesUI();
-  renderInstructionsUI();
+  renderInstructionsUI(true);
   ui.initCanvas(canvas, data, renderStartUI);
 };
 

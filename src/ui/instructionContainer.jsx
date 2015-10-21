@@ -3,19 +3,20 @@ var InstructionUI = require('./instruction.jsx');
 
 var InstructionContainerUI = React.createClass({
   addInstruction: function() {
-    var instruction = this.props.data.instructions;
+    var instruction = this.props.data;
     instruction.push({rule: ''});
     this.props.update();
   },
   render: function() {
-    var instructionsData = this.props.data.instructions;
+    var instructionsData = this.props.data;
     var instructions = instructionsData.map(function(instruction, id) {
       return (
         <InstructionUI
           key={id}
           id={id}
           update={this.props.update}
-          data={this.props.data}
+          data={instructionsData}
+          reset={this.props.reset}
         />
       );
     }, this);

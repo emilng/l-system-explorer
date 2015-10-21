@@ -3,7 +3,10 @@ var Slider = require('./Slider.jsx');
 
 var InstructionUI = React.createClass({
   getInitialState: function() {
-    var instruction = this.props.data.instructions[this.props.id];
+    return this.getInitialStateFromProps(this.props);
+  },
+  getInitialStateFromProps: function(props) {
+    var instruction = props.data[this.props.id];
     var distance = (instruction.hasOwnProperty('distance')) ? instruction.distance : 0;
     var angle = (instruction.hasOwnProperty('angle')) ? instruction.angle : 0;
     var branch = (instruction.hasOwnProperty('branch')) ? instruction.branch : 0;
@@ -13,12 +16,18 @@ var InstructionUI = React.createClass({
       branch: branch
     });
   },
+  componentWillReceiveProps: function(newProps) {
+    if (newProps.reset) {
+      var resetStates = this.getInitialStateFromProps(newProps);
+      this.replaceState(resetStates);
+    }
+  },
   removeInstruction: function() {
     this.props.data.instructions.splice(this.props.id, 1);
     this.props.update();
   },
   removeProperty: function(propName) {
-    var instruction = this.props.data.instructions[this.props.id];
+    var instruction = this.props.data[this.props.id];
     var keys = Object.keys(instruction);
     this.props.data.instructions[this.props.id] = keys.reduce(function(newInstruction, prop) {
       if (prop !== propName) {
@@ -28,7 +37,7 @@ var InstructionUI = React.createClass({
     }, {});
   },
   toggleProperty: function(event, propName) {
-    var instruction = this.props.data.instructions[this.props.id];
+    var instruction = this.props.data[this.props.id];
     var propChecked = event.currentTarget.checked;
     if (propChecked) {
       instruction[propName] = this.state[propName];
@@ -47,22 +56,22 @@ var InstructionUI = React.createClass({
     this.toggleProperty(event, 'branch');
   },
   updateRule: function(event) {
-    var instruction = this.props.data.instructions[this.props.id];
+    var instruction = this.props.data[this.props.id];
     instruction.rule = event.currentTarget.value;
     this.props.update();
   },
   updateDistance: function() {
-    var instruction = this.props.data.instructions[this.props.id];
+    var instruction = this.props.data[this.props.id];
     this.setState({distance: instruction.distance});
     this.props.update();
   },
   updateAngle: function() {
-    var instruction = this.props.data.instructions[this.props.id];
+    var instruction = this.props.data[this.props.id];
     this.setState({angle: instruction.angle});
     this.props.update();
   },
   updateBranchType: function(event) {
-    var instruction = this.props.data.instructions[this.props.id];
+    var instruction = this.props.data[this.props.id];
     instruction.branch = Number(event.currentTarget.id);
     this.setState({branch: instruction.branch});
     this.props.update();
@@ -71,7 +80,7 @@ var InstructionUI = React.createClass({
     var distanceSlider;
     var angleSlider;
     var branch;
-    var instruction = this.props.data.instructions[this.props.id];
+    var instruction = this.props.data[this.props.id];
     var distanceEnabled = instruction.hasOwnProperty('distance');
     var angleEnabled = instruction.hasOwnProperty('angle');
     var branchEnabled = instruction.hasOwnProperty('branch');
