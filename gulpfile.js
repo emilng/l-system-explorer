@@ -1,6 +1,5 @@
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
-var es6ify = require('es6ify');
 var gulp = require('gulp');
 var reactify = require('reactify');
 var source = require('vinyl-source-stream');
@@ -10,13 +9,11 @@ var uglify = require('gulp-uglify');
 var paths = ['./src/**/*.jsx', './src/**/*.js'];
 
 var getBundleName = function () {
-  // var version = require('./package.json').version;
   var name = require('./package.json').name;
   return name + '.' + 'min';
 };
 
 gulp.task('js', function() {
-  // place code for your default task here
   var bundler = browserify({
     entries: ['./src/l-systems.jsx'],
     debug: true
@@ -24,7 +21,6 @@ gulp.task('js', function() {
 
   var bundle = function() {
     bundler.transform(reactify);
-    bundler.transform(es6ify.configure(/.jsx/));
     bundler
       .bundle()
       .pipe(source(getBundleName() + '.js'))
