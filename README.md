@@ -22,6 +22,11 @@ More information on L-Systems: http://en.wikipedia.org/wiki/L-system
 - gulp-uglify - code minifier/compressor
 
 ### Development
+Install npm packages
+```
+npm install
+```
+
 To build the source files and output them to the dist folder
 ```
 npm run build
