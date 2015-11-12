@@ -11,7 +11,7 @@ More information on L-Systems: http://en.wikipedia.org/wiki/L-system
 - Live updating of rendered output and state in URL
 
 ### Version
-1.0.0
+1.0.1
 
 ### Tech
 - react - view framework
@@ -34,7 +34,12 @@ npm run build
 
 To serve L-System Explorer so that it's ready to use from http://localhost:4000
 ```
-npm run server
+npm start
+```
+
+To run the tests
+```
+npm test
 ```
 
 ### Todos
