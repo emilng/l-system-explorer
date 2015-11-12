@@ -70,7 +70,7 @@ var decodeData = function() {
 };
 
 var rewriteData = function() {
-  data.rewrittenRules = rewrite.multiple(data.rules, data.axiom, data.iterations);
+  data.rewrittenRules = rewrite.write(data.rules, data.axiom, data.iterations);
 };
 
 var renderData = function() {
