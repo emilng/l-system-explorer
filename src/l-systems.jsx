@@ -1,7 +1,7 @@
 var React = require('react');
 var data = require('./data/data.js');
 var hash = require('./data/encodeHash.js');
-var parser = require('./parser.js');
+var rewrite = require('./rewrite.js');
 var ui = require('./ui.js');
 var render = require('./render.js');
 var StartUI = require('./ui/start.jsx');
@@ -12,7 +12,7 @@ var InstructionContainerUI = require('./ui/instructionContainer.jsx');
 var updateStep = 0;
 var UpdateEnum = {
   DECODE: 0,
-  PARSE: 1,
+  REWRITE: 1,
   RENDER: 2
 };
 
@@ -69,19 +69,19 @@ var decodeData = function() {
   ui.initCanvas(canvas, data, renderStartUI);
 };
 
-var parseData = function() {
-  data.parsedRules = parser.parse(data.rules, data.axiom, data.iterations);
+var rewriteData = function() {
+  data.rewrittenRules = rewrite.multiple(data.rules, data.axiom, data.iterations);
 };
 
 var renderData = function() {
-  var iterations = Math.min(data.parsedRules.length - 1, data.start.iterations);
-  render(canvas, data.start, data.parsedRules[iterations], data.instructions);
+  var iterations = Math.min(data.rewrittenRules.length - 1, data.start.iterations);
+  render(canvas, data.start, data.rewrittenRules[iterations], data.instructions);
   var urlHash = hash.encode(data);
   var stateObj = { data: urlHash };
   history.replaceState(stateObj, 'L-Systems', 'index.html' + urlHash);
 };
 
-var updateMethods = [decodeData, parseData, renderData];
+var updateMethods = [decodeData, rewriteData, renderData];
 
 var update = function() {
   while(updateStep < updateMethods.length) {

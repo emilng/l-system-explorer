@@ -1,5 +1,5 @@
-var parser = {
-  parse: function (rules, axiom, maxIter) {
+var rewrite = {
+  multiple: function (rules, axiom, maxIter) {
     var generatedOutput = [axiom];
     var input = axiom;
     var ruleLookup = rules.reduce(function(lookup, rule) {
@@ -25,4 +25,4 @@ var parser = {
   }
 };
 
-module.exports = parser;
+module.exports = rewrite;
