@@ -28,6 +28,6 @@
   "scripts": {
     "build": "node_modules/.bin/gulp",
     "start": "http-server -a localhost -p 4000",
-    "test": "node_modules/.bin/tape tests/**/*.js | node_modules/.bin/faucet"
+    "test": "node_modules/.bin/tape 'tests/**/*.js' | node_modules/.bin/faucet"
   }
 }
