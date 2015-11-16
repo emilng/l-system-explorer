@@ -1,15 +1,15 @@
 var start = {
   decode: function(startString) {
     var startList = startString.split(',');
+    var keyLookup = {
+      'x': 'x',
+      'y': 'y',
+      'a': 'angle',
+      'z': 'zoom',
+      'i': 'iterations'
+    };
     return startList.reduce(function (params, paramString) {
       var keyChar = paramString[0];
-      var keyLookup = {
-        'x': 'x',
-        'y': 'y',
-        'a': 'angle',
-        'z': 'zoom',
-        'i': 'iterations'
-      };
       var key = keyLookup[keyChar];
       var value = parseFloat(paramString.substr(1));
       params[key] = value;
