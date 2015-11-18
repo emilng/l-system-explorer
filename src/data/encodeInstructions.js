@@ -24,8 +24,8 @@ var decode = function(instructionString) {
 
 var encodeParams = function(instruction) {
   var encodedRule = window.escape(instruction.rule);
-  delete instruction.rule;
   var paramKeys = Object.keys(instruction);
+  paramKeys.splice(paramKeys.indexOf('rule'), 1);
   var paramLookup = {
       'distance': 'd',
       'angle': 'a',
