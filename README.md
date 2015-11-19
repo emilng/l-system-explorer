@@ -42,10 +42,6 @@ To run the tests
 npm test
 ```
 
-### Todos
-- write tests
-- calculate iteration threshold based off of string growth rate
-
 ### License
 MIT
 
