@@ -1,2 +1,5 @@
 .DS_Store
+README.html
+/dist/l-system-explorer.min.js.map
 /node_modules
+/src/npm-debug.log
