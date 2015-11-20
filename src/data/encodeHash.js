@@ -20,35 +20,56 @@
     chars: [0-9]xyamwh
 */
 
-var start = require('./encodeStart.js');
-var rules = require('./encodeRules.js');
-var instructions = require('./encodeInstructions.js');
-
-var hash = {
-  decode: function (data) {
-    var hash = window.location.hash.substr(1);
-    //hardcoded default for now if nothing is set
-    if (hash === '') {
-      hash = 'F/F:F+F-F-F+F/F,d3.5;+,a75;-,a-80/6/x347,y358,a70,i6,z100';
-    }
-    var dataStrings = hash.split('/');
-
-    data.axiom = window.unescape(dataStrings[0]);
-    data.rules = rules.decode(dataStrings[1]);
-    data.instructions = instructions.decode(dataStrings[2]);
-    data.iterations = dataStrings[3];
-    data.start = start.decode(dataStrings[4]);
+var hashSections = [
+  {
+    name: 'axiom',
+    encoder: require('./encodeAxiom.js')
   },
-  encode: function (data) {
-    var axiom = data.axiom;
-    var iterations = data.iterations;
-    return '#' +
-        [window.escape(axiom),
-         rules.encode(data.rules),
-         instructions.encode(data.instructions),
-         iterations,
-         start.encode(data.start)].join('/');
+  {
+    name: 'rules',
+    encoder: require('./encodeRules.js')
+  },
+  {
+    name: 'instructions',
+    encoder: require('./encodeInstructions.js')
+  },
+  {
+    name: 'iterations',
+    encoder: require('./encodeIterations.js')
+  },
+  {
+    name: 'start',
+    encoder: require('./encodeStart.js')
   }
+];
+
+var decodeWith = function(hash, sections) {
+  var data = {};
+  var encodedSections = hash.split('/');
+
+  sections.forEach(function(section, index) {
+    var encodedSection = encodedSections[index];
+    data[section.name] = section.encoder.decode(encodedSection);
+  });
+  return data;
 };
 
-module.exports = hash;
+var decode = function (hash) {
+  return decodeWith(hash, hashSections);
+};
+
+var encodeWith = function(data, sections) {
+  var encodedData = sections.map(function(section) {
+    return section.encoder.encode(data[section.name]);
+  });
+  return '#' + encodedData.join('/');
+};
+
+var encode = function (data) {
+  return encodeWith(data, hashSections);
+};
+
+exports.decode = decode;
+exports.decodeWith = decodeWith;
+exports.encode = encode;
+exports.encodeWith = encodeWith;
