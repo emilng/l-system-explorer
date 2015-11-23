@@ -14,8 +14,10 @@ More information on L-Systems: http://en.wikipedia.org/wiki/L-system
 1.0.1
 
 ### Encoding Format
-Let's take a look at how <a href="http://emilng.github.io/l-system-explorer/index.html#X/X:F-[[X]+X]+F[+FX]-X,F:FF/F,d4;+,a25;-,a-25;[,b0;],b1/6/x135,y638,a-76,i6,z100" target="_blank">a plant</a> gets encoded to get a feel for the encoding format:  
-```X/X:F-[[X]+X]+F[+FX]-X,F:FF/F,d4;+,a25;-,a-25;[,b0;],b1/6/x135,y638,a-76,i6,z100```
+Let's take a look at how <a href="http://emilng.github.io/l-system-explorer/index.html#X/X:F-[[X]+X]+F[+FX]-X,F:FF/F,d4;+,a25;-,a-25;[,b0;],b1/6/x135,y638,a-76,i6,z100" target="_blank">a plant</a> gets encoded to get a feel for the encoding format:
+```
+X/X:F-[[X]+X]+F[+FX]-X,F:FF/F,d4;+,a25;-,a-25;[,b0;],b1/6/x135,y638,a-76,i6,z100
+```
 
 Each section is delimited by ```/``` so if we break the encoded plant into sections we get:
 1. axiom: ```X```
