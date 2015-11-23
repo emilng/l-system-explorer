@@ -1,25 +1,3 @@
-// *** DATA ***
-/*
-  decode / encode  data to URL hash
-
-  hash is split into the following sections delimited by '/'
-  1. axiom
-    example: F[A]
-    chars: [A-Z]\[\]
-  2. rules
-    example: F:F+[F-FF]F+
-    chars: [A-Z]\[\]\:\+\-
-  3. instructions - delimited by ';' then split into parameters: distance(d), angle(a), branch(b):0,1 (push,pop)
-    example: F,d10,a25,p0;A,d5,a10,p1
-    chars: [0-9],\.dap
-  4. iterations - max number of iterations
-    example: 3
-    chars: [0-9]
-  5. starting drawing values - delimited by ',' : x, y, angle, iteration to display
-    example: x500,y300,a10,i5
-    chars: [0-9]xyamwh
-*/
-
 var hashSections = [
   {
     name: 'axiom',
