@@ -29,7 +29,7 @@ var InstructionUI = React.createClass({
   removeProperty: function(propName) {
     var instruction = this.props.data[this.props.id];
     var keys = Object.keys(instruction);
-    this.props.data.instructions[this.props.id] = keys.reduce(function(newInstruction, prop) {
+    this.props.data[this.props.id] = keys.reduce(function(newInstruction, prop) {
       if (prop !== propName) {
         newInstruction[prop] = instruction[prop];
       }
