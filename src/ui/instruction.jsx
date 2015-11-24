@@ -117,7 +117,7 @@ var InstructionUI = React.createClass({
     if (branchEnabled) {
       branch = (
         <div>
-          <label>push</label>
+          <label>start</label>
           <input
             id="0"
             className="branchPush-input"
@@ -125,7 +125,7 @@ var InstructionUI = React.createClass({
             checked={this.state.branch === 0}
             onChange={this.updateBranchType}
           />
-          <label>pop</label>
+          <label>end</label>
           <input
             id="1"
             className="branchPush-input"
