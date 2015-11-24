@@ -248,6 +248,11 @@ ul {
   width: 35px;
 }
 
+.slider-value {
+  font-size: 0.7em;
+  color: #CCC;
+}
+
 .transform-label {
   width: 1em;
 }

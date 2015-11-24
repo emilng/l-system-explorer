@@ -50,12 +50,7 @@ var Slider = React.createClass({
           onChange={this.handleChange}
           onKeyDown={this.keyDown}
         />
-        <input
-          className="number-input"
-          type="text"
-          value={this.props.value}
-          onChange={this.handleChange}
-        />
+        <label className="slider-value">{this.props.value}</label>
       </div>
     );
   }
