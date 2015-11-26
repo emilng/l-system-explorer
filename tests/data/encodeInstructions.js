@@ -25,6 +25,22 @@ var decoded = [
   }
 ];
 
+var combinedEncodedParams = 'F,d10,a20,b0,r5,o3,s1,t1,R30,O10,S5,T1';
+var combinedDecodedParams = {
+  rule: 'F',
+  distance: 10,
+  angle: 20,
+  branch: 0,
+  distanceRange: 5,
+  distanceOffset: 3,
+  distanceSpeed: 1,
+  distanceType: 1,
+  angleRange: 30,
+  angleOffset: 10,
+  angleSpeed: 5,
+  angleType: 1
+};
+
 test('encodeInstructions decodeParams', function(t) {
   var actual = encodeInstructions.decodeParams({rule: 'F'}, 'd10,a20,b0');
   var expected = {rule: 'F', distance: 10};
@@ -33,8 +49,8 @@ test('encodeInstructions decodeParams', function(t) {
 });
 
 test('encodeInstructions combineDecodedParams', function(t) {
-  var actual = encodeInstructions.combineDecodedParams('F,d10,a20,b0');
-  var expected = {rule: 'F', distance: 10, angle: 20, branch: 0};
+  var actual = encodeInstructions.combineDecodedParams(combinedEncodedParams);
+  var expected = combinedDecodedParams;
   t.deepEqual(actual, expected);
   t.end();
 });
@@ -47,8 +63,8 @@ test('encodeInstructions decode', function(t) {
 });
 
 test('encodeInstructions encodeParams', function(t) {
-  var actual = encodeInstructions.encodeParams({rule: 'F', distance: 10, angle: 20, branch: 0});
-  var expected = 'F,d10,a20,b0';
+  var actual = encodeInstructions.encodeParams(combinedDecodedParams);
+  var expected = combinedEncodedParams;
   t.equal(actual, expected);
   t.end();
 });

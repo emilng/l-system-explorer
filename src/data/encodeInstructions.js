@@ -3,7 +3,15 @@ var decodeParams = function (params, paramString) {
     var keyLookup = {
       'd': 'distance',
       'a': 'angle',
-      'b': 'branch'
+      'b': 'branch',
+      'r': 'distanceRange',
+      'o': 'distanceOffset',
+      's': 'distanceSpeed',
+      't': 'distanceType',
+      'R': 'angleRange',
+      'O': 'angleOffset',
+      'S': 'angleSpeed',
+      'T': 'angleType'
     };
     var key = keyLookup[keyChar];
     var value = parseFloat(paramString.substr(1));
@@ -29,7 +37,15 @@ var encodeParams = function(instruction) {
   var paramLookup = {
       'distance': 'd',
       'angle': 'a',
-      'branch': 'b'
+      'branch': 'b',
+      'distanceRange': 'r',
+      'distanceOffset': 'o',
+      'distanceSpeed': 's',
+      'distanceType': 't',
+      'angleRange': 'R',
+      'angleOffset': 'O',
+      'angleSpeed': 'S',
+      'angleType': 'T'
   };
   var params = paramKeys.reduce(function(paramString, paramKey) {
     return paramString + ',' + paramLookup[paramKey] + instruction[paramKey];
