@@ -84,6 +84,9 @@ Each set of drawing values is separated by comma into
 - reactify - browserify transforms for JSX files used by React
 - gulp-sourcemaps - allows for original source to be referenced from minified code
 - gulp-uglify - code minifier/compressor
+- tape - unit tests
+- tape-run - running tests in headless browser
+- faucet - format TAP output from tape to be readable
 
 ### Development
 Install npm packages
