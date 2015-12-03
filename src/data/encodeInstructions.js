@@ -1,65 +1,40 @@
-var decodeParams = function (params, paramString) {
-    var keyChar = paramString[0];
-    var keyLookup = {
-      'd': 'distance',
-      'a': 'angle',
-      'b': 'branch',
-      'r': 'distanceRange',
-      'o': 'distanceOffset',
-      's': 'distanceSpeed',
-      't': 'distanceType',
-      'R': 'angleRange',
-      'O': 'angleOffset',
-      'S': 'angleSpeed',
-      'T': 'angleType'
-    };
-    var key = keyLookup[keyChar];
-    var value = parseFloat(paramString.substr(1));
-    params[key] = value;
-    return params;
+
+var _ = require('lodash');
+var encodeUtil = require('./encodeUtil.js');
+
+var keyLookup = {
+  'd': 'distance',
+  'a': 'angle',
+  'b': 'branch'
 };
 
-var combineDecodedParams = function (paramString) {
+var paramEncoder = encodeUtil.getParamEncoder(keyLookup);
+
+var decodeInstruction = function (paramString) {
   var params = paramString.split(',');
-  var instructions = {rule: window.unescape(params.shift())};
-  return params.reduce(decodeParams, instructions);
+  var decodedRule = window.unescape(params.shift());
+  return params.reduce(paramEncoder.decode, {rule: decodedRule});
 };
 
 var decode = function(instructionString) {
   var instructionList = instructionString.split(';');
-  return instructionList.map(combineDecodedParams);
+  return instructionList.map(decodeInstruction);
 };
 
-var encodeParams = function(instruction) {
+var encodeInstruction = function(instruction) {
   var encodedRule = window.escape(instruction.rule);
-  var paramKeys = Object.keys(instruction);
-  paramKeys.splice(paramKeys.indexOf('rule'), 1);
-  var paramLookup = {
-      'distance': 'd',
-      'angle': 'a',
-      'branch': 'b',
-      'distanceRange': 'r',
-      'distanceOffset': 'o',
-      'distanceSpeed': 's',
-      'distanceType': 't',
-      'angleRange': 'R',
-      'angleOffset': 'O',
-      'angleSpeed': 'S',
-      'angleType': 'T'
-  };
-  var params = paramKeys.reduce(function(paramString, paramKey) {
-    return paramString + ',' + paramLookup[paramKey] + instruction[paramKey];
-  }, encodedRule);
-  return params;
+  var instructionParams = _.omit(instruction, 'rule');
+  var encodedInstruction = _.map(instructionParams, paramEncoder.encode);
+  encodedInstruction.unshift(encodedRule);
+  return encodedInstruction.join(',');
 };
 
 var encode = function(instructions) {
-  var encodedInstructions = instructions.map(encodeParams);
+  var encodedInstructions = instructions.map(encodeInstruction);
   return encodedInstructions.join(';');
 };
 
-exports.decodeParams = decodeParams;
-exports.combineDecodedParams = combineDecodedParams;
+exports.decodeInstruction = decodeInstruction;
 exports.decode = decode;
-exports.encodeParams = encodeParams;
+exports.encodeInstruction = encodeInstruction;
 exports.encode = encode;
