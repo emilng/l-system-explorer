@@ -23,7 +23,7 @@ var InstructionUI = React.createClass({
     }
   },
   removeInstruction: function() {
-    this.props.data.instructions.splice(this.props.id, 1);
+    this.props.data.splice(this.props.id, 1);
     this.props.update();
   },
   removeProperty: function(propName) {
