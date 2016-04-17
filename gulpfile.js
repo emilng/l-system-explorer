@@ -1,10 +1,10 @@
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
 var gulp = require('gulp');
-var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
+var babelify = require('babelify');
 
 var paths = ['./src/**/*.jsx', './src/**/*.js'];
 
@@ -20,7 +20,7 @@ gulp.task('js', function() {
   });
 
   var bundle = function() {
-    bundler.transform(reactify);
+    bundler.transform(babelify);
     bundler
       .bundle()
       .pipe(source(getBundleName() + '.js'))
