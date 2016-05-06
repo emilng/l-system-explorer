@@ -1,5 +1,5 @@
-var test = require('./encodeTestHelper.js');
-var encodeStart = require('../../src/data/encodeStart.js');
+const test = require('./encodeTestHelper.js');
+const encodeStart = require('../../src/data/encodeStart.js');
 
 test({
   encoder: encodeStart,
@@ -10,6 +10,6 @@ test({
     y: 358,
     angle: 70,
     iterations: 6,
-    zoom: 100
-  }
+    zoom: 100,
+  },
 });

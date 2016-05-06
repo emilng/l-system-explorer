@@ -1,4 +1,4 @@
-var test = require('tape');
+const test = require('tape');
 
 /*
   options = {
@@ -9,26 +9,26 @@ var test = require('tape');
   }
 */
 
-var getCompareMethod = function(decoded) {
-  var compareMethod = (typeof decoded === 'object') ? 'deepEqual' : 'equal';
-  return function(t, actual, expected) {
+const getCompareMethod = (decoded) => {
+  const compareMethod = (typeof decoded === 'object') ? 'deepEqual' : 'equal';
+  return (t, actual, expected) => {
     t[compareMethod](actual, expected);
     t.end();
   };
 };
 
-var testHelper = function(options) {
-  var compare = getCompareMethod(options.decoded);
+const testHelper = (options) => {
+  const compare = getCompareMethod(options.decoded);
 
-  test(options.name + ' decode', function(t) {
-    var actual = options.encoder.decode(options.encoded);
-    var expected = options.decoded;
+  test(`${options.name} decode`, (t) => {
+    const actual = options.encoder.decode(options.encoded);
+    const expected = options.decoded;
     compare(t, actual, expected);
   });
 
-  test(options.name + ' encode', function(t) {
-    var actual = options.encoder.encode(options.decoded);
-    var expected = options.encoded;
+  test(`${options.name} encode`, (t) => {
+    const actual = options.encoder.encode(options.decoded);
+    const expected = options.encoded;
     compare(t, actual, expected);
   });
 };

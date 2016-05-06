@@ -1,11 +1,11 @@
-var React = require('react');
+const React = require('react');
 
-var AxiomUI = React.createClass({
-  handleChange: function(event) {
+const AxiomUI = React.createClass({
+  handleChange(event) {
     this.props.data.axiom = event.currentTarget.value;
     this.props.update();
   },
-  render: function() {
+  render() {
     return (
       <div>
         <h4>Axiom</h4>
@@ -18,7 +18,7 @@ var AxiomUI = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });
 
 module.exports = AxiomUI;

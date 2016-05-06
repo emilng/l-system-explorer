@@ -1,5 +1,5 @@
-var test = require('./encodeTestHelper.js');
-var encodeRules = require('../../src/data/encodeRules.js');
+const test = require('./encodeTestHelper.js');
+const encodeRules = require('../../src/data/encodeRules.js');
 
 test({
   encoder: encodeRules,
@@ -8,11 +8,11 @@ test({
   decoded: [
     {
       rule: 'X',
-      transform: 'X+YF+'
+      transform: 'X+YF+',
     },
     {
       rule: 'Y',
-      transform: '-FX-Y'
-    }
-  ]
+      transform: '-FX-Y',
+    },
+  ],
 });

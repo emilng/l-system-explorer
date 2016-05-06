@@ -1,4 +1,4 @@
-var data = {
+const data = {
   axiom: '',
   rules: [],
   instructions: {},
@@ -8,8 +8,8 @@ var data = {
     y: 0,
     angle: 0,
     zoom: 100,
-    iterations: 1
-  }
+    iterations: 1,
+  },
 };
 
 module.exports = data;

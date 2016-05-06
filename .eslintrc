@@ -5,6 +5,9 @@
     "react"
   ],
   "rules": {
-    "no-use-before-define": ["error", { "functions": false, "classes": true }]
+    "arrow-body-style": ["error", "always"],
+    "no-use-before-define": ["error", { "functions": false, "classes": true }],
+    "prefer-template": "off",
+    "max-len": "off",
   }
 }

@@ -1,51 +1,51 @@
-var test = require('tape');
-var encodeUtil = require('../../src/data/encodeUtil.js');
+const test = require('tape');
+const encodeUtil = require('../../src/data/encodeUtil.js');
 
-var keyLookup = {
-  'd': 'distance',
-  'a': 'angle',
-  'b': 'branch'
+const keyLookup = {
+  d: 'distance',
+  a: 'angle',
+  b: 'branch',
 };
 
-var paramEncoder = encodeUtil.getParamEncoder(keyLookup);
-var objectEncoder = encodeUtil.getObjectEncoder(keyLookup, ',');
+const paramEncoder = encodeUtil.getParamEncoder(keyLookup);
+const objectEncoder = encodeUtil.getObjectEncoder(keyLookup, ',');
 
-var encodedParam = 'd100';
-var decodedParamKey = 'distance';
-var decodedParamValue = 100;
-var decodedParam = { distance: 100 };
+const encodedParam = 'd100';
+const decodedParamKey = 'distance';
+const decodedParamValue = 100;
+const decodedParam = { distance: 100 };
 
-var encodedObject = 'd10,a20,b0';
-var decodeObject = {
+const encodedObject = 'd10,a20,b0';
+const decodeObject = {
   distance: 10,
   angle: 20,
-  branch: 0
+  branch: 0,
 };
 
-test('encodeUtil paramEncoder decode', function(t) {
-  var actual = paramEncoder.decode({}, encodedParam);
-  var expected = decodedParam;
+test('encodeUtil paramEncoder decode', (t) => {
+  const actual = paramEncoder.decode({}, encodedParam);
+  const expected = decodedParam;
   t.deepEqual(actual, expected);
   t.end();
 });
 
-test('encodeUtil paramEncoder encode', function(t) {
-  var actual = paramEncoder.encode(decodedParamValue, decodedParamKey);
-  var expected = encodedParam;
+test('encodeUtil paramEncoder encode', (t) => {
+  const actual = paramEncoder.encode(decodedParamValue, decodedParamKey);
+  const expected = encodedParam;
   t.equal(actual, expected);
   t.end();
 });
 
-test('encodeUtil objectEncoder decode', function(t) {
-  var actual = objectEncoder.decode(encodedObject);
-  var expected = decodeObject;
+test('encodeUtil objectEncoder decode', (t) => {
+  const actual = objectEncoder.decode(encodedObject);
+  const expected = decodeObject;
   t.deepEqual(actual, expected);
   t.end();
 });
 
-test('encodeUtil objectEncoder encode', function(t) {
-  var actual = objectEncoder.encode(decodeObject);
-  var expected = encodedObject;
+test('encodeUtil objectEncoder encode', (t) => {
+  const actual = objectEncoder.encode(decodeObject);
+  const expected = encodedObject;
   t.equal(actual, expected);
   t.end();
 });

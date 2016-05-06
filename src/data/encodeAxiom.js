@@ -1,10 +1,10 @@
-var axiom = {
-  decode: function(axiomString) {
+const axiom = {
+  decode(axiomString) {
     return window.unescape(axiomString);
   },
-  encode: function(axiom) {
-    return window.escape(axiom);
-  }
+  encode(axiomObj) {
+    return window.escape(axiomObj);
+  },
 };
 
 module.exports = axiom;

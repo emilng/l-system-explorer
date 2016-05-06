@@ -1,23 +1,23 @@
-var React = require('react');
-var Slider = require('./Slider.jsx');
+const React = require('react');
+const Slider = require('./Slider.jsx');
 
-var StartUI = React.createClass({
-  handleChange: function() {
+const StartUI = React.createClass({
+  handleChange() {
     this.props.update();
   },
-  handleIterationsChange: function(event) {
+  handleIterationsChange(event) {
     this.props.data.iterations = Number(event.target.value);
     this.handleChange();
   },
-  render: function() {
-    var startData = this.props.data;
-    var sliderData = [
+  render() {
+    const startData = this.props.data;
+    const sliderData = [
       ['x', startData.x, 0, 1000, 1],
       ['y', startData.y, 0, 700, 1],
       ['angle', startData.angle, -360, 360, 1],
-      ['zoom', startData.zoom, -1000, 1000, 1]
+      ['zoom', startData.zoom, -1000, 1000, 1],
     ];
-    var sliders = sliderData.map(function(item, id) {
+    const sliders = sliderData.map((item, id) => {
       return (
         <Slider
           className="grow-item"
@@ -29,7 +29,7 @@ var StartUI = React.createClass({
           step={item[4]}
           update={this.props.update}
           model={startData}
-          showLabel={true}
+          showLabel
         />
       );
     }, this);
@@ -49,7 +49,7 @@ var StartUI = React.createClass({
         </div>
       </div>
     );
-  }
+  },
 });
 
 module.exports = StartUI;

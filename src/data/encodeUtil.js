@@ -1,38 +1,38 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
-var getParamEncoder = function(keyLookup) {
-  var encodedKeyLookup = _.invert(keyLookup);
+function getParamEncoder(keyLookup) {
+  const encodedKeyLookup = _.invert(keyLookup);
 
   return {
-    decode: function(result, encodedParam) {
-      var encodedKey = encodedParam[0];
-      var key = keyLookup[encodedKey];
-      var value = encodedParam.slice(1);
-      var numberValue = parseFloat(value);
+    decode(result, encodedParam) {
+      const encodedKey = encodedParam[0];
+      const key = keyLookup[encodedKey];
+      const value = encodedParam.slice(1);
+      const numberValue = parseFloat(value);
       result[key] = (value == numberValue) ? numberValue : value; // eslint-disable-line eqeqeq
       return result;
     },
-    encode: function(value, key) {
-      var encodedKey = encodedKeyLookup[key];
+    encode(value, key) {
+      const encodedKey = encodedKeyLookup[key];
       return encodedKey + value;
-    }
+    },
   };
-};
+}
 
-var getObjectEncoder = function (keyLookup, delimiter) {
-  var paramEncoder = getParamEncoder(keyLookup);
+function getObjectEncoder(keyLookup, delimiter) {
+  const paramEncoder = getParamEncoder(keyLookup);
 
   return {
-    decode: function(encodedObject) {
-      var decodedParams = encodedObject.split(delimiter);
+    decode(encodedObject) {
+      const decodedParams = encodedObject.split(delimiter);
       return decodedParams.reduce(paramEncoder.decode, {});
     },
-    encode: function(decodedObject) {
-      var encodedParams = _.map(decodedObject, paramEncoder.encode);
+    encode(decodedObject) {
+      const encodedParams = _.map(decodedObject, paramEncoder.encode);
       return encodedParams.join(delimiter);
-    }
+    },
   };
-};
+}
 
 exports.getParamEncoder = getParamEncoder;
 exports.getObjectEncoder = getObjectEncoder;

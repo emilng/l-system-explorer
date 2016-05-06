@@ -1,39 +1,39 @@
-var test = require('tape');
-var rewrite = require('../src/rewrite.js');
+const test = require('tape');
+const rewrite = require('../src/rewrite.js');
 
-var rules = [
-  {rule: 'A', transform: 'AB'},
-  {rule: 'B', transform: 'A'}
+const rules = [
+  { rule: 'A', transform: 'AB' },
+  { rule: 'B', transform: 'A' },
 ];
 
-var ruleLookup = {'A': 'AB', 'B': 'A'};
+const ruleLookup = { A: 'AB', B: 'A' };
 
-var rewriteOutput = [ 'A', 'AB', 'ABA', 'ABAAB' ];
+const rewriteOutput = ['A', 'AB', 'ABA', 'ABAAB'];
 
-test('rewrite rule lookup', function(t) {
-  var actual = rewrite.getRuleLookup(rules);
-  var expected = ruleLookup;
+test('rewrite rule lookup', (t) => {
+  const actual = rewrite.getRuleLookup(rules);
+  const expected = ruleLookup;
   t.deepEqual(actual, expected);
   t.end();
 });
 
-test('rewrite single', function(t) {
-  var actual = rewrite.single(ruleLookup, 'ABA');
-  var expected = 'ABAAB';
+test('rewrite single', (t) => {
+  const actual = rewrite.single(ruleLookup, 'ABA');
+  const expected = 'ABAAB';
   t.equal(actual, expected);
   t.end();
 });
 
-test('rewrite multiple', function(t) {
-  var actual = rewrite.multiple(ruleLookup, 'A', 3);
-  var expected = rewriteOutput;
+test('rewrite multiple', (t) => {
+  const actual = rewrite.multiple(ruleLookup, 'A', 3);
+  const expected = rewriteOutput;
   t.deepEqual(actual, expected);
   t.end();
 });
 
-test('rewrite write', function(t) {
-  var actual = rewrite.write(rules, 'A', 3);
-  var expected = rewriteOutput;
+test('rewrite write', (t) => {
+  const actual = rewrite.write(rules, 'A', 3);
+  const expected = rewriteOutput;
   t.deepEqual(actual, expected);
   t.end();
 });
