@@ -1,10 +1,16 @@
 const React = require('react');
 
-const AxiomUI = React.createClass({
+class AxiomUI extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange(event) {
     this.props.data.axiom = event.currentTarget.value;
     this.props.update();
-  },
+  }
+
   render() {
     return (
       <div>
@@ -18,7 +24,14 @@ const AxiomUI = React.createClass({
         </div>
       </div>
     );
-  },
-});
+  }
+}
+
+AxiomUI.propTypes = {
+  data: React.PropTypes.shape({
+    axiom: React.PropTypes.string,
+  }),
+  update: React.PropTypes.func.isRequired,
+};
 
 module.exports = AxiomUI;

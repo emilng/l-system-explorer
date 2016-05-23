@@ -1,25 +1,27 @@
-var React = require('react');
-var RuleUI = require('./rule.jsx');
+const React = require('react');
+const RuleUI = require('./rule.jsx');
 
-var RuleContainerUI = React.createClass({
-  addRule: function() {
-    var rulesData = this.props.data;
-    rulesData.push({rule: '', transform: ''});
+class RuleContainerUI extends React.Component {
+  constructor(props) {
+    super(props);
+    this.addRule = this.addRule.bind(this);
+  }
+
+  addRule() {
+    const rulesData = this.props.data;
+    rulesData.push({ rule: '', transform: '' });
     this.props.update();
-  },
-  render: function() {
-    var rulesData = this.props.data;
-    var rules = rulesData.map(function(rule, id) {
-      return (
-        <RuleUI
-          key={id}
-          id={id}
-          rule={rule}
-          update={this.props.update}
-          data={rulesData}
-        />
-      );
+  }
+
+  rules() {
+    const { data, update } = this.props;
+    return data.map((rule, id) => {
+      const ruleProps = { data, id, rule, update, key: id };
+      return <RuleUI {...ruleProps} />;
     }, this);
+  }
+
+  render() {
     return (
       <div>
         <div className="flex-row">
@@ -29,10 +31,20 @@ var RuleContainerUI = React.createClass({
             onClick={this.addRule}
           >+</button>
         </div>
-        <div id="rules-container">{rules}</div>
+        <div id="rules-container">{this.rules()}</div>
       </div>
     );
   }
-});
+}
+
+RuleContainerUI.propTypes = {
+  data: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      rule: React.PropTypes.string,
+      transform: React.PropTypes.string,
+    })
+  ),
+  update: React.PropTypes.func.isRequired,
+};
 
 module.exports = RuleContainerUI;

@@ -1,59 +1,68 @@
-var React = require('react');
+const React = require('react');
 
-var Slider = React.createClass({
-  getInitialState: function() {
-    var step = this.props.step;
-    var bigStep, smallStep;
-    bigStep = step * 10;
-    smallStep = step * 0.1;
+class Slider extends React.Component {
+  constructor(props) {
+    super(props);
+    const step = props.step;
+    const bigStep = step * 10;
+    let smallStep = step * 0.1;
     // floating point error workaround
     if ((step >= 0.1) && (step <= 0.9)) {
       smallStep = (step * 10) * 0.01;
     }
-    return ({
-      step: step,
+    this.state = {
+      step,
+      smallStep,
+      bigStep,
       regularStep: step,
-      bigStep: bigStep,
-      smallStep: smallStep
-    });
-  },
-  handleChange: function(event) {
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.keyDown = this.keyDown.bind(this);
+  }
+
+  handleChange(event) {
     this.props.model[event.target.name] = Number(event.target.value);
     this.props.update();
-  },
-  keyDown: function(event) {
+  }
+
+  keyDown(event) {
     if (event.shiftKey) {
-      this.setState({step: this.state.bigStep});
+      this.setState({ step: this.state.bigStep });
     } else if (event.altKey) {
-      this.setState({step: this.state.smallStep});
+      this.setState({ step: this.state.smallStep });
     } else {
-      this.setState({step: this.state.regularStep});
+      this.setState({ step: this.state.regularStep });
     }
-  },
-  render: function() {
-    var label;
-    if (this.props.showLabel) {
-      label = (
-        <label className="slider-label">{this.props.name}</label>
-      );
-    }
+  }
+
+  render() {
+    const { name, value, min, max, showLabel } = this.props;
+    const label = (showLabel) ? (<label className="slider-label">{name}</label>) : null;
+    const sliderProps = {
+      name, value, min, max,
+      type: 'range',
+      step: this.state.step,
+      onChange: this.handleChange,
+      onKeyDown: this.keyDown,
+    };
     return (
       <div className="flex-row">
         {label}
-        <input
-          type="range"
-          name={this.props.name}
-          value={this.props.value}
-          min={this.props.min}
-          max={this.props.max}
-          step={this.state.step}
-          onChange={this.handleChange}
-          onKeyDown={this.keyDown}
-        />
-        <label className="slider-value">{this.props.value}</label>
+        <input {...sliderProps} />
+        <label className="slider-value">{value}</label>
       </div>
     );
   }
-});
+}
+
+Slider.propTypes = {
+  name: React.PropTypes.string.isRequired,
+  value: React.PropTypes.number.isRequired,
+  min: React.PropTypes.number.isRequired,
+  max: React.PropTypes.number.isRequired,
+  showLabel: React.PropTypes.bool.isRequired,
+  step: React.PropTypes.number.isRequired,
+};
 
 module.exports = Slider;

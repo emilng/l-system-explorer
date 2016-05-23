@@ -1,40 +1,37 @@
-var browserify = require('browserify');
-var buffer = require('vinyl-buffer');
-var gulp = require('gulp');
-var source = require('vinyl-source-stream');
-var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
-var babelify = require('babelify');
+const browserify = require('browserify');
+const buffer = require('vinyl-buffer');
+const gulp = require('gulp');
+const source = require('vinyl-source-stream');
+const sourcemaps = require('gulp-sourcemaps');
+const uglify = require('gulp-uglify');
+const babelify = require('babelify');
 
-var paths = ['./src/**/*.jsx', './src/**/*.js'];
+const paths = ['./src/**/*.jsx', './src/**/*.js'];
 
-var getBundleName = function () {
-  var name = require('./package.json').name;
+const getBundleName = () => {
+  const name = require('./package.json').name;
   return name + '.' + 'min';
 };
 
-gulp.task('js', function() {
-  var bundler = browserify({
-    entries: ['./src/l-systems.jsx'],
-    debug: true
-  });
-
-  var bundle = function() {
-    bundler.transform(babelify);
-    bundler
+gulp.task('js', () => {
+  const bundle = function bundle() {
+    browserify({
+      entries: ['./src/l-systems.jsx'],
+      debug: true,
+    })
+      .transform(babelify)
       .bundle()
       .pipe(source(getBundleName() + '.js'))
       .pipe(buffer())
-      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(uglify())
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('./dist/'));
   };
   return bundle();
-
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', () => {
   gulp.watch(paths, ['js']);
 });
 
