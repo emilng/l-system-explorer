@@ -1,32 +1,47 @@
-var React = require('react');
-var Slider = require('./Slider.jsx');
+const React = require('react');
+const Distance = require('./distance.jsx');
+const Angle = require('./angle.jsx');
+const Branch = require('./branch.jsx');
 
-var InstructionUI = React.createClass({
-  getInitialState: function() {
-    return this.getInitialStateFromProps(this.props);
-  },
-  getInitialStateFromProps: function(props) {
-    var instruction = props.data[this.props.id];
-    var distance = (instruction.hasOwnProperty('distance')) ? instruction.distance : 0;
-    var angle = (instruction.hasOwnProperty('angle')) ? instruction.angle : 0;
-    var branch = (instruction.hasOwnProperty('branch')) ? instruction.branch : 0;
-    return ({
-      distance: distance,
-      angle: angle,
-      branch: branch
-    });
-  },
-  componentWillReceiveProps: function(newProps) {
+class InstructionUI extends React.Component {
+  constructor(props) {
+    super(props);
+    this.toggleProperty = this.toggleProperty.bind(this);
+    this.toggleDistance = this.toggleProperty.bind(this, 'distance');
+    this.toggleAngle = this.toggleProperty.bind(this, 'angle');
+    this.toggleBranch = this.toggleProperty.bind(this, 'branch');
+    this.updateRule = this.updateRule.bind(this);
+    this.updateDistance = this.updateDistance.bind(this);
+    this.updateAngle = this.updateAngle.bind(this);
+    this.updateBranchType = this.updateBranchType.bind(this);
+    this.state = this.getInitialStateFromProps(props);
+  }
+
+  componentWillReceiveProps(newProps) {
     if (newProps.reset) {
-      var resetStates = this.getInitialStateFromProps(newProps);
-      this.replaceState(resetStates);
+      const resetStates = this.getInitialStateFromProps(newProps);
+      this.setState(resetStates);
     }
-  },
-  removeInstruction: function() {
+  }
+
+  getInitialStateFromProps(props) {
+    const instruction = props.data[this.props.id];
+    const distance = (instruction.hasOwnProperty('distance')) ? instruction.distance : 0;
+    const angle = (instruction.hasOwnProperty('angle')) ? instruction.angle : 0;
+    const branch = (instruction.hasOwnProperty('branch')) ? instruction.branch : 0;
+    return ({
+      distance,
+      angle,
+      branch,
+    });
+  }
+
+  removeInstruction() {
     this.props.data.splice(this.props.id, 1);
     this.props.update();
-  },
-  removeProperty: function(propName) {
+  }
+
+  removeProperty(propName) {
     var instruction = this.props.data[this.props.id];
     var keys = Object.keys(instruction);
     this.props.data[this.props.id] = keys.reduce(function(newInstruction, prop) {
@@ -35,8 +50,9 @@ var InstructionUI = React.createClass({
       }
       return newInstruction;
     }, {});
-  },
-  toggleProperty: function(event, propName) {
+  }
+
+  toggleProperty(propName, event) {
     var instruction = this.props.data[this.props.id];
     var propChecked = event.currentTarget.checked;
     if (propChecked) {
@@ -45,97 +61,38 @@ var InstructionUI = React.createClass({
       this.removeProperty(propName);
     }
     this.props.update();
-  },
-  toggleDistance: function(event) {
-    this.toggleProperty(event, 'distance');
-  },
-  toggleAngle: function(event) {
-    this.toggleProperty(event, 'angle');
-  },
-  toggleBranch: function(event) {
-    this.toggleProperty(event, 'branch');
-  },
-  updateRule: function(event) {
-    var instruction = this.props.data[this.props.id];
+  }
+
+  updateRule(event) {
+    const instruction = this.props.data[this.props.id];
     instruction.rule = event.currentTarget.value;
     this.props.update();
-  },
-  updateDistance: function() {
-    var instruction = this.props.data[this.props.id];
-    this.setState({distance: instruction.distance});
+  }
+
+  updateDistance() {
+    const instruction = this.props.data[this.props.id];
+    this.setState({ distance: instruction.distance });
     this.props.update();
-  },
-  updateAngle: function() {
-    var instruction = this.props.data[this.props.id];
-    this.setState({angle: instruction.angle});
+  }
+
+  updateAngle() {
+    const instruction = this.props.data[this.props.id];
+    this.setState({ angle: instruction.angle });
     this.props.update();
-  },
-  updateBranchType: function(event) {
-    var instruction = this.props.data[this.props.id];
+  }
+
+  updateBranchType(event) {
+    const instruction = this.props.data[this.props.id];
     instruction.branch = Number(event.currentTarget.id);
-    this.setState({branch: instruction.branch});
+    this.setState({ branch: instruction.branch });
     this.props.update();
-  },
-  render: function() {
-    var distanceSlider;
-    var angleSlider;
-    var branch;
-    var instruction = this.props.data[this.props.id];
-    var distanceEnabled = instruction.hasOwnProperty('distance');
-    var angleEnabled = instruction.hasOwnProperty('angle');
-    var branchEnabled = instruction.hasOwnProperty('branch');
-    if (distanceEnabled) {
-      distanceSlider = (
-        <Slider
-          ref="distanceSlider"
-          name="distance"
-          value={this.state.distance}
-          min="-20"
-          max="20"
-          step="0.1"
-          update={this.updateDistance}
-          model={instruction}
-          showLabel={false}
-        />
-      );
-    }
-    if (angleEnabled) {
-      angleSlider = (
-        <Slider
-          ref="angleSlider"
-          name="angle"
-          value={this.state.angle}
-          min="-360"
-          max="360"
-          step="0.1"
-          update={this.updateAngle}
-          model={instruction}
-          showLabel={false}
-        />
-      );
-    }
-    if (branchEnabled) {
-      branch = (
-        <div>
-          <label>start</label>
-          <input
-            id="0"
-            className="branchPush-input"
-            type="radio"
-            checked={this.state.branch === 0}
-            onChange={this.updateBranchType}
-          />
-          <label>end</label>
-          <input
-            id="1"
-            className="branchPush-input"
-            type="radio"
-            checked={this.state.branch === 1}
-            onChange={this.updateBranchType}
-          />
-        </div>
-      );
-    }
+  }
+
+  render() {
+    const instruction = this.props.data[this.props.id];
+    const distanceEnabled = instruction.hasOwnProperty('distance');
+    const angleEnabled = instruction.hasOwnProperty('angle');
+    const branchEnabled = instruction.hasOwnProperty('branch');
     return (
       <div className="flex-column instruction-container">
         <div className="flex-row instruction-box">
@@ -145,45 +102,29 @@ var InstructionUI = React.createClass({
               value={instruction.rule}
               onChange={this.updateRule}
             />
-            <div className="flex-row instruction-parameter-container">
-              <input
-                id={'distance-check-' + this.props.id}
-                className="distance-checkbox"
-                ref="distanceCheck"
-                type="checkbox"
-                value="distance"
-                checked={distanceEnabled}
-                onChange={this.toggleDistance}
-              />
-              <label className="check-label distance-check-label" htmlFor={'distance-check-' + this.props.id}>distance</label>
-              {distanceSlider}
-            </div>
-            <div className="flex-row instruction-parameter-container">
-              <input
-                id={'angle-check-' + this.props.id}
-                className="angle-checkbox"
-                ref="angleCheck"
-                type="checkbox"
-                value="angle"
-                checked={angleEnabled}
-                onChange={this.toggleAngle}
-              />
-              <label className="check-label angle-check-label" htmlFor={'angle-check-' + this.props.id}>angle</label>
-              {angleSlider}
-            </div>
-            <div className="flex-row instruction-parameter-container">
-              <input
-                id={'branch-check-' + this.props.id}
-                className="branch-checkbox"
-                ref="branchCheck"
-                type="checkbox"
-                value="branch"
-                checked={branchEnabled}
-                onChange={this.toggleBranch}
-              />
-              <label className="check-label branch-check-label" htmlFor={'branch-check-' + this.props.id}>branch</label>
-              {branch}
-            </div>
+            <Distance
+              enabled={distanceEnabled}
+              id={this.props.id}
+              value={this.state.distance}
+              model={instruction}
+              update={this.updateDistance}
+              toggle={this.toggleDistance}
+            />
+            <Angle
+              enabled={angleEnabled}
+              id={this.props.id}
+              value={this.state.angle}
+              model={instruction}
+              update={this.updateAngle}
+              toggle={this.toggleAngle}
+            />
+            <Branch
+              enabled={branchEnabled}
+              id={this.props.id}
+              value={this.state.branch}
+              update={this.updateBranchType}
+              toggle={this.toggleBranch}
+            />
           </div>
           <button
             className="round-button remove-button"
@@ -193,6 +134,19 @@ var InstructionUI = React.createClass({
       </div>
     );
   }
-});
+}
+
+InstructionUI.propTypes = {
+  id: React.PropTypes.number.isRequired,
+  data: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      rule: React.PropTypes.string,
+      distance: React.PropTypes.number,
+      angle: React.PropTypes.number,
+      branch: React.PropTypes.number,
+    })
+  ),
+  update: React.PropTypes.func.isRequired,
+};
 
 module.exports = InstructionUI;

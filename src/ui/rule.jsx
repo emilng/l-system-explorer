@@ -1,26 +1,35 @@
-var React = require('react');
+const React = require('react');
 
-var RuleUI = React.createClass({
-  removeRule: function() {
+class RuleUI extends React.Component {
+  constructor(props) {
+    super(props);
+    this.removeRule = this.removeRule.bind(this);
+    this.handleChangeRule = this.handleChangeRule.bind(this);
+    this.handleChangeTransform = this.handleChangeTransform.bind(this);
+  }
+
+  removeRule() {
     this.props.data.splice(this.props.id, 1);
     this.props.update();
-  },
-  handleChangeRule: function(event) {
+  }
+
+  handleChangeRule(event) {
     this.props.rule.rule = event.currentTarget.value[0];
     this.props.update();
-  },
-  handleChangeTransform: function(event) {
+  }
+
+  handleChangeTransform(event) {
     this.props.rule.transform = event.currentTarget.value;
     this.props.update();
-  },
-  render: function() {
-        // <div className="justified-container">
-        // </div>
+  }
+
+  render() {
+    const { rule, transform } = this.props.rule;
     return (
       <div className="rule-container">
           <input
             className="rule-input"
-            value={this.props.rule.rule}
+            value={rule}
             onChange={this.handleChangeRule}
           />
           <label
@@ -28,7 +37,7 @@ var RuleUI = React.createClass({
           >-&gt;</label>
           <input
             className="transform-input"
-            value={this.props.rule.transform}
+            value={transform}
             onChange={this.handleChangeTransform}
           />
         <button
@@ -38,6 +47,21 @@ var RuleUI = React.createClass({
       </div>
     );
   }
-});
+}
+
+RuleUI.propTypes = {
+  data: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      rule: React.PropTypes.string,
+      transform: React.PropTypes.string,
+    })
+  ),
+  id: React.PropTypes.number.isRequired,
+  rule: React.PropTypes.shape({
+    rule: React.PropTypes.string,
+    transform: React.PropTypes.string,
+  }),
+  update: React.PropTypes.func.isRequired,
+};
 
 module.exports = RuleUI;

@@ -1,25 +1,27 @@
-var React = require('react');
-var InstructionUI = require('./instruction.jsx');
+const React = require('react');
+const InstructionUI = require('./instruction.jsx');
 
-var InstructionContainerUI = React.createClass({
-  addInstruction: function() {
-    var instruction = this.props.data;
+class InstructionContainerUI extends React.Component {
+  constructor(props) {
+    super(props);
+    this.addInstruction = this.addInstruction.bind(this);
+  }
+
+  addInstruction() {
+    const instruction = this.props.data;
     instruction.push({rule: ''});
     this.props.update();
-  },
-  render: function() {
-    var instructionsData = this.props.data;
-    var instructions = instructionsData.map(function(instruction, id) {
-      return (
-        <InstructionUI
-          key={id}
-          id={id}
-          update={this.props.update}
-          data={instructionsData}
-          reset={this.props.reset}
-        />
-      );
+  }
+
+  instructions() {
+    const { data, reset, update } = this.props;
+    return data.map((instruction, id) => {
+      const instructionProps = { data, id, reset, update, key: id };
+      return <InstructionUI {...instructionProps} />;
     }, this);
+  }
+
+  render() {
     return (
       <div>
         <div className="flex-row centered-items">
@@ -29,10 +31,23 @@ var InstructionContainerUI = React.createClass({
             onClick={this.addInstruction}
           >+</button>
         </div>
-        <div id="instructions-container">{instructions}</div>
+        <div id="instructions-container">{this.instructions()}</div>
       </div>
     );
   }
-});
+}
+
+InstructionContainerUI.propTypes = {
+  data: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      rule: React.PropTypes.string,
+      distance: React.PropTypes.number,
+      angle: React.PropTypes.number,
+      branch: React.PropTypes.number,
+    })
+  ),
+  reset: React.PropTypes.bool,
+  update: React.PropTypes.func.isRequired,
+};
 
 module.exports = InstructionContainerUI;
