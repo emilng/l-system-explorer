@@ -34,4 +34,4 @@ function write(rules, input, maxIterations) {
   return multiple(ruleLookup, input, maxIterations);
 }
 
-module.exports = { getRuleLookup, single, multiple, write };
+export { getRuleLookup, single, multiple, write };

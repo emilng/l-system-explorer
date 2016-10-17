@@ -1,7 +1,7 @@
-const React = require('react');
-const Slider = require('./Slider.jsx');
+import React, { Component } from 'react';
+import Slider from './Slider';
 
-class StartUI extends React.Component {
+class Start extends Component {
   constructor(props) {
     super(props);
     this.handleIterationsChange = this.handleIterationsChange.bind(this);
@@ -40,25 +40,27 @@ class StartUI extends React.Component {
 
   render() {
     return (
-      <div className="flex-column justified-container">
-        <h4>Initial State</h4>
-        {this.sliders()}
-        <div className="flex-row">
-          <label>iterations</label>
-          <input
-            className="number-input grow-item"
-            type="number"
-            min="1"
-            value={this.props.data.iterations}
-            onChange={this.handleIterationsChange}
-          />
+      <div id="start" className="side-section">
+        <div className="flex-column justified-container">
+          <h4>Initial State</h4>
+          {this.sliders()}
+          <div className="flex-row">
+            <label>iterations</label>
+            <input
+              className="number-input grow-item"
+              type="number"
+              min="1"
+              value={this.props.data.iterations}
+              onChange={this.handleIterationsChange}
+            />
+          </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-StartUI.propTypes = {
+Start.propTypes = {
   data: React.PropTypes.shape({
     x: React.PropTypes.number.isRequired,
     y: React.PropTypes.number.isRequired,
@@ -69,4 +71,4 @@ StartUI.propTypes = {
   update: React.PropTypes.func.isRequired,
 };
 
-module.exports = StartUI;
+export default Start;
