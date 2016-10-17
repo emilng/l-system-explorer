@@ -11,7 +11,7 @@ More information on L-Systems: http://en.wikipedia.org/wiki/L-system
 - Live updating of rendered output and state in URL
 
 ### Version
-1.0.2
+1.1.0
 
 ### Encoding Format
 Let's take a look at how <a href="http://emilng.github.io/l-system-explorer/index.html#X/X:F-[[X]+X]+F[+FX]-X,F:FF/F,d4;+,a25;-,a-25;[,b0;],b1/6/x135,y638,a-76,i6,z100" target="_blank">a plant</a> gets encoded to get a feel for the encoding format:
@@ -79,14 +79,8 @@ Each set of drawing values is separated by comma into
 
 ### Tech
 - react - view framework
-- gulp - streaming build system
-- browserify - node style modules in the browser
-- reactify - browserify transforms for JSX files used by React
-- gulp-sourcemaps - allows for original source to be referenced from minified code
-- gulp-uglify - code minifier/compressor
-- tape - unit tests
-- tape-run - running tests in headless browser
-- faucet - format TAP output from tape to be readable
+- webpack - build system
+- lodash - js utils
 
 ### Development
 Install npm packages
