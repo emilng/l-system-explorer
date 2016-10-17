@@ -1,7 +1,7 @@
-const React = require('react');
-const Slider = require('./slider.jsx');
+import React, { Component } from 'react';
+import Slider from './Slider';
 
-class Distance extends React.Component {
+class Distance extends Component {
   getSlider() {
     const { model, value, update } = this.props;
     const sliderProps = {
@@ -45,4 +45,4 @@ Distance.propTypes = {
   toggle: React.PropTypes.func.isRequired,
 };
 
-module.exports = Distance;
+export default Distance;

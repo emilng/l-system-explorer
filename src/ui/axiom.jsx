@@ -1,6 +1,6 @@
-const React = require('react');
+import React, { Component } from 'react';
 
-class AxiomUI extends React.Component {
+class Axiom extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -13,7 +13,7 @@ class AxiomUI extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="side-section">
         <h4>Axiom</h4>
         <div className="flex-row justified-container">
           <input
@@ -27,11 +27,11 @@ class AxiomUI extends React.Component {
   }
 }
 
-AxiomUI.propTypes = {
+Axiom.propTypes = {
   data: React.PropTypes.shape({
     axiom: React.PropTypes.string,
   }),
   update: React.PropTypes.func.isRequired,
 };
 
-module.exports = AxiomUI;
+export default Axiom;

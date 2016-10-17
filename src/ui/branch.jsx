@@ -1,6 +1,6 @@
-const React = require('react');
+import React, { Component } from 'react';
 
-class Branch extends React.Component {
+class Branch extends Component {
   getRadioButtons() {
     const sharedProps = {
       className: 'branchPush-input',
@@ -53,4 +53,4 @@ Branch.propTypes = {
   toggle: React.PropTypes.func.isRequired,
 };
 
-module.exports = Branch;
+export default Branch;

@@ -1,4 +1,3 @@
-// *** RENDERING ***
 function render(canvas, start, rules, instructions) {
   const ctx = canvas.getContext('2d');
   ctx.strokeStyle = 'black';
@@ -50,4 +49,4 @@ function render(canvas, start, rules, instructions) {
   ctx.closePath();
 }
 
-module.exports = render;
+export default render;

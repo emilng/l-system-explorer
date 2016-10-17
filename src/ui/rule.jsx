@@ -1,6 +1,6 @@
-const React = require('react');
+import React, { Component } from 'react';
 
-class RuleUI extends React.Component {
+class Rule extends Component {
   constructor(props) {
     super(props);
     this.removeRule = this.removeRule.bind(this);
@@ -49,7 +49,7 @@ class RuleUI extends React.Component {
   }
 }
 
-RuleUI.propTypes = {
+Rule.propTypes = {
   data: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       rule: React.PropTypes.string,
@@ -64,4 +64,4 @@ RuleUI.propTypes = {
   update: React.PropTypes.func.isRequired,
 };
 
-module.exports = RuleUI;
+export default Rule;
