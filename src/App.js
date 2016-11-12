@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import Canvas from './ui/Canvas';
 import Examples from './ui/Examples';
 import Start from './ui/Start';
 import Axiom from './ui/Axiom';
 import InstructionsContainer from './ui/InstructionsContainer';
 import RulesContainer from './ui/RulesContainer';
+import CanvasUI from './ui/Canvas';
 import * as encodeHash from './encoders/hash';
 import * as rewrite from './rewrite';
 import render from './render';
@@ -19,13 +19,10 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    const canvas = document.createElement('canvas');
-    canvas.width = 1000;
-    canvas.height = 700;
-    this.state = {
-      canvas,
-      data: this.decodeData(),
-    };
+    const canvas = document.getElementById('canvas');
+    const data = this.decodeData();
+    this.state = { canvas, data };
+    this.canvasUI = new CanvasUI(canvas, data, this.updateData.bind(this));
     this.update = this.update.bind(this);
     this.updateStart = this.update.bind(this, App.updateStep.RENDER);
     this.updateAxiom = this.update.bind(this, App.updateStep.REWRITE);
@@ -65,6 +62,11 @@ class App extends Component {
     return data;
   }
 
+  updateData(data) {
+    this.renderData(data);
+    this.setState({ data });
+  }
+
   update(step) {
     let currentStep = step;
     let data = this.state.data;
@@ -72,6 +74,7 @@ class App extends Component {
       data = this.updateMethods[currentStep](data);
       currentStep++;
     }
+    this.canvasUI.setData(data);
     this.setState({ data });
   }
 
@@ -81,7 +84,6 @@ class App extends Component {
     const rulesProps = { data: this.state.data.rules, update: this.updateRules };
     const instructionsProps = { data: this.state.data.instructions, update: this.updateInstructions };
     const exampleProps = { update: this.updateExample };
-    const canvasProps = { ...startProps, image: this.state.canvas, update: this.updateStart };
     return (
       <div>
         <div id="side-bar">
@@ -92,7 +94,6 @@ class App extends Component {
           <InstructionsContainer { ...instructionsProps } />
           <Examples { ...exampleProps } />
         </div>
-        <Canvas { ...canvasProps }/>
       </div>
     );
   }
