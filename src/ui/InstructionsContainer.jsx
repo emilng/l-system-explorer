@@ -8,17 +8,38 @@ class InstructionsContainer extends Component {
   }
 
   addInstruction() {
-    const instruction = this.props.data;
-    instruction.push({rule: ''});
-    this.props.update();
+    const newData = this.props.data.concat({rule: ''});
+    this.props.update(newData);
   }
 
-  instructions() {
-    const { data, update } = this.props;
+  removeInstruction(id) {
+    const newData = this.props.data.concat();
+    newData.splice(this.props.id, 1);
+    this.props.update(newData);
+  }
+
+  updateInstruction(index, value) {
+    const newData = this.props.data.concat();
+    newData.splice(index, 1, value);
+    this.props.update(newData);
+  }
+
+  renderInstruction() {
+    const data = this.props.data;
     return data.map((instruction, id) => {
-      const instructionProps = { data, id, update, key: id };
+      const instructionProps = {
+        id,
+        data: instruction,
+        key: id,
+        remove: this.removeInstruction.bind(this, id),
+        update: this.updateInstruction.bind(this, id),
+      };
       return <Instructions {...instructionProps} />;
     }, this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.data !== this.props.data;
   }
 
   render() {
@@ -31,7 +52,7 @@ class InstructionsContainer extends Component {
             onClick={this.addInstruction}
           >+</button>
         </div>
-        <div id="instructions-container">{this.instructions()}</div>
+        <div id="instructions-container">{this.renderInstruction()}</div>
       </div>
     );
   }

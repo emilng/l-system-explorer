@@ -6,9 +6,12 @@ class Axiom extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
-    this.props.data.axiom = event.currentTarget.value;
-    this.props.update();
+  handleChange(e) {
+    this.props.update(e.currentTarget.value);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.data !== this.props.data;
   }
 
   render() {
@@ -18,7 +21,7 @@ class Axiom extends Component {
         <div className="flex-row justified-container">
           <input
             className="grow-item"
-            value={this.props.data.axiom}
+            value={this.props.data}
             onChange={this.handleChange}
           />
         </div>
@@ -28,9 +31,7 @@ class Axiom extends Component {
 }
 
 Axiom.propTypes = {
-  data: React.PropTypes.shape({
-    axiom: React.PropTypes.string,
-  }),
+  data: React.PropTypes.string,
   update: React.PropTypes.func.isRequired,
 };
 

@@ -4,17 +4,26 @@ import Slider from './Slider';
 class Start extends Component {
   constructor(props) {
     super(props);
+    this.changeHandlers = {};
+    ['x','y','angle','zoom'].forEach(prop => {
+      this.changeHandlers[prop] = this.handleChange.bind(this, prop);
+    });
     this.handleIterationsChange = this.handleIterationsChange.bind(this);
   }
 
-  handleIterationsChange(event) {
-    this.props.data.iterations = Number(event.target.value);
-    this.props.update();
+  handleIterationsChange(e) {
+    this.handleChange('iterations', Number(e.target.value));
+  }
+
+  handleChange(prop, value) {
+    this.props.update({
+      ...this.props.data,
+      [prop]: Number(value),
+    });
   }
 
   sliders() {
-    const { data, update } = this.props;
-    const { x, y, angle, zoom } = data;
+    const { x, y, angle, zoom } = this.props.data;
     const sliderData = [
       ['x', x, 0, 1000, 1],
       ['y', y, 0, 700, 1],
@@ -24,10 +33,10 @@ class Start extends Component {
     return sliderData.map((item, id) => {
       const [name, value, min, max, step] = item;
       const sliderProps = {
-        name, value, min, max, step, update,
+        name, value, min, max, step,
         className: 'grow-item',
         key: id,
-        model: data,
+        update: this.changeHandlers[name],
       };
       return (
         <Slider
@@ -36,6 +45,10 @@ class Start extends Component {
         />
       );
     }, this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.data !== this.props.data;
   }
 
   render() {

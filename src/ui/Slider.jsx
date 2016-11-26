@@ -21,15 +21,14 @@ class Slider extends Component {
     this.keyDown = this.keyDown.bind(this);
   }
 
-  handleChange(event) {
-    this.props.model[event.target.name] = Number(event.target.value);
-    this.props.update();
+  handleChange(e) {
+    this.props.update(Number(e.target.value));
   }
 
-  keyDown(event) {
-    if (event.shiftKey) {
+  keyDown(e) {
+    if (e.shiftKey) {
       this.setState({ step: this.state.bigStep });
-    } else if (event.altKey) {
+    } else if (e.altKey) {
       this.setState({ step: this.state.smallStep });
     } else {
       this.setState({ step: this.state.regularStep });

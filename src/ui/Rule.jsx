@@ -4,23 +4,22 @@ class Rule extends Component {
   constructor(props) {
     super(props);
     this.removeRule = this.removeRule.bind(this);
-    this.handleChangeRule = this.handleChangeRule.bind(this);
-    this.handleChangeTransform = this.handleChangeTransform.bind(this);
+    this.updateRule = this.updateRule.bind(this);
+    this.updateTransform = this.updateTransform.bind(this);
   }
 
   removeRule() {
-    this.props.data.splice(this.props.id, 1);
-    this.props.update();
+    const newData = this.props.data.concat();
+    newData.splice(this.props.id, 1);
+    this.props.update(newData);
   }
 
-  handleChangeRule(event) {
-    this.props.rule.rule = event.currentTarget.value[0];
-    this.props.update();
+  updateRule(e) {
+    this.props.update({ ...this.props.rule, rule: e.target.value[0] });
   }
 
-  handleChangeTransform(event) {
-    this.props.rule.transform = event.currentTarget.value;
-    this.props.update();
+  updateTransform(e) {
+    this.props.update({ ...this.props.rule, transform: e.target.value });
   }
 
   render() {
@@ -30,7 +29,7 @@ class Rule extends Component {
           <input
             className="rule-input"
             value={rule}
-            onChange={this.handleChangeRule}
+            onChange={this.updateRule}
           />
           <label
             className="transform-label"
@@ -38,7 +37,7 @@ class Rule extends Component {
           <input
             className="transform-input"
             value={transform}
-            onChange={this.handleChangeTransform}
+            onChange={this.updateTransform}
           />
         <button
           className="round-button remove-button"
