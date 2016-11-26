@@ -21,13 +21,19 @@ class App extends Component {
     super(props);
     const canvas = document.getElementById('canvas');
     const data = this.decodeData();
-    this.state = { canvas, data };
-    this.canvasUI = new CanvasUI(canvas, data, this.updateData.bind(this));
+    this.state = { canvas,
+      start: data.start,
+      axiom: data.axiom,
+      rules: data.rules,
+      rewrittenRules: [],
+      instructions: data.instructions,
+    };
+    this.canvasUI = new CanvasUI(canvas, data.start, this.updateData.bind(this));
     this.update = this.update.bind(this);
-    this.updateStart = this.update.bind(this, App.updateStep.RENDER);
-    this.updateAxiom = this.update.bind(this, App.updateStep.REWRITE);
-    this.updateRules = this.update.bind(this, App.updateStep.REWRITE);
-    this.updateInstructions = this.update.bind(this, App.updateStep.RENDER);
+    this.updateStart = this.update.bind(this, App.updateStep.RENDER, 'start');
+    this.updateAxiom = this.update.bind(this, App.updateStep.REWRITE, 'axiom');
+    this.updateRules = this.update.bind(this, App.updateStep.REWRITE, 'rules');
+    this.updateInstructions = this.update.bind(this, App.updateStep.RENDER, 'instructions');
     this.updateExample = this.update.bind(this, App.updateStep.DECODE);
     this.decodeData = this.decodeData.bind(this);
     this.rewriteData = this.rewriteData.bind(this);
@@ -63,26 +69,33 @@ class App extends Component {
   }
 
   updateData(data) {
-    this.renderData(data);
-    this.setState({ data });
+    this.renderData({ ...this.state, start: data });
+    this.setState({ start: data });
   }
 
-  update(step) {
+  update(step, propName, propValue) {
     let currentStep = step;
-    let data = this.state.data;
+    let newState = this.state;
+    if (propName) {
+      newState[propName] = propValue;
+    }
     while (currentStep < this.updateMethods.length) {
-      data = this.updateMethods[currentStep](data);
+      newState = this.updateMethods[currentStep](newState);
       currentStep++;
     }
-    this.canvasUI.setData(data);
-    this.setState({ data });
+    this.canvasUI.setData(newState.start);
+    if (propName) {
+      this.setState({ [propName]: propValue });
+    } else {
+      this.setState(newState)
+    }
   }
 
   render() {
-    const startProps = { data: this.state.data.start, update: this.updateStart };
-    const axiomProps = { data: this.state.data, update: this.updateAxiom };
-    const rulesProps = { data: this.state.data.rules, update: this.updateRules };
-    const instructionsProps = { data: this.state.data.instructions, update: this.updateInstructions };
+    const startProps = { data: this.state.start, update: this.updateStart };
+    const axiomProps = { data: this.state.axiom, update: this.updateAxiom };
+    const rulesProps = { data: this.state.rules, update: this.updateRules };
+    const instructionsProps = { data: this.state.instructions, update: this.updateInstructions };
     const exampleProps = { update: this.updateExample };
     return (
       <div>

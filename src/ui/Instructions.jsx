@@ -6,7 +6,6 @@ import Distance from './Distance';
 class Instructions extends Component {
   constructor(props) {
     super(props);
-    this.toggleProperty = this.toggleProperty.bind(this);
     this.toggleDistance = this.toggleProperty.bind(this, 'distance');
     this.toggleAngle = this.toggleProperty.bind(this, 'angle');
     this.toggleBranch = this.toggleProperty.bind(this, 'branch');
@@ -14,10 +13,9 @@ class Instructions extends Component {
     this.updateDistance = this.updateDistance.bind(this);
     this.updateAngle = this.updateAngle.bind(this);
     this.updateBranchType = this.updateBranchType.bind(this);
-    const instruction = props.data[this.props.id];
-    const distance = (instruction.hasOwnProperty('distance')) ? instruction.distance : 0;
-    const angle = (instruction.hasOwnProperty('angle')) ? instruction.angle : 0;
-    const branch = (instruction.hasOwnProperty('branch')) ? instruction.branch : 0;
+    const distance = (props.data.hasOwnProperty('distance')) ? props.data.distance : 0;
+    const angle = (props.data.hasOwnProperty('angle')) ? props.data.angle : 0;
+    const branch = (props.data.hasOwnProperty('branch')) ? props.data.branch : 0;
     this.state = {
       distance,
       angle,
@@ -25,60 +23,47 @@ class Instructions extends Component {
     }
   }
 
-  removeInstruction() {
-    this.props.data.splice(this.props.id, 1);
-    this.props.update();
-  }
-
-  removeProperty(propName) {
-    var instruction = this.props.data[this.props.id];
-    var keys = Object.keys(instruction);
-    this.props.data[this.props.id] = keys.reduce(function(newInstruction, prop) {
-      if (prop !== propName) {
-        newInstruction[prop] = instruction[prop];
-      }
-      return newInstruction;
-    }, {});
-  }
-
-  toggleProperty(propName, event) {
-    var instruction = this.props.data[this.props.id];
-    var propChecked = event.currentTarget.checked;
+  toggleProperty(propName, e) {
+    const { data, update } = this.props;
+    // eslint-disable-next-line
+    const { [propName]:prop, ...rest } = data;
+    var propChecked = e.target.checked;
     if (propChecked) {
-      instruction[propName] = this.state[propName];
+      update({ ...rest, [propName]: this.state[propName]});
     } else {
-      this.removeProperty(propName);
+      update({ ...rest });
     }
-    this.props.update();
   }
 
-  updateRule(event) {
-    const instruction = this.props.data[this.props.id];
-    instruction.rule = event.currentTarget.value;
-    this.props.update();
+  updateRule(e) {
+    const { data, update } = this.props;
+    update({ ...data, rule: e.target.value });
   }
 
-  updateDistance() {
-    const instruction = this.props.data[this.props.id];
-    this.setState({ distance: instruction.distance });
-    this.props.update();
+  updateDistance(value) {
+    const { data, update } = this.props;
+    this.setState({ distance: value });
+    update({ ...data, distance: value })
   }
 
-  updateAngle() {
-    const instruction = this.props.data[this.props.id];
-    this.setState({ angle: instruction.angle });
-    this.props.update();
+  updateAngle(value) {
+    const { data, update } = this.props;
+    this.setState({ angle: value });
+    update({ ...data, angle: value })
   }
 
-  updateBranchType(event) {
-    const instruction = this.props.data[this.props.id];
-    instruction.branch = Number(event.currentTarget.id);
-    this.setState({ branch: instruction.branch });
-    this.props.update();
+  updateBranchType(e) {
+    const { data, update } = this.props;
+    this.setState({ branch: Number(e.target.id) });
+    update({ ...data, branch: e.target.id });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.data !== this.props.data;
   }
 
   render() {
-    const instruction = this.props.data[this.props.id];
+    const instruction = this.props.data;
     const distanceEnabled = instruction.hasOwnProperty('distance');
     const angleEnabled = instruction.hasOwnProperty('angle');
     const branchEnabled = instruction.hasOwnProperty('branch');
@@ -117,7 +102,7 @@ class Instructions extends Component {
           </div>
           <button
             className="round-button remove-button"
-            onClick={this.removeInstruction}
+            onClick={this.props.remove}
           > X </button>
         </div>
       </div>

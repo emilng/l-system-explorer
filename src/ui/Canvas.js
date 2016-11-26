@@ -9,17 +9,16 @@ class Canvas {
       this.mousedown = true;
       this.startx = e.clientX;
       this.starty = e.clientY;
-      this.datax = this.data.start.x;
-      this.datay = this.data.start.y;
-      this.updateData();
+      this.datax = this.data.x;
+      this.datay = this.data.y;
     });
     canvas.addEventListener('mouseup', () => {
       this.mousedown = false;
     });
     canvas.addEventListener('mousemove', (e) => {
       if (this.mousedown) {
-        this.data.start.x = this.datax - (this.startx - e.clientX);
-        this.data.start.y = this.datay - (this.starty - e.clientY);
+        this.x = this.datax - (this.startx - e.clientX);
+        this.y = this.datay - (this.starty - e.clientY);
         window.requestAnimationFrame(this.updateData);
       }
     });
@@ -30,7 +29,7 @@ class Canvas {
   }
 
   updateData() {
-    this.callback(this.data);
+    this.callback({ ...this.data, x: this.x, y: this.y });
   }
 }
 

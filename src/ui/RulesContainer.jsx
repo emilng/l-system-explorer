@@ -5,20 +5,34 @@ class RulesContainer extends Component {
   constructor(props) {
     super(props);
     this.addRule = this.addRule.bind(this);
+    this.handleChangeRule = this.handleChangeRule.bind(this);
   }
 
   addRule() {
-    const rulesData = this.props.data;
-    rulesData.push({ rule: '', transform: '' });
-    this.props.update();
+    const newData = this.props.data.concat({ rule: '', transform: '' });
+    this.props.update(newData);
+  }
+
+  removeRule() {
+
   }
 
   rules() {
-    const { data, update } = this.props;
+    const data = this.props.data;
     return data.map((rule, id) => {
-      const ruleProps = { data, id, rule, update, key: id };
+      const ruleProps = { data, id, rule, update: this.handleChangeRule.bind(id), key: id };
       return <Rule {...ruleProps} />;
     }, this);
+  }
+
+  handleChangeRule(index, value) {
+    const newData = this.props.data.concat();
+    newData.splice(index, 1, value);
+    this.props.update(newData);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.data !== this.props.data;
   }
 
   render() {
