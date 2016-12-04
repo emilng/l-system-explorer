@@ -3,15 +3,8 @@ import React, { Component } from 'react';
 class Rule extends Component {
   constructor(props) {
     super(props);
-    this.removeRule = this.removeRule.bind(this);
     this.updateRule = this.updateRule.bind(this);
     this.updateTransform = this.updateTransform.bind(this);
-  }
-
-  removeRule() {
-    const newData = this.props.data.concat();
-    newData.splice(this.props.id, 1);
-    this.props.update(newData);
   }
 
   updateRule(e) {
@@ -41,7 +34,7 @@ class Rule extends Component {
           />
         <button
           className="round-button remove-button"
-          onClick={this.removeRule}
+          onClick={this.props.remove}
         > X </button>
       </div>
     );
@@ -61,6 +54,7 @@ Rule.propTypes = {
     transform: React.PropTypes.string,
   }),
   update: React.PropTypes.func.isRequired,
+  remove: React.PropTypes.func.isRequired,
 };
 
 export default Rule;
