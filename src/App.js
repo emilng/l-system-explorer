@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Examples from './ui/Examples';
 import Start from './ui/Start';
+import Iterations from './ui/Iterations';
 import Axiom from './ui/Axiom';
 import InstructionsContainer from './ui/InstructionsContainer';
 import RulesContainer from './ui/RulesContainer';
@@ -23,14 +24,16 @@ class App extends Component {
     const data = this.decodeData();
     this.state = { canvas,
       start: data.start,
+      iterations: data.iterations,
       axiom: data.axiom,
       rules: data.rules,
-      rewrittenRules: [],
+      rewrittenRules: '',
       instructions: data.instructions,
     };
-    this.canvasUI = new CanvasUI(canvas, data.start, this.updateData.bind(this));
+    this.canvasUI = new CanvasUI(canvas, data.start, this.updateStartData.bind(this));
     this.update = this.update.bind(this);
     this.updateStart = this.update.bind(this, App.updateStep.RENDER, 'start');
+    this.updateIterationData = this.updateIterationData.bind(this);
     this.updateAxiom = this.update.bind(this, App.updateStep.REWRITE, 'axiom');
     this.updateRules = this.update.bind(this, App.updateStep.REWRITE, 'rules');
     this.updateInstructions = this.update.bind(this, App.updateStep.RENDER, 'instructions');
@@ -60,17 +63,21 @@ class App extends Component {
   }
 
   renderData(data) {
-    const iterations = Math.min(data.rewrittenRules.length - 1, data.start.iterations);
-    render(this.state.canvas, data.start, data.rewrittenRules[iterations], data.instructions);
+    render(this.state.canvas, data.start, data.rewrittenRules, data.instructions);
     const urlHash = encodeHash.encode(data);
     const stateObj = { data: urlHash };
     history.replaceState(stateObj, 'L-Systems', `index.html${urlHash}`);
     return data;
   }
 
-  updateData(data) {
+  updateStartData(data) {
     this.renderData({ ...this.state, start: data });
     this.setState({ start: data });
+  }
+
+  updateIterationData(iterations) {
+    const data = this.rewriteData({ ...this.state, iterations });
+    this.setState(this.renderData(data));
   }
 
   update(step, propName, propValue) {
@@ -87,12 +94,13 @@ class App extends Component {
     if (propName) {
       this.setState({ [propName]: propValue });
     } else {
-      this.setState(newState)
+      this.setState(newState);
     }
   }
 
   render() {
     const startProps = { data: this.state.start, update: this.updateStart };
+    const iterationsProps = { data: this.state.iterations, update: this.updateIterationData };
     const axiomProps = { data: this.state.axiom, update: this.updateAxiom };
     const rulesProps = { data: this.state.rules, update: this.updateRules };
     const instructionsProps = { data: this.state.instructions, update: this.updateInstructions };
@@ -102,6 +110,7 @@ class App extends Component {
         <div id="side-bar">
           <h2>L-System Explorer</h2>
           <Start { ...startProps } />
+          <Iterations { ...iterationsProps } />
           <Axiom { ...axiomProps } />
           <RulesContainer { ...rulesProps } />
           <InstructionsContainer { ...instructionsProps } />

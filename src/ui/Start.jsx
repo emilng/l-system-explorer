@@ -8,11 +8,6 @@ class Start extends Component {
     ['x','y','angle','zoom'].forEach(prop => {
       this.changeHandlers[prop] = this.handleChange.bind(this, prop);
     });
-    this.handleIterationsChange = this.handleIterationsChange.bind(this);
-  }
-
-  handleIterationsChange(e) {
-    this.handleChange('iterations', Number(e.target.value));
   }
 
   handleChange(prop, value) {
@@ -57,16 +52,6 @@ class Start extends Component {
         <div className="flex-column justified-container">
           <h4>Initial State</h4>
           {this.sliders()}
-          <div className="flex-row">
-            <label>iterations</label>
-            <input
-              className="number-input grow-item"
-              type="number"
-              min="1"
-              value={this.props.data.iterations}
-              onChange={this.handleIterationsChange}
-            />
-          </div>
         </div>
       </div>
     )
@@ -79,7 +64,6 @@ Start.propTypes = {
     y: React.PropTypes.number.isRequired,
     angle: React.PropTypes.number.isRequired,
     zoom: React.PropTypes.number.isRequired,
-    iterations: React.PropTypes.number.isRequired,
   }),
   update: React.PropTypes.func.isRequired,
 };
