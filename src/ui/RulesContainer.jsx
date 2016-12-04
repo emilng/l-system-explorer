@@ -13,14 +13,23 @@ class RulesContainer extends Component {
     this.props.update(newData);
   }
 
-  removeRule() {
-
+  removeRule(id) {
+    const newData = this.props.data.concat();
+    newData.splice(id, 1);
+    this.props.update(newData);
   }
 
   rules() {
     const data = this.props.data;
     return data.map((rule, id) => {
-      const ruleProps = { data, id, rule, update: this.handleChangeRule.bind(id), key: id };
+      const ruleProps = {
+        data,
+        id,
+        rule,
+        key: id,
+        remove: this.removeRule.bind(this, id),
+        update: this.handleChangeRule.bind(this, id),
+      };
       return <Rule {...ruleProps} />;
     }, this);
   }
