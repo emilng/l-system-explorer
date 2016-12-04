@@ -19,11 +19,9 @@ function single(ruleLookup, input) {
 
 // iterates through input several times and outputs array of each iteration
 function multiple(ruleLookup, input, maxIterations) {
-  const output = [input];
-  let generated = input;
+  let output = input;
   for (let i = 0; i < maxIterations; i++) {
-    generated = single(ruleLookup, generated);
-    output.push(generated);
+    output = single(ruleLookup, output);
   }
   return output;
 }
