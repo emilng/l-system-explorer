@@ -12,7 +12,7 @@ class Examples extends Component {
         },
         {
           name: 'Koch Curve',
-          hash: 'F/F:F+F-F-F+F/F,d3.3;+,a60;-,a-60/6/x853,y276,a180,i4,z100',
+          hash: 'F/F:F+F-F-F+F/F,d3.3;+,a60;-,a-60/4/x853,y276,a180,i4,z100',
         },
         {
           name: 'Sierpinksi Triangle',
@@ -49,6 +49,10 @@ class Examples extends Component {
         >{name}</a>
       </li>
     );
+  }
+
+  shouldComponentUpdate() {
+    return false;
   }
 
   render() {

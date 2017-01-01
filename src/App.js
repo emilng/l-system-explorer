@@ -58,8 +58,8 @@ class App extends Component {
   }
 
   rewriteData(data) {
-    const rewrittenRules = rewrite.write(data.rules, data.axiom, data.iterations);
-    return { ...data, rewrittenRules};
+    data.rewrittenRules = rewrite.write(data.rules, data.axiom, data.iterations);
+    return data;
   }
 
   renderData(data) {
@@ -71,7 +71,9 @@ class App extends Component {
   }
 
   updateStartData(data) {
-    this.renderData({ ...this.state, start: data });
+    const updatedStartData = this.state;
+    updatedStartData.start = data;
+    this.renderData(updatedStartData);
     this.setState({ start: data });
   }
 

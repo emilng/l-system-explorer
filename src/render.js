@@ -1,10 +1,11 @@
+const RADIANS = Math.PI / 180;
+
 function render(canvas, start, rules, instructions) {
   const ctx = canvas.getContext('2d');
   ctx.strokeStyle = 'black';
   ctx.lineWidth = 1;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const radians = Math.PI / 180;
   const zoom = start.zoom / 100;
   let x = start.x;
   let y = start.y;
@@ -26,8 +27,8 @@ function render(canvas, start, rules, instructions) {
       }
       if (instruction.hasOwnProperty('distance')) {
         forward = instruction.distance * zoom;
-        x += Math.cos(angle * radians) * forward;
-        y += Math.sin(angle * radians) * forward;
+        x += Math.cos(angle * RADIANS) * forward;
+        y += Math.sin(angle * RADIANS) * forward;
         ctx.lineTo(x, y);
       }
       if (instruction.hasOwnProperty('branch')) {
