@@ -6,6 +6,7 @@ import Iterations from './ui/Iterations';
 import Axiom from './ui/Axiom';
 import InstructionsContainer from './ui/InstructionsContainer';
 import RulesContainer from './ui/RulesContainer';
+import Markov from './ui/Markov';
 import CanvasUI from './ui/Canvas';
 import * as encodeHash from './encoders/hash';
 import * as rewrite from './rewrite';
@@ -27,6 +28,7 @@ class App extends Component {
       iterations: data.iterations,
       axiom: data.axiom,
       rules: data.rules,
+      markov: data.markov,
       rewrittenRules: '',
       instructions: data.instructions,
     };
@@ -36,6 +38,7 @@ class App extends Component {
     this.updateIterationData = this.updateIterationData.bind(this);
     this.updateAxiom = this.update.bind(this, App.updateStep.REWRITE, 'axiom');
     this.updateRules = this.update.bind(this, App.updateStep.REWRITE, 'rules');
+    this.updateMarkov = this.update.bind(this, App.updateStep.REWRITE, 'markov');
     this.updateInstructions = this.update.bind(this, App.updateStep.RENDER, 'instructions');
     this.updateExample = this.update.bind(this, App.updateStep.DECODE);
     this.decodeData = this.decodeData.bind(this);
@@ -105,6 +108,7 @@ class App extends Component {
     const iterationsProps = { data: this.state.iterations, update: this.updateIterationData };
     const axiomProps = { data: this.state.axiom, update: this.updateAxiom };
     const rulesProps = { data: this.state.rules, update: this.updateRules };
+    const markovProps = { data: this.state.markov, update: this.updateMarkov };
     const instructionsProps = { data: this.state.instructions, update: this.updateInstructions };
     const exampleProps = { update: this.updateExample };
     return (
@@ -115,6 +119,7 @@ class App extends Component {
           <Iterations { ...iterationsProps } />
           <Axiom { ...axiomProps } />
           <RulesContainer { ...rulesProps } />
+          <Markov { ...markovProps } />
           <InstructionsContainer { ...instructionsProps } />
           <Examples { ...exampleProps } />
         </div>

@@ -3,6 +3,7 @@ import start from './start';
 import rules from './rules';
 import instructions from './instructions';
 import iterations from './iterations';
+import markov from './markov';
 
 const hashSections = [
   {
@@ -25,6 +26,10 @@ const hashSections = [
     name: 'start',
     encoder: start,
   },
+  {
+    name: 'markov',
+    encoder: markov,
+  },
 ];
 
 function decodeWith(hash, sections) {
@@ -33,7 +38,9 @@ function decodeWith(hash, sections) {
 
   sections.forEach((section, index) => {
     const encodedSection = encodedSections[index];
-    data[section.name] = section.encoder.decode(encodedSection);
+    if (encodedSection) {
+      data[section.name] = section.encoder.decode(encodedSection);
+    }
   });
   return data;
 }

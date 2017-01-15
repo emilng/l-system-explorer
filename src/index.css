@@ -40,12 +40,6 @@ input[type="radio"] {
   margin-top: 0.4em;
 }
 
-input[type="checkbox"] {
-  width: 1em;
-  margin: 0.4em 0.5em 0 0;
-  display: none;
-}
-
 input[type=range] {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -179,6 +173,12 @@ ul {
   width: 230px;
   margin: 0;
   padding: 0;
+}
+
+.instruction-parameter-container input[type="checkbox"] {
+  width: 1em;
+  margin: 0.4em 0.5em 0 0;
+  display: none;
 }
 
 .number-input {
