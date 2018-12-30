@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Rule extends Component {
   constructor(props) {
@@ -42,19 +43,19 @@ class Rule extends Component {
 }
 
 Rule.propTypes = {
-  data: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      rule: React.PropTypes.string,
-      transform: React.PropTypes.string,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      rule: PropTypes.string,
+      transform: PropTypes.string,
     })
   ),
-  id: React.PropTypes.number.isRequired,
-  rule: React.PropTypes.shape({
-    rule: React.PropTypes.string,
-    transform: React.PropTypes.string,
+  id: PropTypes.number.isRequired,
+  rule: PropTypes.shape({
+    rule: PropTypes.string,
+    transform: PropTypes.string,
   }),
-  update: React.PropTypes.func.isRequired,
-  remove: React.PropTypes.func.isRequired,
+  update: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
 };
 
 export default Rule;

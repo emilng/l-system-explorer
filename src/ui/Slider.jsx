@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Slider extends Component {
   constructor(props) {
@@ -56,12 +57,12 @@ class Slider extends Component {
 }
 
 Slider.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  value: React.PropTypes.number.isRequired,
-  min: React.PropTypes.number.isRequired,
-  max: React.PropTypes.number.isRequired,
-  showLabel: React.PropTypes.bool.isRequired,
-  step: React.PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  showLabel: PropTypes.bool.isRequired,
+  step: PropTypes.number.isRequired,
 };
 
 export default Slider;

@@ -35,7 +35,7 @@ class Examples extends Component {
   }
 
   updateHash(hash) {
-    history.replaceState({ data: hash }, 'L-Systems', `index.html#${hash}`);
+    window.history.replaceState({ data: hash }, 'L-Systems', `index.html#${hash}`);
     this.props.update();
   }
 

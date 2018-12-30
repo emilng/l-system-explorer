@@ -66,7 +66,7 @@ class App extends Component {
     render(this.state.canvas, data.start, data.rewrittenRules, data.instructions);
     const urlHash = encodeHash.encode(data);
     const stateObj = { data: urlHash };
-    history.replaceState(stateObj, 'L-Systems', `index.html${urlHash}`);
+    window.history.replaceState(stateObj, 'L-Systems', `index.html${urlHash}`);
     return data;
   }
 

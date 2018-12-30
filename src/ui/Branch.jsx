@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Branch extends Component {
   getRadioButtons() {
@@ -46,11 +47,11 @@ class Branch extends Component {
 }
 
 Branch.propTypes = {
-  enabled: React.PropTypes.bool.isRequired,
-  id: React.PropTypes.number.isRequired,
-  value: React.PropTypes.number.isRequired,
-  update: React.PropTypes.func.isRequired,
-  toggle: React.PropTypes.func.isRequired,
+  enabled: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+  update: PropTypes.func.isRequired,
+  toggle: PropTypes.func.isRequired,
 };
 
 export default Branch;

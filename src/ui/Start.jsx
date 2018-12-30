@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Slider from './Slider';
 
 class Start extends Component {
@@ -59,13 +60,13 @@ class Start extends Component {
 }
 
 Start.propTypes = {
-  data: React.PropTypes.shape({
-    x: React.PropTypes.number.isRequired,
-    y: React.PropTypes.number.isRequired,
-    angle: React.PropTypes.number.isRequired,
-    zoom: React.PropTypes.number.isRequired,
+  data: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    angle: PropTypes.number.isRequired,
+    zoom: PropTypes.number.isRequired,
   }),
-  update: React.PropTypes.func.isRequired,
+  update: PropTypes.func.isRequired,
 };
 
 export default Start;

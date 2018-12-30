@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Iterations extends Component {
   constructor(props) {
@@ -33,8 +34,8 @@ class Iterations extends Component {
 }
 
 Iterations.propTypes = {
-  data: React.PropTypes.number,
-  update: React.PropTypes.func.isRequired,
+  data: PropTypes.number,
+  update: PropTypes.func.isRequired,
 };
 
 export default Iterations;

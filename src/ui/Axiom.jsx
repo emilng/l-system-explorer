@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Axiom extends Component {
   constructor(props) {
@@ -31,8 +32,8 @@ class Axiom extends Component {
 }
 
 Axiom.propTypes = {
-  data: React.PropTypes.string,
-  update: React.PropTypes.func.isRequired,
+  data: PropTypes.string,
+  update: PropTypes.func.isRequired,
 };
 
 export default Axiom;

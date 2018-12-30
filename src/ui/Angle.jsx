@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Slider from './Slider';
 
 class Angle extends Component {
@@ -37,12 +38,12 @@ class Angle extends Component {
 }
 
 Angle.propTypes = {
-  enabled: React.PropTypes.bool.isRequired,
-  id: React.PropTypes.number.isRequired,
-  value: React.PropTypes.number.isRequired,
-  model: React.PropTypes.object.isRequired,
-  update: React.PropTypes.func.isRequired,
-  toggle: React.PropTypes.func.isRequired,
+  enabled: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+  model: PropTypes.object.isRequired,
+  update: PropTypes.func.isRequired,
+  toggle: PropTypes.func.isRequired,
 };
 
 export default Angle;

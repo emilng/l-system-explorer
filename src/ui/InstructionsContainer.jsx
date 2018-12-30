@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Instructions from './Instructions';
 
 class InstructionsContainer extends Component {
@@ -59,10 +60,10 @@ class InstructionsContainer extends Component {
 }
 
 InstructionsContainer.propTypes = {
-  data: React.PropTypes.arrayOf(
-    React.PropTypes.object
+  data: PropTypes.arrayOf(
+    PropTypes.object
   ),
-  update: React.PropTypes.func.isRequired,
+  update: PropTypes.func.isRequired,
 };
 
 export default InstructionsContainer;
