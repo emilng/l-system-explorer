@@ -8,7 +8,7 @@
     "url": "git@github.com:emilng/l-system-explorer.git"
   },
   "devDependencies": {
-    "react-scripts": "2.1.2"
+    "react-scripts": "^2.1.3"
   },
   "dependencies": {
     "lodash": "^4.17.4",
