@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Angle from './Angle';
 import Branch from './Branch';
 import Distance from './Distance';
+import Pen from './Pen';
 
 class Instructions extends Component {
   constructor(props) {
@@ -9,17 +10,21 @@ class Instructions extends Component {
     this.toggleDistance = this.toggleProperty.bind(this, 'distance');
     this.toggleAngle = this.toggleProperty.bind(this, 'angle');
     this.toggleBranch = this.toggleProperty.bind(this, 'branch');
+    this.togglePen = this.toggleProperty.bind(this, 'pen');
     this.updateRule = this.updateRule.bind(this);
     this.updateDistance = this.updateDistance.bind(this);
     this.updateAngle = this.updateAngle.bind(this);
     this.updateBranchType = this.updateBranchType.bind(this);
+    this.updatePen = this.updatePen.bind(this);
     const distance = (props.data.hasOwnProperty('distance')) ? props.data.distance : 0;
     const angle = (props.data.hasOwnProperty('angle')) ? props.data.angle : 0;
     const branch = (props.data.hasOwnProperty('branch')) ? props.data.branch : 0;
+    const pen = (props.data.hasOwnProperty('pen')) ? props.data.pen : 0;
     this.state = {
       distance,
       angle,
       branch,
+      pen,
     }
   }
 
@@ -55,7 +60,13 @@ class Instructions extends Component {
   updateBranchType(e) {
     const { data, update } = this.props;
     this.setState({ branch: Number(e.target.id) });
-    update({ ...data, branch: e.target.id });
+    update({ ...data, branch: Number(e.target.id) });
+  }
+
+  updatePen(e) {
+    const { data, update } = this.props;
+    this.setState({ pen: Number(e.target.id) });
+    update({ ...data, pen: Number(e.target.id) });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -67,6 +78,7 @@ class Instructions extends Component {
     const distanceEnabled = instruction.hasOwnProperty('distance');
     const angleEnabled = instruction.hasOwnProperty('angle');
     const branchEnabled = instruction.hasOwnProperty('branch');
+    const penEnabled = instruction.hasOwnProperty('pen');
     return (
       <div className="flex-column instruction-container">
         <div className="flex-row instruction-box">
@@ -98,6 +110,13 @@ class Instructions extends Component {
               value={this.state.branch}
               update={this.updateBranchType}
               toggle={this.toggleBranch}
+            />
+            <Pen
+              enabled={penEnabled}
+              id={this.props.id}
+              value={this.state.pen}
+              update={this.updatePen}
+              toggle={this.togglePen}
             />
           </div>
           <button

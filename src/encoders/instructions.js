@@ -5,6 +5,7 @@ const keyLookup = {
   d: 'distance',
   a: 'angle',
   b: 'branch',
+  p: 'pen',
 };
 
 const paramEncoder = getParamEncoder(keyLookup);
