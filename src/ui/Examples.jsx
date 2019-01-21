@@ -30,6 +30,10 @@ class Examples extends Component {
           name: 'Fractal Plant 2',
           hash: 'XL/X:F-[[U]+X]P+F[+FXL]-X,F:FF,L:X-UXPL/F,d-2.3;+,a25;-,a-17.5;[,b0;],b1;U,d-1.9,b0,a-1.5;P,b1,d-0.1;L,d-5,a38.5/6/x442,y520,a95,i6,z100',
         },
+        {
+          name: 'City',
+          hash: 'X/X:F-%5B%5BX%5D+GX%5D+G%5B+FX%5D-X,F:FF,G:FG/F,d-0.7;+,a108.4;-,a234;%5B,b0;%5D,b1;G,d-1.1,p0/6/x246,y125,a-108,i6,z408',
+        },
       ],
     }
   }

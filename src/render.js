@@ -22,6 +22,7 @@ function render(canvas, start, rules, instructions) {
     const rule = rules[i];
     if (instructionLookup.hasOwnProperty(rule)) {
       const instruction = instructionLookup[rule];
+      const isPenDown = (instruction.hasOwnProperty('pen') && instruction.pen === 0) ? false : true;
       if (instruction.hasOwnProperty('angle')) {
         angle += instruction.angle;
       }
@@ -29,7 +30,11 @@ function render(canvas, start, rules, instructions) {
         forward = instruction.distance * zoom;
         x += Math.cos(angle * RADIANS) * forward;
         y += Math.sin(angle * RADIANS) * forward;
-        ctx.lineTo(x, y);
+        if (isPenDown) {
+          ctx.lineTo(x, y);
+        } else {
+          ctx.moveTo(x, y);
+        }
       }
       if (instruction.hasOwnProperty('branch')) {
         if (instruction.branch === 0) {
