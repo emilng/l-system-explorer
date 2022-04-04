@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Angle from './Angle';
 import Branch from './Branch';
 import Distance from './Distance';
@@ -16,16 +17,21 @@ class Instructions extends Component {
     this.updateAngle = this.updateAngle.bind(this);
     this.updateBranchType = this.updateBranchType.bind(this);
     this.updatePen = this.updatePen.bind(this);
-    const distance = (props.data.hasOwnProperty('distance')) ? props.data.distance : 0;
-    const angle = (props.data.hasOwnProperty('angle')) ? props.data.angle : 0;
-    const branch = (props.data.hasOwnProperty('branch')) ? props.data.branch : 0;
-    const pen = (props.data.hasOwnProperty('pen')) ? props.data.pen : 0;
+    const distance = ({}.hasOwnProperty.call(props.data, 'distance')) ? props.data.distance : 0;
+    const angle = ({}.hasOwnProperty.call(props.data, 'angle')) ? props.data.angle : 0;
+    const branch = ({}.hasOwnProperty.call(props.data, 'branch')) ? props.data.branch : 0;
+    const pen = ({}.hasOwnProperty.call(props.data, 'pen')) ? props.data.pen : 0;
     this.state = {
       distance,
       angle,
       branch,
       pen,
-    }
+    };
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const { data } = this.props;
+    return nextProps.data !== data;
   }
 
   toggleProperty(propName, e) {
@@ -48,13 +54,13 @@ class Instructions extends Component {
   updateDistance(value) {
     const { data, update } = this.props;
     this.setState({ distance: value });
-    update({ ...data, distance: value })
+    update({ ...data, distance: value });
   }
 
   updateAngle(value) {
     const { data, update } = this.props;
     this.setState({ angle: value });
-    update({ ...data, angle: value })
+    update({ ...data, angle: value });
   }
 
   updateBranchType(e) {
@@ -67,10 +73,6 @@ class Instructions extends Component {
     const { data, update } = this.props;
     this.setState({ pen: Number(e.target.id) });
     update({ ...data, pen: Number(e.target.id) });
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.data !== this.props.data;
   }
 
   render() {
@@ -128,5 +130,14 @@ class Instructions extends Component {
     );
   }
 }
+
+Instructions.propTypes = {
+  data: PropTypes.shape({
+    angle: PropTypes.number,
+    distance: PropTypes.number,
+    branch: PropTypes.number,
+    pen: PropTypes.number,
+  }),
+};
 
 export default Instructions;
